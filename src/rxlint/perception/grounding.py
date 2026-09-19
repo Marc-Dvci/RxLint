@@ -11,6 +11,7 @@ from __future__ import annotations
 import difflib
 import io
 import re
+import threading
 from dataclasses import dataclass
 from functools import lru_cache
 from typing import Any
@@ -43,9 +44,13 @@ def _engine():
     return RapidOCR(det_limit_side_len=1280, det_box_thresh=0.3, det_thresh=0.2)
 
 
+_OCR_LOCK = threading.Lock()  # one detection at a time: concurrent passes multiply the working set, not the throughput
+
+
 def _read(img) -> list[OcrLine]:
     W, H = img.size
-    result, _ = _engine()(np.asarray(img)[:, :, ::-1])
+    with _OCR_LOCK:
+        result, _ = _engine()(np.asarray(img)[:, :, ::-1])
     lines = []
     for pts, text, score in result or []:
         xs = [p[0] for p in pts]
