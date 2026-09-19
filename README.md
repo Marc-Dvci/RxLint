@@ -38,6 +38,8 @@ declare success when a fact is missing or unreadable.
 
 ## How it works
 
+![RxLint architecture](docs/img/architecture.png)
+
 ```text
 PLANE A: VERIFIED RULES
 
@@ -213,6 +215,8 @@ Benchmark page.
 
 Results on the held-out test fold (120 cases: 40 clean, 60 with a rule violation, 20 with a missing
 or overwritten fact), read by DeepSeek V4.1 Flash and Nemotron 3 Nano on Token Factory:
+
+![RxLintBench held-out results](docs/img/benchmark.png)
 
 | System | False-safe | Exact verdict after confirmation | Clean PASS after confirmation | Overwritten dose held |
 |---|---|---|---|---|

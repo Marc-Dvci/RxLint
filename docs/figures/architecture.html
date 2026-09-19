@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>RxLint architecture</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff; --ink: #14171c; --ink2: #4a5260; --muted: #6b7380; --line: #d9dde3;
+    --nv: #5a8f00; --nv-bg: #f2f8e6; --nv-line: #b9d98a;
+    --det: #1f5fbf; --det-bg: #eaf1fc; --det-line: #a9c4ee;
+    --live: #7b3fc4; --live-bg: #f4eefc; --live-line: #cdb4ef;
+    --warn: #a46200;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body { background: var(--bg); color: var(--ink); font: 400 15px/1.4 Inter, system-ui, sans-serif; width: 1600px; padding: 36px 40px 34px; }
+  h1 { font-size: 26px; font-weight: 650; letter-spacing: -.2px; }
+  .sub { color: var(--ink2); margin-top: 4px; font-size: 16px; }
+  .lane { margin-top: 26px; border: 1.5px solid var(--line); border-radius: 18px; padding: 18px 20px 20px; position: relative; }
+  .lane .tag { font: 600 12.5px/1 Inter; letter-spacing: .9px; text-transform: uppercase; padding: 6px 10px; border-radius: 999px; display: inline-block; }
+  .lane.a .tag { background: var(--det-bg); color: var(--det); }
+  .lane.b { border-color: var(--live-line); background: #fcfaff; }
+  .lane.b .tag { background: var(--live-bg); color: var(--live); }
+  .row { display: flex; align-items: stretch; gap: 0; margin-top: 16px; }
+  .node { flex: 1; border-radius: 14px; padding: 14px 16px 15px; border: 1.5px solid; min-width: 0; }
+  .node .k { font: 600 11.5px/1 Inter; letter-spacing: .9px; text-transform: uppercase; }
+  .node .t { font-weight: 650; font-size: 17px; margin-top: 7px; }
+  .node .d { color: var(--ink2); font-size: 13.5px; margin-top: 6px; }
+  .node.in { background: #f6f7f9; border-color: var(--line); flex: .8; }
+  .node.in .k { color: var(--muted); }
+  .node.nv { background: var(--nv-bg); border-color: var(--nv-line); }
+  .node.nv .k { color: var(--nv); }
+  .node.det { background: var(--det-bg); border-color: var(--det-line); }
+  .node.det .k { color: var(--det); }
+  .node.live { background: var(--live-bg); border-color: var(--live-line); }
+  .node.live .k { color: var(--live); }
+  .arrow { width: 38px; flex: none; display: flex; align-items: center; justify-content: center; }
+  .arrow svg { width: 30px; height: 16px; }
+  .verdicts { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 9px; }
+  .v { font: 600 11.5px/1 Inter; letter-spacing: .5px; padding: 6px 8px; border-radius: 7px; }
+  .v.pass { background: #e3f4e8; color: #1c7a3c; }
+  .v.review { background: #fde8e8; color: #b42323; }
+  .v.cannot { background: #fdf1dc; color: var(--warn); }
+  .v.oos { background: #eceef1; color: #4a5260; }
+  .v.l { background: #fff; border: 1px solid var(--live-line); color: var(--live); }
+  .under { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 14px; }
+  .mono { font-family: 'Roboto Mono', monospace; font-size: 12.5px; background: rgba(255,255,255,.7); padding: 1px 5px; border-radius: 4px; }
+  .legend { display: flex; gap: 22px; margin-top: 18px; color: var(--ink2); font-size: 13.5px; }
+  .legend span::before { content: ""; display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 7px; vertical-align: -1px; border: 1.5px solid; }
+  .legend .l1::before { background: var(--nv-bg); border-color: var(--nv-line); }
+  .legend .l2::before { background: var(--det-bg); border-color: var(--det-line); }
+  .legend .l3::before { background: var(--live-bg); border-color: var(--live-line); }
+  .note { position: absolute; right: 20px; top: 16px; color: var(--live); font-size: 13.5px; font-weight: 600; }
+</style>
+</head>
+<body>
+  <h1>RxLint: the model reads, code decides</h1>
+  <div class="sub">Every model call runs on Nebius Token Factory. Every verdict comes from a deterministic kernel with a hashed rule pack.</div>
+
+  <div class="lane a">
+    <span class="tag">Plane A · verified rules</span>
+    <div class="row">
+      <div class="node in"><div class="k">Input</div><div class="t">Two photos + patient facts</div>
+        <div class="d">Prescription, the bottle being handed over, weight, age, allergies, current medicines</div></div>
+      <div class="arrow"><svg viewBox="0 0 30 16"><path d="M1 8h24M19 2l7 6-7 6" fill="none" stroke="#8a929e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="node nv"><div class="k">Reads</div><div class="t">Nemotron 3 Nano</div>
+        <div class="d">A vision model transcribes each photo line by line; Nemotron 3 Nano turns the transcript into typed fields, each a verbatim copy of the line it cites</div></div>
+      <div class="arrow"><svg viewBox="0 0 30 16"><path d="M1 8h24M19 2l7 6-7 6" fill="none" stroke="#8a929e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="node det"><div class="k">Corroborates</div><div class="t">Independent OCR + reliability head</div>
+        <div class="d">Every high-risk number needs a second reader that agrees; a calibrated LightGBM head can still send it to the pharmacist</div></div>
+      <div class="arrow"><svg viewBox="0 0 30 16"><path d="M1 8h24M19 2l7 6-7 6" fill="none" stroke="#8a929e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="node det"><div class="k">Proves</div><div class="t">Deterministic kernel</div>
+        <div class="d">Exact decimal unit grammar, then 59 rules from the WHO AWaRe book and FDA labels, each with its verbatim source quote</div></div>
+      <div class="arrow"><svg viewBox="0 0 30 16"><path d="M1 8h24M19 2l7 6-7 6" fill="none" stroke="#8a929e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="node det" style="flex:.85"><div class="k">Verdict</div><div class="t">One of four states</div>
+        <div class="verdicts"><span class="v pass">PASS</span><span class="v review">REVIEW</span><span class="v cannot">CANNOT VERIFY</span><span class="v oos">OUT OF SCOPE</span></div>
+        <div class="d">Same snapshot, same rule pack, same result hash</div></div>
+    </div>
+    <div class="under">
+      <div class="node nv"><div class="k">Clarifies · only when blocked</div><div class="t">Nemotron 3 Ultra</div>
+        <div class="d">Picks the smallest action from a closed list, such as "confirm the dose: 2.5 or 7.5 mL". The pharmacist answers with one tap and the kernel re-runs with no new model call.</div></div>
+      <div class="node nv"><div class="k">Explains · on request</div><div class="t">Nemotron 3 Ultra, audited by Nemotron 3 Nano</div>
+        <div class="d">Writes for the caregiver or pharmacist in English, French, Arabic or Swahili around locked tokens like <span class="mono">{{v1}}</span>. Any free digit, or a claim the Nano audit finds contradicting the result, falls back to a template.</div></div>
+    </div>
+  </div>
+
+  <div class="lane b">
+    <span class="tag">Plane B · live intelligence</span>
+    <span class="note">Never edits the verdict</span>
+    <div class="row">
+      <div class="node in"><div class="k">Target</div><div class="t">Product + lot + country</div>
+        <div class="d">Built by code from the verified facts; patient data is never sent</div></div>
+      <div class="arrow"><svg viewBox="0 0 30 16"><path d="M1 8h24M19 2l7 6-7 6" fill="none" stroke="#8a929e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="node live"><div class="k">Searches</div><div class="t">Tavily Search + Extract, openFDA</div>
+        <div class="d">Only the country's regulator domains (FDA, ANSM, EMA, MHRA, PPB, NAFDAC, WHO); every URL re-checked by hostname</div></div>
+      <div class="arrow"><svg viewBox="0 0 30 16"><path d="M1 8h24M19 2l7 6-7 6" fill="none" stroke="#8a929e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="node det"><div class="k">Matches</div><div class="t">Deterministic lot matcher</div>
+        <div class="d">Recall of this lot, of this product, other lots only, or a safety communication</div></div>
+      <div class="arrow"><svg viewBox="0 0 30 16"><path d="M1 8h24M19 2l7 6-7 6" fill="none" stroke="#8a929e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="node live" style="flex:.85"><div class="k">Live state</div><div class="t">Shown beside the verdict</div>
+        <div class="verdicts"><span class="v l">LIVE REVIEW</span><span class="v l">LIVE CLEAR</span><span class="v l">LIVE UNAVAILABLE</span></div></div>
+    </div>
+  </div>
+
+  <div class="legend"><span class="l1">NVIDIA Nemotron on Nebius Token Factory</span><span class="l2">Deterministic code</span><span class="l3">Tavily and regulator feeds</span></div>
+</body>
+</html>

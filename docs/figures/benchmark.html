@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>RxLintBench results</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --surface: #fcfcfb; --ink: #0b0b0b; --ink2: #52514e; --muted: #7a7974; --grid: #e6e5e0; --axis: #bdbcb6;
+    --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body { background: var(--surface); color: var(--ink); font: 400 15px/1.4 Inter, system-ui, sans-serif; width: 1600px; padding: 34px 40px 30px; }
+  h1 { font-size: 25px; font-weight: 650; letter-spacing: -.2px; }
+  .sub { color: var(--ink2); margin-top: 4px; font-size: 15.5px; }
+  .legend { display: flex; gap: 26px; margin-top: 16px; font-size: 14.5px; color: var(--ink2); }
+  .legend i { display: inline-block; width: 13px; height: 13px; border-radius: 3px; margin-right: 8px; vertical-align: -1px; }
+  .panels { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; margin-top: 18px; }
+  .panel { background: #fff; border: 1px solid var(--grid); border-radius: 14px; padding: 18px 20px 14px; }
+  .panel h2 { font-size: 16.5px; font-weight: 600; }
+  .panel .note { color: var(--muted); font-size: 13px; margin-top: 2px; }
+  svg text { font-family: Inter, system-ui, sans-serif; }
+  .foot { color: var(--muted); font-size: 13px; margin-top: 14px; }
+</style>
+</head>
+<body>
+  <h1>RxLintBench, held-out test fold</h1>
+  <div class="sub">120 cases with an unseen handwriting font, four unseen photo perturbations and an unseen product. Every system feeds the same deterministic kernel.</div>
+  <div class="legend">
+    <span><i style="background:var(--s1)"></i>RxLint: OCR corroboration + reliability head</span>
+    <span><i style="background:var(--s2)"></i>Nemotron readings trusted as read</span>
+    <span><i style="background:var(--s3)"></i>OCR + regex + the same kernel</span>
+  </div>
+  <div class="panels" id="panels"></div>
+  <div class="foot">Readers: DeepSeek V4.1 Flash transcribes, NVIDIA Nemotron 3 Nano structures, on Nebius Token Factory. 40 clean cases, 60 with a rule violation, 20 with a missing or overwritten fact.</div>
+<script>
+const SYS = [
+  { name: "RxLint", color: "var(--s1)" },
+  { name: "Trusted as read", color: "var(--s2)" },
+  { name: "OCR + regex", color: "var(--s3)" },
+];
+const PANELS = [
+  { title: "Exact verdict after confirmation", note: "higher is better", max: 100, ticks: [0, 25, 50, 75, 100], unit: "%",
+    values: [95.8, 90.0, 87.5], labels: ["95.8%", "90.0%", "87.5%"] },
+  { title: "Overwritten doses held for confirmation", note: "of 10, higher is better", max: 10, ticks: [0, 2, 4, 6, 8, 10],
+    values: [8, 2, 8], labels: ["8 / 10", "2 / 10", "8 / 10"] },
+  { title: "Error cases returned as PASS", note: "of 80, lower is better", max: 4, ticks: [0, 1, 2, 3, 4],
+    values: [0, 0, 1], labels: ["0 / 80", "0 / 80", "1 / 80"] },
+];
+const W = 470, H = 250, L = 128, R = 70, T = 10, B = 34, BAR = 38, GAP = 22;
+const host = document.getElementById("panels");
+for (const p of PANELS) {
+  const el = document.createElement("div");
+  el.className = "panel";
+  const x = (v) => L + (v / p.max) * (W - L - R);
+  let g = "";
+  for (const t of p.ticks) {
+    g += `<line x1="${x(t)}" x2="${x(t)}" y1="${T}" y2="${H - B}" stroke="${t === 0 ? "var(--axis)" : "var(--grid)"}" stroke-width="1"/>`;
+    g += `<text x="${x(t)}" y="${H - B + 20}" font-size="12.5" fill="var(--muted)" text-anchor="middle">${t}${p.unit ?? ""}</text>`;
+  }
+  const top = T + (H - T - B - (3 * BAR + 2 * GAP)) / 2;
+  SYS.forEach((s, i) => {
+    const y = top + i * (BAR + GAP), v = p.values[i], w = Math.max(0, x(v) - x(0));
+    g += `<text x="${L - 12}" y="${y + BAR / 2 + 5}" font-size="14" fill="var(--ink2)" text-anchor="end" font-weight="${i === 0 ? 600 : 400}">${s.name}</text>`;
+    if (w > 0) {
+      const r = Math.min(4, w);
+      g += `<path d="M${x(0)} ${y} H${x(0) + w - r} Q${x(0) + w} ${y} ${x(0) + w} ${y + r} V${y + BAR - r} Q${x(0) + w} ${y + BAR} ${x(0) + w - r} ${y + BAR} H${x(0)} Z" fill="${s.color}"/>`;
+    } else {
+      g += `<line x1="${x(0)}" x2="${x(0)}" y1="${y}" y2="${y + BAR}" stroke="${s.color}" stroke-width="3"/>`;
+    }
+    g += `<text x="${x(0) + w + 9}" y="${y + BAR / 2 + 5}" font-size="14.5" fill="var(--ink)" font-weight="${i === 0 ? 650 : 500}">${p.labels[i]}</text>`;
+  });
+  el.innerHTML = `<h2>${p.title}</h2><div class="note">${p.note}</div><svg width="100%" viewBox="0 0 ${W} ${H}" role="img" aria-label="${p.title}">${g}</svg>`;
+  host.appendChild(el);
+}
+</script>
+</body>
+</html>
