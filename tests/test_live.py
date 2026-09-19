@@ -49,6 +49,22 @@ def test_combination_notice_does_not_match_single_ingredient(pack):
     assert "other_product:clavulanic_acid" in m["matched_fields"]
 
 
+def test_recall_word_far_from_the_product_is_not_a_notice(pack):
+    title = "2018 Annual Report on EudraVigilance for the European Parliament"
+    page = "Cefalexin: acute generalised exanthematous pustulosis, update of PI. " + ("Other product text. " * 60) + "Product withdrawal: unrelated device recall."
+    m = match_notice(page, title, product_terms(Normalizer(pack), "cefalexin", "en"), "C77120", "en")
+    assert m["match_type"] == "not_applicable"
+    close = "Recall of Cefalexin for Oral Suspension USP 250 mg/5 mL, all lots, due to subpotency."
+    assert match_notice(close, "Recall", product_terms(Normalizer(pack), "cefalexin", "en"), "C77120", "en")["match_type"] == "product_recall"
+
+
+def test_french_reminder_is_not_a_recall(pack):
+    title = "Actualité - Rappel du bon usage de l'amoxicilline injectable"
+    page = title + ". L'ANSM rappelle les recommandations de bon usage de l'amoxicilline."
+    m = match_notice(page, title, product_terms(Normalizer(pack), "amoxicillin", "fr"), "A18840", "fr")
+    assert m["match_type"] == "not_applicable"
+
+
 def test_french_recall_words(pack):
     page = "Rappel de lot : amoxicilline/acide clavulanique suspension buvable, lot K4471."
     m = match_notice(page, "ANSM", product_terms(Normalizer(pack), "amoxicillin+clavulanic_acid", "fr"), "K4471", "fr")

@@ -40,7 +40,8 @@ templates:
 
 recall_words:
   en: [recall, recalled, recalling, withdrawal, withdrawn, "drug alert", "enforcement report", "field safety notice", quarantine]
-  fr: [rappel, retrait, "information de sécurité", quarantaine]
+  # "rappel" alone also means a reminder ("rappel du bon usage"); only the lot and market phrasings count.
+  fr: ["rappel de lot", "rappel des lots", "rappel du lot", "rappel de produit", "lots rappelés", "lot rappelé", "retrait de lot", "retrait des lots", "retrait du marché", "information de sécurité", quarantaine]
 safety_words:
   en: ["safety communication", "drug safety", "safety alert", "boxed warning", "safety information"]
   fr: ["information de sécurité", "lettre aux professionnels", "alerte"]

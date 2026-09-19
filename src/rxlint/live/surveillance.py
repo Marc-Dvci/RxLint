@@ -75,6 +75,15 @@ def lot_pattern(lot: str) -> re.Pattern[str]:
 LOT_LIST = re.compile(r"\b(?:lot|lots|batch|lot #|lot no\.?|lot number|numéro de lot|lots?\s*n°)\s*[#:]?\s*([A-Z0-9][A-Z0-9\-]{3,})", re.I)
 
 
+def _near(t: str, words: list[str], positions: list[int], window: int = 400) -> bool:
+    """True when one of ``words`` occurs within ``window`` characters of one of ``positions``."""
+    for w in words:
+        for m in re.finditer(re.escape(_fold(w)), t):
+            if any(abs(m.start() - p) <= window for p in positions):
+                return True
+    return False
+
+
 def match_notice(text: str, title: str, terms: dict[str, Any], lot: str | None, lang: str) -> dict[str, Any]:
     """Deterministic applicability of one regulator page to this product and lot."""
     t = _fold(title + "\n" + text)
@@ -88,8 +97,11 @@ def match_notice(text: str, title: str, terms: dict[str, Any], lot: str | None, 
         product_named = False
     words = policies()["recall_words"]["en"] + policies()["recall_words"].get(lang, [])
     safety = policies()["safety_words"]["en"] + policies()["safety_words"].get(lang, [])
-    is_recall = any(_fold(w) in t for w in words)
-    is_safety = any(_fold(w) in t for w in safety)
+    # The recall or safety wording must sit close to the product name: a long report that mentions the
+    # ingredient on one page and a withdrawal on another is not a notice about this product.
+    alias_at = [m.start() for al in terms["aliases"].values() for a in al for m in re.finditer(re.escape(_fold(a)), t)]
+    is_recall = _near(t, words, alias_at)
+    is_safety = _near(t, safety, alias_at)
     lot_hit = bool(lot and lot_pattern(lot).search(title + " " + text))
     listed_lots = sorted({m.group(1).upper() for m in LOT_LIST.finditer(title + " " + text)})
     matched = [f"ingredient:{c}" for c, ok in comp_hits.items() if ok] + [f"other_product:{c}" for c in extra]
