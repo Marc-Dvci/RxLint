@@ -53,6 +53,6 @@ export default function Bench() {
 function cell(column: string, v: unknown): string {
   if (typeof v !== "number") return v == null ? "" : String(v);
   if (/auc/i.test(column)) return v.toFixed(3);
-  if (Number.isInteger(v) && v > 1) return String(v);
+  if (/false accepts|readings|wrong/i.test(column) || (Number.isInteger(v) && v > 1)) return String(v);
   return v >= 0 && v <= 1 ? `${(v * 100).toFixed(1)}%` : String(v);
 }
