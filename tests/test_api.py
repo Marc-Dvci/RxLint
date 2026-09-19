@@ -10,6 +10,7 @@ import pytest
 def client(tmp_path_factory):
     os.environ["RXLINT_MODEL_MODE"] = "replay"
     os.environ["RXLINT_LOAD_DOTENV"] = "0"
+    os.environ["RXLINT_DEMO_PHOTOS"] = "renders"
     os.environ["RXLINT_DATA"] = str(tmp_path_factory.mktemp("data"))
     os.environ.pop("TAVILY_API_KEY", None)
     from fastapi.testclient import TestClient

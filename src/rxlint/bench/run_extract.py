@@ -15,11 +15,13 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
 from ..models.client import ModelClient
+from ..config import load_env
 from ..perception.extraction import extract_image
+from ..perception.transcribe import extract_two_stage
 from ..perception.grounding import ground, ocr_lines
 
 
-def process(case: dict, bench: Path, out: Path, client: ModelClient) -> str:
+def process(case: dict, bench: Path, out: Path, client: ModelClient, reader=extract_image) -> str:
     dest = out / f"{case['case_id']}.json"
     if dest.exists():
         return "skip"
@@ -27,7 +29,7 @@ def process(case: dict, bench: Path, out: Path, client: ModelClient) -> str:
     for name, kind in (("rx", "prescription"), ("label", "medicine")):
         data = (bench / f"{case['case_id']}_{name}.jpg").read_bytes()
         t = time.perf_counter()
-        ex = extract_image(client, data, kind, f"{case['case_id']}_{name}", mime="image/jpeg")
+        ex = reader(client, data, kind, f"{case['case_id']}_{name}", mime="image/jpeg")
         lat = int((time.perf_counter() - t) * 1000)
         lines = ocr_lines(data)
         obs = ground([o.model_dump() for o in ex.observations], lines)
@@ -45,7 +47,10 @@ def main() -> None:
     ap.add_argument("--run", required=True)
     ap.add_argument("--workers", type=int, default=2)
     ap.add_argument("--split", default=None)
+    ap.add_argument("--reader", choices=["omni", "two_stage"], default="omni")
     args = ap.parse_args()
+    load_env()
+    reader = extract_image if args.reader == "omni" else extract_two_stage
     bench = Path(args.bench)
     out = bench / "extractions" / args.run
     out.mkdir(parents=True, exist_ok=True)
@@ -56,7 +61,7 @@ def main() -> None:
     t0 = time.time()
     done = 0
     with ThreadPoolExecutor(max_workers=args.workers) as pool:
-        futs = {pool.submit(process, c, bench, out, client): c["case_id"] for c in cases}
+        futs = {pool.submit(process, c, bench, out, client, reader): c["case_id"] for c in cases}
         for f in as_completed(futs):
             try:
                 status = f.result()

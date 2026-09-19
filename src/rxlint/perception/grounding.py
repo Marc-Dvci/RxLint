@@ -88,12 +88,12 @@ def _union(boxes: list[list[float]]) -> list[float]:
     return [min(b[0] for b in boxes), min(b[1] for b in boxes), max(b[2] for b in boxes), max(b[3] for b in boxes)]
 
 
-def match(text: str, lines: list[OcrLine], claimed: set[int] | None = None) -> tuple[float, list[OcrLine], str]:
+def match(text: str, lines: list[OcrLine], claimed: dict | None = None) -> tuple[float, list[OcrLine], str]:
     """Best match of ``text`` against single OCR lines and adjacent pairs; returns (ratio, lines, joined text).
 
     Lines already claimed by another field lose a small margin, so a short reading such as "5 mL" that
     appears on two lines is placed on the line no other field explains."""
-    claimed = claimed or set()
+    claimed = claimed or {}
     target = _locate_key(text)
     if not target:
         return 0.0, [], ""
@@ -106,31 +106,50 @@ def match(text: str, lines: list[OcrLine], claimed: set[int] | None = None) -> t
         k = _locate_key(joined)
         if not k:
             continue
+        gkey = tuple(id(g) for g in group)
+        taken = claimed.get(gkey, [])
+        wholly = any(claimed.get((id(g),)) == [(0, -1)] for g in group)
         if target in k:
-            # substring: the observed field is part of a longer OCR line
+            # substring: the observed field is part of a longer OCR line. It overlaps an earlier field
+            # only if every occurrence falls inside a span that field already explains.
             ratio = 0.9 + 0.1 * len(target) / len(k)
-            span = joined
+            starts = [m.start() for m in re.finditer(re.escape(target), k)]
+            free = [s for s in starts if not any(s < e and s + len(target) > b for b, e in taken if e >= 0)]
+            if wholly or not free:
+                ratio -= 0.05
         else:
-            sm = difflib.SequenceMatcher(None, target, k)
-            ratio = sm.ratio()
-            span = joined
-        if any(id(g) in claimed for g in group):
-            ratio -= 0.05
+            ratio = difflib.SequenceMatcher(None, target, k).ratio()
+            if taken or wholly:
+                ratio -= 0.05
         if ratio > best[0]:
-            best = (ratio, group, span)
+            best = (ratio, group, joined)
     return best
+
+
+def _claim(claimed: dict[tuple, list[tuple[int, int]]], group: list[OcrLine], target: str) -> None:
+    gkey = tuple(id(g) for g in group)
+    k = _locate_key(" ".join(l.text for l in group))
+    taken = claimed.setdefault(gkey, [])
+    for m in re.finditer(re.escape(target), k) if target else []:
+        s, e = m.start(), m.end()
+        if not any(s < te and e > ts for ts, te in taken if te >= 0):
+            taken.append((s, e))
+            return
+    # A fuzzy match explains the whole line.
+    for g in group:
+        claimed[(id(g),)] = [(0, -1)]
 
 
 def ground(observations: list[dict[str, Any]], lines: list[OcrLine]) -> list[dict[str, Any]]:
     """Attach OCR boxes and corroboration status to model observations (dicts with field/text/...)."""
     out: list[dict[str, Any]] = [dict(o) for o in observations]
-    claimed: set[int] = set()
+    claimed: dict[tuple, list[tuple[int, int]]] = {}
     # Longer, more specific readings are placed first.
     for ob in sorted(out, key=lambda o: -len(_locate_key(o.get("text", "")))):
         ob["model_bbox"] = ob.get("bbox")
         ratio, group, span = match(ob["text"], lines, claimed)
         if ratio >= 0.72 and group:
-            claimed.update(id(g) for g in group)
+            _claim(claimed, group, _locate_key(ob["text"]))
         ob["ocr_match"] = round(ratio, 3)
         ob["ocr_text"] = span or None
         if ratio >= 0.72 and group:

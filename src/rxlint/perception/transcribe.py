@@ -65,6 +65,21 @@ def expand(text: str) -> tuple[str, list[str]]:
     return first, [a for a in dict.fromkeys(alts) if a != first]
 
 
+RX_MARKERS = re.compile(r"\b(sig|posologie|patient|prescriber|prescripteur|indication|weight|poids|allerg\w*|date)\b\s*:|\bfor \d+ days\b|\bpendant \d+ jours\b", re.I)
+LABEL_MARKERS = re.compile(r"\b(lot|exp|batch)\b|\brx only\b|manufactured|\busp\b|when reconstituted|when mixed|shake well|ndc", re.I)
+
+
+def detect_kind(lines: list[str]) -> tuple[str | None, int, int]:
+    """Prescription or medicine label, decided from transcript markers; None when the evidence is weak."""
+    rx = sum(bool(RX_MARKERS.search(l)) for l in lines)
+    lab = sum(bool(LABEL_MARKERS.search(l)) for l in lines)
+    if rx >= 3 and rx >= 2 * lab:
+        return "prescription", rx, lab
+    if lab >= 3 and lab >= 2 * rx:
+        return "medicine", rx, lab
+    return None, rx, lab
+
+
 def _squash(s: str) -> str:
     return re.sub(r"\s+", " ", s).strip().lower()
 
@@ -79,6 +94,12 @@ def extract_two_stage(client: ModelClient, image_bytes: bytes, kind: str, asset_
         return Extraction(asset_id=asset_id, kind=kind, error=str(exc))
     lines = [l.strip() for l in (tr.content or "").splitlines() if l.strip()]
     lines = [re.sub(r"^```\w*|```$", "", l).strip() for l in lines if l.strip() not in ("```",)]
+    detected, _, _ = detect_kind(lines)
+    corrected = detected is not None and detected != kind
+    if corrected:
+        # The photo was added in the other slot; read it as what it is.
+        kind = detected
+        fields = RX_FIELDS if kind == "prescription" else LABEL_FIELDS
     numbered = "\n".join(f"{i + 1}: {l}" for i, l in enumerate(lines))
     what = "prescription" if kind == "prescription" else "medicine label"
     field_list = "\n".join(f'- "{k}": {v}' for k, v in fields.items())
@@ -122,4 +143,4 @@ def extract_two_stage(client: ModelClient, image_bytes: bytes, kind: str, asset_
                       untrusted_instructions_seen=any(looks_like_instruction(l) for l in lines), model=model, provider=provider,
                       replayed=tr.record.replayed and st.record.replayed,
                       latency_ms=(tr.record.latency_ms or 0) + (st.record.latency_ms or 0), rejected=rejected,
-                      transcript=lines)
+                      transcript=lines, kind_corrected=corrected)

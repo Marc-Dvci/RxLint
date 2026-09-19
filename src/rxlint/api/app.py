@@ -104,7 +104,8 @@ def demo_cases() -> list[dict[str, Any]]:
 def demo_asset(cid: str, name: str):
     if cid not in demo.BY_ID or name not in ("rx.jpg", "label.jpg"):
         raise HTTPException(404)
-    return FileResponse(FIXTURES / cid / name, media_type="image/jpeg")
+    p = demo.photo(cid, name.split(".")[0])
+    return FileResponse(p, media_type=demo.mime(p))
 
 
 # ----------------------------------------------------------------------------- cases
@@ -146,10 +147,11 @@ async def create_case(
         c = demo.BY_ID.get(demo_id)
         if c is None:
             raise HTTPException(404, "unknown demo case")
-        for aid, kind, fname in (("rx", "prescription", "rx.jpg"), ("label", "medicine", "label.jpg")):
-            data = (FIXTURES / demo_id / fname).read_bytes()
+        for aid, kind in (("rx", "prescription"), ("label", "medicine")):
+            p = demo.photo(demo_id, aid)
+            data = p.read_bytes()
             blobs[aid] = data
-            assets.append(Asset.from_bytes(aid, kind, data, "image/jpeg", fname))
+            assets.append(Asset.from_bytes(aid, kind, data, demo.mime(p), p.name))
         pat = dict(c.patient)
         pat.update(json.loads(patient or "{}"))
         country, dispense_date = c.country, dispense_date or c.dispense_date

@@ -124,4 +124,25 @@ CASES = [
 for _c in CASES:
     _c.label.code_font = "sans"
 
+FIXTURES = __import__("pathlib").Path(__file__).resolve().parents[2] / "fixtures"
+IMAGE_EXT = (".jpg", ".jpeg", ".png", ".webp")
+
+
+def photo(case_id: str, slot: str):
+    """The demo photo for a slot ("rx" or "label"): a photograph in fixtures/demo_cases when one exists,
+    otherwise the rendered image in fixtures/demo_renders."""
+    bases = [FIXTURES / "demo_cases" / case_id, FIXTURES / "demo_renders" / case_id]
+    if __import__("os").environ.get("RXLINT_DEMO_PHOTOS") == "renders":
+        bases = bases[1:]  # tests and the benchmark pin the rendered images
+    for base in bases:
+        for ext in IMAGE_EXT:
+            p = base / f"{slot}{ext}"
+            if p.exists():
+                return p
+    raise FileNotFoundError(f"no {slot} image for demo case {case_id}")
+
+
+def mime(path) -> str:
+    return {".png": "image/png", ".webp": "image/webp"}.get(path.suffix.lower(), "image/jpeg")
+
 BY_ID = {c.id: c for c in CASES}
