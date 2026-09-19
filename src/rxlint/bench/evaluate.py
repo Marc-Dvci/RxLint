@@ -54,10 +54,27 @@ def gold_map(c: dict[str, Any], name: str) -> dict[str, str]:
     return {g["field"]: g["raw"] for g in c["gold_rx" if name == "rx" else "gold_label"]}
 
 
+BENCH_DIR: Path | None = None
+
+
+def _ocr(c: dict[str, Any], name: str) -> list[OcrLine]:
+    """OCR lines for a benchmark image, recomputed with the current engine and cached next to the image."""
+    from ..perception.grounding import ocr_lines
+
+    cache = BENCH_DIR / "ocr_cache" / f"{c['case_id']}_{name}.json"
+    if cache.exists():
+        return [OcrLine(**l) for l in json.loads(cache.read_text(encoding="utf-8"))]
+    lines = ocr_lines((BENCH_DIR / f"{c['case_id']}_{name}.jpg").read_bytes())
+    cache.parent.mkdir(parents=True, exist_ok=True)
+    cache.write_text(json.dumps([l.__dict__ for l in lines]), encoding="utf-8")
+    return lines
+
+
 def regrounded(c: dict[str, Any], name: str) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     rec = c["run"]["images"][name]
-    lines = [OcrLine(text=l["text"], bbox=l["bbox"], score=l["score"]) for l in rec["ocr"]]
-    obs = ground([o for o in rec["extraction"]["observations"]], lines)
+    lines = _ocr(c, name)
+    image = (BENCH_DIR / f"{c['case_id']}_{name}.jpg").read_bytes()
+    obs = ground([o for o in rec["extraction"]["observations"]], lines, image)
     doc = {"legibility": rec["extraction"].get("legibility", "good"),
            "ocr_mean": float(np.mean([l.score for l in lines])) if lines else 0.0}
     return obs, doc
@@ -293,7 +310,7 @@ def case_variants(c: dict[str, Any], bench: Path, use_head: bool) -> dict[str, A
 
     ocr = []
     for name, kind in (("rx", "prescription"), ("label", "medicine")):
-        ocr += [(o, name) for o in ocr_fields(c["run"]["images"][name]["ocr"], kind)]
+        ocr += [(o, name) for o in ocr_fields([l.__dict__ for l in _ocr(c, name)], kind)]
     run("ocr_rules", ocr)
     return res
 
@@ -357,7 +374,9 @@ def main() -> None:
     ap.add_argument("--train-head", action="store_true")
     ap.add_argument("--out", default=str(ROOT / "benchmarks" / "results"))
     args = ap.parse_args()
+    global BENCH_DIR
     bench = Path(args.bench)
+    BENCH_DIR = bench
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
     cases = load(bench, args.run)

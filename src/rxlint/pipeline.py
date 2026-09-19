@@ -67,7 +67,7 @@ def _obs_from_extraction(ex: Extraction, lines: list[grounding.OcrLine] | None, 
                          pack: RulePack | None = None) -> list[dict[str, Any]]:
     raw = [o.model_dump() for o in ex.observations]
     if lines is not None:
-        raw = grounding.ground(raw, lines)
+        raw = grounding.ground(raw, lines, image)
         if image is not None and pack is not None:
             doc = {"legibility": ex.legibility, "ocr_mean": sum(l.score for l in lines) / len(lines) if lines else 0.0}
             raw = reliability.apply(raw, ex.kind, doc, image, Normalizer(pack))
