@@ -8,9 +8,13 @@ patient's facts and a versioned rule pack, and returns one of four verdicts: `PA
 arithmetic, and the rule and source quote that fired. A separate live plane asks whether a
 regulator has published anything since the rule pack was frozen.
 
-NVIDIA Nemotron 3 Nano Omni reads the photos and the spoken note. A deterministic kernel decides.
-Nemotron 3 Ultra picks the smallest clarification and explains established findings in four
-languages. Tavily searches the dispensing country's regulators for recalls and rule-source drift.
+On Nebius Token Factory, a vision model transcribes each photo line by line and NVIDIA Nemotron 3
+Nano turns the transcript into fields, citing the line every value was copied from. A deterministic
+kernel decides. Nemotron 3 Ultra picks the smallest clarification and explains established findings
+in four languages, and Nemotron 3 Nano audits every explanation against the verified result. Tavily
+searches the dispensing country's regulators for recalls and rule-source drift. Where Nemotron 3
+Nano Omni is served (a Nebius AI Cloud endpoint or a local llama.cpp server), it reads the photos
+directly.
 
 ![Case A: concentration mismatch](docs/img/case_A.png)
 
@@ -37,12 +41,13 @@ declare success when a fact is missing or unreadable.
 ```text
 PLANE A: VERIFIED RULES
 
-prescription photo  ─┐
-medicine photo      ─┼─► Nemotron 3 Nano Omni ─► OCR corroboration ─► RxLint grammar ─► deterministic kernel ─► verdict
-typed / spoken facts ┘   (transcribes only)       + reliability head     (units, decimals)   (59 versioned rules)
+prescription photo  ─┐   vision transcription ─► Nemotron 3 Nano
+medicine photo      ─┼─► (or Nemotron 3 Nano Omni)   structures, cites lines ─► OCR corroboration ─► RxLint grammar ─► kernel ─► verdict
+typed / spoken facts ┘                                                          + reliability head     (units, decimals)   (59 rules)
 
                                                           Nemotron 3 Ultra ◄── CANNOT_VERIFY: smallest clarification
                                                           Nemotron 3 Ultra ◄── explanation around locked values (EN FR AR SW)
+                                                          Nemotron 3 Nano  ◄── audits each explanation against the verified result
 
 PLANE B: LIVE INTELLIGENCE
 
@@ -54,12 +59,12 @@ rule sources ─► Tavily Extract + Search on who.int ─► newer guidance ─
 | Stage | What runs | Model call |
 |---|---|---|
 | Photo checks | Blur, glare, exposure, resolution | none |
-| Perception | Nemotron 3 Nano Omni transcribes each field verbatim, with a box, a confidence and competing readings | `omni`, one per image |
+| Perception | A vision model transcribes the photo; Nemotron 3 Nano assigns lines to fields and every value must be a verbatim copy of its cited lines. With Nemotron 3 Nano Omni available, it reads the photo in one call | `vision` + `structure` per image, or `omni` |
 | Corroboration | An independent OCR reader must agree on every high-risk number (policy P-PERC-02), or a calibrated reliability head accepts it (P-PERC-03), or the pharmacist confirms it | none |
 | Normalisation | Strict unit grammar in `Decimal`; decimal commas, `q8h`, `BID`, `2 fois par jour`; household measures and alternatives fail closed | none |
 | Verification | 59 rules from WHO AWaRe Table 50.1, the AWaRe infection chapters and FDA prescribing information | none |
 | Clarification | Nemotron 3 Ultra picks one action from a closed list; numbers it did not see are rejected | `ultra`, only when blocked |
-| Explanation | Nemotron 3 Ultra writes around placeholder tokens; any free digit sends the text back to a deterministic template | `ultra`, on request |
+| Explanation | Nemotron 3 Ultra writes around placeholder tokens that carry values with their units; any free digit, or a claim Nemotron 3 Nano's audit finds contradicting the result, sends the text back to a deterministic template | `ultra` + `structure`, on request |
 | Live plane | Tavily Search + Extract on the country's regulators, openFDA enforcement for the US | Tavily |
 
 ### What a model may and may not do
@@ -71,16 +76,21 @@ a number in an explanation.
 
 ## NVIDIA Nemotron on Nebius Token Factory
 
-| Role | Model | Used for |
-|---|---|---|
-| `omni` | `nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning` | Reading prescription and label photos; transcribing a spoken patient note |
-| `ultra` | `nvidia/Nemotron-3-Ultra-550b-a55b` | Clarification, pharmacist and caregiver explanations, drift document listing |
-| `fast` | `nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B` | Reserved for short text structuring |
+| Role | Model | Where | Used for |
+|---|---|---|---|
+| `structure` | `nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B` | Token Factory | Turning a transcript into fields with cited lines; auditing every explanation |
+| `ultra` | `nvidia/Nemotron-3-Ultra-550b-a55b` | Token Factory | Clarification, pharmacist and caregiver explanations, drift document listing |
+| `vision` | `deepseek-ai/DeepSeek-V4.1-Flash` | Token Factory | Line-by-line transcription of the photo, nothing else |
+| `omni` | `nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning` | Nebius AI Cloud endpoint or local llama.cpp | Reading photos and a spoken note in one call |
 
-Routing follows the track brief: Nano Omni runs on every case, Ultra only when a case is blocked or
-an explanation is requested, and the kernel costs nothing per check. Each role has its own base URL,
-key and model id, so perception can run on Token Factory while development runs the same model
-locally through llama.cpp (the client speaks the OpenAI-compatible API either way). Every call is
+The NVIDIA models on Token Factory are text models, so the hosted product pairs a Token Factory
+vision model for transcription with Nemotron for everything that interprets, reasons or checks. The
+transcriber never sees the field list and Nemotron never sees the image. Nemotron 3 Nano Omni runs
+the whole perception step where it is served; the benchmark measures both readers.
+
+Routing follows the track brief: Nemotron 3 Nano handles every case, Ultra runs only when a case is
+blocked or an explanation is requested, and the kernel costs nothing per check. Each role has its own
+base URL, key and model id (the client speaks the OpenAI-compatible API everywhere). Every call is
 logged with model, provider, latency and token counts, shown on the case page and in the report.
 
 Structured output uses `response_format: json_schema`. The client strips reasoning channels,

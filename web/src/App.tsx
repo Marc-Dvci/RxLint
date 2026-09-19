@@ -25,14 +25,17 @@ function providerLabel(p: string): string {
 
 function ModelChips({ health }: { health: Health | null }) {
   if (!health) return <span className="chip"><span className="spinner" /> connecting</span>;
-  const omni = health.models.omni;
   const ultra = health.models.ultra;
-  const replayNote = health.model_mode === "replay" ? " · replay" : health.model_mode === "auto" ? "" : "";
+  const two = health.perception.mode === "two_stage";
+  const reader = two ? health.models.structure : health.models.omni;
+  const short = (m: string) => m.split("/").pop()!.replace(/-/g, " ").replace("NVIDIA ", "").replace(/_/g, ".");
   return (
     <>
-      <span className="chip nv" title={omni.model}>
-        <span className={`dot ${omni.configured ? "ok" : "warn"}`} />
-        <b>Nemotron 3 Nano Omni</b> {omni.configured ? providerLabel(omni.provider) : "recorded responses"}{replayNote}
+      <span className="chip nv" title={health.perception.readers.join(" + ")}>
+        <span className={`dot ${reader.configured ? "ok" : "warn"}`} />
+        {two ? <><b>{short(health.models.structure.model)}</b> structures · {short(health.models.vision.model)} transcribes</>
+             : <><b>Nemotron 3 Nano Omni</b> reads</>}
+        {" · "}{reader.configured ? providerLabel(reader.provider) : "recorded responses"}
       </span>
       <span className="chip nv" title={ultra.model}>
         <span className={`dot ${ultra.configured ? "ok" : "off"}`} />

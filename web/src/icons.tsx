@@ -5,7 +5,7 @@ export const Logo = () => (
   <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true">
     <rect width="32" height="32" rx="8" fill="var(--brand)" />
     <path d="M9 8h7.5a4.5 4.5 0 0 1 0 9H9zM9 17v7M14 17l7 7" fill="none" stroke="#fff" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
-    <circle cx="23.5" cy="10" r="2.2" fill="#7de3c4" />
+    <circle cx="23.5" cy="10" r="2.2" fill="#fbbc04" />
   </svg>
 );
 export const IScan = (p: P) => (<svg viewBox="0 0 24 24" {...s} {...p}><path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2M7 12h10" /></svg>);

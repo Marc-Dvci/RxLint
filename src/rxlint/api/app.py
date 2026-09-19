@@ -12,23 +12,24 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from fastapi import FastAPI, File, Form, HTTPException, UploadFile
+from fastapi import FastAPI, File, Form, HTTPException, Request, UploadFile
 from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from sse_starlette.sse import EventSourceResponse
 
 from .. import demo
+from ..config import load_env
 from ..core import build_snapshot, load_pack, verify
 from ..core.rulepack import verify_quotes
 from ..live.drift import drift_check
 from ..live.surveillance import live_check, policies
 from ..live.tavily import TavilyClient
 from ..models.client import ModelClient, role_config
-from ..pipeline import Asset, CaseInput, assess, run_case
+from ..pipeline import Asset, CaseInput, assess, perception_mode, run_case
 from ..reasoning.explain import explain
 from ..reasoning.i18n import LANGUAGES
-from . import report
+from . import guard, report
 
 ROOT = Path(__file__).resolve().parents[3]
 DATA = Path(os.environ.get("RXLINT_DATA", ROOT / "data"))
@@ -37,6 +38,7 @@ FIXTURES = ROOT / "fixtures" / "demo_cases"
 WEB = ROOT / "web" / "dist"
 BENCH = ROOT / "benchmarks" / "results"
 
+load_env()
 app = FastAPI(title="RxLint", version="0.1.0", docs_url="/api/docs", openapi_url="/api/openapi.json")
 PACK = load_pack()
 _events: dict[str, list[dict[str, Any]]] = {}
@@ -75,13 +77,16 @@ def _load(case_id: str, name: str) -> Any:
 @app.get("/api/health")
 def health() -> dict[str, Any]:
     roles = {}
-    for role in ("omni", "ultra", "fast"):
+    for role in ("omni", "vision", "structure", "ultra"):
         cfg = role_config(role)
         roles[role] = {"model": cfg.model, "provider": cfg.provider, "configured": bool(cfg.api_key) or cfg.provider == "local-llama.cpp"}
     return {
         "status": "ok",
         "rulepack": PACK.summary_dict(),
         "models": roles,
+        "perception": {"mode": perception_mode(),
+                       "readers": [role_config("omni").model] if perception_mode() == "omni"
+                       else [role_config("vision").model, role_config("structure").model]},
         "model_mode": os.environ.get("RXLINT_MODEL_MODE", "auto"),
         "tavily": {"configured": TavilyClient().configured},
         "languages": LANGUAGES,
@@ -124,6 +129,7 @@ def _start(inp: CaseInput, blobs: dict[str, bytes], meta: dict[str, Any]) -> Non
 
 @app.post("/api/cases")
 async def create_case(
+    request: Request,
     prescription: UploadFile | None = File(None),
     medicine: UploadFile | None = File(None),
     audio: UploadFile | None = File(None),
@@ -149,6 +155,7 @@ async def create_case(
         country, dispense_date = c.country, dispense_date or c.dispense_date
         meta = {"demo": c.meta()}
     else:
+        guard.check(request, "upload")
         for aid, kind, up in (("rx", "prescription", prescription), ("label", "medicine", medicine), ("voice", "audio", audio)):
             if up is None:
                 continue
@@ -236,7 +243,7 @@ class ExplainRequest(BaseModel):
 
 
 @app.post("/api/cases/{case_id}/explain")
-def explain_case(case_id: str, body: ExplainRequest) -> dict[str, Any]:
+def explain_case(case_id: str, body: ExplainRequest, request: Request) -> dict[str, Any]:
     if body.language not in LANGUAGES or body.audience not in ("caregiver", "professional"):
         raise HTTPException(400, "unsupported language or audience")
     res = _load(case_id, "result.json")
@@ -244,19 +251,29 @@ def explain_case(case_id: str, body: ExplainRequest) -> dict[str, Any]:
     cache = json.loads((d / "explanations.json").read_text(encoding="utf-8")) if (d / "explanations.json").exists() else {}
     key = f"{body.audience}:{body.language}:{res['verification']['result_sha256']}"
     if key not in cache:
+        guard.check(request, "explain")
         cache[key] = explain(_client(), res["verification"], body.language, body.audience)
         _save(case_id, "explanations.json", cache)
     return cache[key]
 
 
+LIVE_CACHE = guard.LiveCache(DATA / "live_cache")
+
+
 @app.post("/api/cases/{case_id}/live")
-def live_case(case_id: str) -> dict[str, Any]:
+def live_case(case_id: str, request: Request) -> dict[str, Any]:
     inp = _load(case_id, "input.json")
     res = _load(case_id, "result.json")
     facts = {k: v for k, v in _facts(res).items()}
     product = facts.get("dispensed.product") or facts.get("rx.product")
-    out = live_check(PACK, product, facts.get("dispensed.lot"), inp.get("country"), facts.get("dispensed.manufacturer"),
-                     as_of=inp.get("dispense_date"))
+    key = {"product": product, "lot": facts.get("dispensed.lot"), "country": inp.get("country"), "as_of": inp.get("dispense_date"),
+           "policy": policies()["version"]}
+    out = LIVE_CACHE.get(key)
+    if out is None:
+        guard.check(request, "live")
+        out = live_check(PACK, product, facts.get("dispensed.lot"), inp.get("country"), facts.get("dispensed.manufacturer"),
+                         as_of=inp.get("dispense_date"))
+        LIVE_CACHE.put(key, out)
     _save(case_id, "live.json", out)
     return out
 
@@ -311,9 +328,10 @@ def rulepack() -> dict[str, Any]:
 
 
 @app.post("/api/rulepack/drift")
-def rulepack_drift(source: str = "WHO-AWARE-2022") -> dict[str, Any]:
+def rulepack_drift(request: Request, source: str = "WHO-AWARE-2022") -> dict[str, Any]:
     if source not in PACK.sources or "monitoring" not in PACK.sources[source]:
         raise HTTPException(404, "source is not monitored")
+    guard.check(request, "drift")
     out = drift_check(PACK, source, client=_client())
     DATA.mkdir(parents=True, exist_ok=True)
     (DATA / "drift_last.json").write_text(json.dumps(out, ensure_ascii=False), encoding="utf-8")

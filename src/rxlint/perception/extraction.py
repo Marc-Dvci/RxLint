@@ -7,6 +7,7 @@ data; the prompt says so, and the schema has no field through which a verdict co
 
 from __future__ import annotations
 
+import re
 from typing import Any
 
 from pydantic import BaseModel, Field, ValidationError
@@ -79,6 +80,17 @@ def schema_for(fields: dict[str, str]) -> dict[str, Any]:
     }
 
 
+FORM_LABELS = {"allergies", "allergie", "allergy", "weight", "poids", "age", "âge", "date", "patient", "sig", "posologie",
+               "indication", "lot", "exp", "expiry", "prescriber", "prescripteur", "rx", "dose", "strength"}
+INJECTION = re.compile(
+    r"(ignore|disregard|forget)\s+(all\s+|any\s+)?(previous|prior|above)\s+instructions|\bsystem\s*:|\byou are (now )?(an?|the)\b|"
+    r"\breport\b.{0,40}\b(pass|safe|clear)\b|\bassistant\s*:|</?(system|instructions?)>|ignorez? (toutes? )?les instructions", re.I)
+
+
+def looks_like_instruction(text: str) -> bool:
+    return bool(INJECTION.search(text or ""))
+
+
 PLACEHOLDERS = {"n/a", "na", "none", "not specified", "not stated", "not present", "unknown", "-", "--", "?", "null",
                 "non spécifié", "non precise", "non précisé", "non indiqué", "not visible", "not written", "absent"}
 
@@ -87,7 +99,7 @@ class RawObservation(BaseModel):
     field: str
     text: str
     legible: bool = True
-    confidence: float = Field(default=0.5, ge=0, le=1)
+    confidence: float | None = Field(default=None, ge=0, le=1)
     bbox: list[float] | None = None
     alternatives: list[str] = Field(default_factory=list)
 
@@ -105,6 +117,7 @@ class Extraction(BaseModel):
     latency_ms: int | None = None
     error: str | None = None
     rejected: list[dict[str, Any]] = Field(default_factory=list)
+    transcript: list[str] = Field(default_factory=list)
 
 
 def _user_prompt(kind: str, fields: dict[str, str]) -> str:
@@ -145,6 +158,9 @@ def _validate(res: ChatResult, asset_id: str, kind: str, fields: dict[str, str])
             continue
         if not ob.text.strip():
             rejected.append({"item": item, "reason": "empty text"})
+            continue
+        if ob.text.strip().lower().strip(".:") in FORM_LABELS:
+            rejected.append({"item": item, "reason": "a form label, not a value"})
             continue
         if ob.text.strip().lower().strip(".") in PLACEHOLDERS and not ob.field.endswith("allergies"):
             rejected.append({"item": item, "reason": "placeholder for an absent field"})

@@ -15,6 +15,7 @@ const MATCH: Record<string, string> = {
   safety_communication: "Safety communication",
   other_lot: "Same product, other lots",
   not_applicable: "Does not name this product",
+  after_check_date: "Published after the check date",
 };
 
 export default function LivePanel({ caseId, initial, country, asOf }: { caseId: string; initial?: LiveResult; country: string | null; asOf: string | null }) {
@@ -93,7 +94,7 @@ export default function LivePanel({ caseId, initial, country, asOf }: { caseId: 
                   {s.rejected_off_allowlist ? ` · ${s.rejected_off_allowlist} rejected off allowlist` : ""}{s.error ? ` · ${s.error}` : ""}
                 </div>
               ))}
-              <div>Policy {live.query_policy} · retrieved {live.retrieved_at} · the live state never changes the deterministic verdict</div>
+              <div>Policy {live.query_policy} · retrieved {live.retrieved_at}{(live as { cached?: boolean }).cached ? " (cached, refreshed every 6 hours)" : ""} · the live state never changes the deterministic verdict</div>
             </div>
           </>
         )}

@@ -32,6 +32,8 @@ TOKEN_FACTORY_URL = "https://api.tokenfactory.nebius.com/v1"
 
 DEFAULT_MODELS = {
     "omni": "nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning",
+    "vision": "deepseek-ai/DeepSeek-V4.1-Flash",
+    "structure": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
     "ultra": "nvidia/Nemotron-3-Ultra-550b-a55b",
     "fast": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
 }

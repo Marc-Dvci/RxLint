@@ -41,7 +41,8 @@ def test_model_explanation_is_rendered_from_tokens(pack):
     tokens, _ = value_table(v, "fr")
     key = next(k for k, val in tokens.items() if val.startswith("400"))
     reply = json.dumps({"text": f"Le dosage prescrit ({{{{{key}}}}}) ne correspond pas au flacon. {{{{action}}}}"})
-    out = explain(Scripted([reply]), v, "fr", "caregiver")
+    audit_ok = json.dumps({"answers": {"strength_mismatch": "differ", "dose_below_range": "not_stated", "problem": "yes", "instruction": "do_not_give_yet"}})
+    out = explain(Scripted([reply, audit_ok]), v, "fr", "caregiver")
     assert out["source"] == "model"
     assert "400 mg / 57 mg per 5 mL" in out["text"]
     assert out["text"].endswith("vérifié.")
@@ -77,3 +78,22 @@ def test_clarification_cannot_pick_no_action(pack):
     r = verify(build_snapshot({k: v for k, v in HERO.items() if k != "patient.weight"}, pack, dispense_date="2026-09-19"), pack)
     out = clarify(Scripted([json.dumps({"action": "NO_CLARIFICATION_NEEDED", "fields": [], "message": "All good."})]), r, [], {})
     assert out["source"] == "deterministic"
+
+
+def test_audit_rejects_a_reversed_direction(pack):
+    """The Arabic text that once said the dose exceeds the limit, when the kernel found it below."""
+    v = mismatch(pack).model_dump()
+    tokens, _ = value_table(v, "ar")
+    reply = json.dumps({"text": "{{v3}} تتجاوز الحد المسموح. {{action}}"})
+    audit_bad = json.dumps({"answers": {"strength_mismatch": "not_stated", "dose_below_range": "too_high", "problem": "yes", "instruction": "do_not_give_yet"}})
+    out = explain(Scripted([reply, audit_bad]), v, "ar", "caregiver")
+    assert out["source"] == "deterministic"
+    assert any("dose_below_range" in p for p in out["model_rejected"]["problems"])
+
+
+def test_deterministic_weight_template_uses_the_weight(pack):
+    from conftest import HERO
+
+    v = verify(build_snapshot({**HERO, "rx.dose": "10 mL", "dispensed.volume": "150 mL"}, pack, dispense_date="2026-09-19"), pack).model_dump()
+    text = deterministic(v, "en", "caregiver")
+    assert "9.5 kg" in text and "168.42" in text

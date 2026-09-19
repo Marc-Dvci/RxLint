@@ -21,6 +21,7 @@ from .core.rulepack import RulePack
 from .models.client import ModelClient
 from .perception import grounding, quality, reliability
 from .perception.extraction import Extraction, SpeechExtraction, extract_image, extract_speech
+from .perception.transcribe import extract_two_stage
 from .reasoning.clarify import clarify
 
 Emit = Callable[[str, dict[str, Any]], None]
@@ -98,10 +99,13 @@ def run_case(inp: CaseInput, blobs: dict[str, bytes], client: ModelClient, pack:
 
     # Perception: extraction and OCR run concurrently per image.
     t = time.perf_counter()
-    emit("extract.start", {"assets": [a.id for a in images], "model": client.config("omni").model,
-                           "provider": client.config("omni").provider})
+    mode = perception_mode()
+    readers = [client.config("omni").model] if mode == "omni" else [client.config("vision").model, client.config("structure").model]
+    emit("extract.start", {"assets": [a.id for a in images], "mode": mode, "models": readers,
+                           "provider": client.config("omni" if mode == "omni" else "structure").provider})
     with ThreadPoolExecutor(max_workers=4) as pool:
-        ex_f = {a.id: pool.submit(extract_image, client, blobs[a.id], a.kind, a.id, a.mime) for a in images}
+        reader = extract_image if perception_mode() == "omni" else extract_two_stage
+        ex_f = {a.id: pool.submit(reader, client, blobs[a.id], a.kind, a.id, a.mime) for a in images}
         ocr_f = {a.id: pool.submit(_safe_ocr, blobs[a.id]) for a in images}
         sp_f = {a.id: pool.submit(extract_speech, client, *to_wav(blobs[a.id], a.mime), a.id) for a in audios}
         extractions = {k: f.result() for k, f in ex_f.items()}
@@ -194,6 +198,17 @@ def assess(inp: CaseInput, perception: dict[str, Any], client: ModelClient | Non
         timings_ms=timings,
         untrusted_text_flagged=perception["untrusted_text_flagged"],
     )
+
+
+def perception_mode() -> str:
+    """``omni``: Nemotron 3 Nano Omni reads the photo (local llama.cpp or a Nebius AI Cloud endpoint).
+    ``two_stage``: a Token Factory vision model transcribes and Nemotron structures the transcript."""
+    import os
+
+    mode = os.environ.get("RXLINT_PERCEPTION")
+    if mode in ("omni", "two_stage"):
+        return mode
+    return "omni" if os.environ.get("RXLINT_OMNI_BASE_URL") else "two_stage"
 
 
 def to_wav(data: bytes, mime: str) -> tuple[bytes, str]:

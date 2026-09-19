@@ -217,6 +217,7 @@ export interface Health {
   status: string;
   rulepack: { id: string; version: string; sha256: string; rules: number; title: string; effective_date: string };
   models: Record<string, { model: string; provider: string; configured: boolean }>;
+  perception: { mode: "omni" | "two_stage"; readers: string[] };
   model_mode: string;
   tavily: { configured: boolean };
   languages: Record<string, { name: string; dir: string }>;

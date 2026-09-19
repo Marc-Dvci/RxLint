@@ -9,6 +9,7 @@ import pytest
 @pytest.fixture(scope="module")
 def client(tmp_path_factory):
     os.environ["RXLINT_MODEL_MODE"] = "replay"
+    os.environ["RXLINT_LOAD_DOTENV"] = "0"
     os.environ["RXLINT_DATA"] = str(tmp_path_factory.mktemp("data"))
     os.environ.pop("TAVILY_API_KEY", None)
     from fastapi.testclient import TestClient
@@ -61,11 +62,13 @@ def test_confirmation_flow_on_ambiguous_dose(client):
     assert under["verification"]["state"] == "REVIEW"
 
 
-def test_explanations_fall_back_without_ultra(client):
+def test_explanations_carry_the_locked_values(client):
     cid, _ = run_demo(client, "A")
     for lang in ("en", "ar"):
         e = client.post(f"/api/cases/{cid}/explain", json={"language": lang, "audience": "caregiver"}).json()
-        assert e["source"] == "deterministic" and "400" in e["text"]
+        assert e["source"] in ("model", "deterministic")
+        assert "250 mg / 62.5 mg per 5 mL" in e["text"] or "250" in e["text"]
+        assert e["action"] in e["text"]
     assert client.post(f"/api/cases/{cid}/explain", json={"language": "de", "audience": "caregiver"}).status_code == 400
 
 

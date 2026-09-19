@@ -88,8 +88,12 @@ def _union(boxes: list[list[float]]) -> list[float]:
     return [min(b[0] for b in boxes), min(b[1] for b in boxes), max(b[2] for b in boxes), max(b[3] for b in boxes)]
 
 
-def match(text: str, lines: list[OcrLine]) -> tuple[float, list[OcrLine], str]:
-    """Best match of ``text`` against single OCR lines and adjacent pairs; returns (ratio, lines, joined text)."""
+def match(text: str, lines: list[OcrLine], claimed: set[int] | None = None) -> tuple[float, list[OcrLine], str]:
+    """Best match of ``text`` against single OCR lines and adjacent pairs; returns (ratio, lines, joined text).
+
+    Lines already claimed by another field lose a small margin, so a short reading such as "5 mL" that
+    appears on two lines is placed on the line no other field explains."""
+    claimed = claimed or set()
     target = _locate_key(text)
     if not target:
         return 0.0, [], ""
@@ -110,6 +114,8 @@ def match(text: str, lines: list[OcrLine]) -> tuple[float, list[OcrLine], str]:
             sm = difflib.SequenceMatcher(None, target, k)
             ratio = sm.ratio()
             span = joined
+        if any(id(g) in claimed for g in group):
+            ratio -= 0.05
         if ratio > best[0]:
             best = (ratio, group, span)
     return best
@@ -117,11 +123,14 @@ def match(text: str, lines: list[OcrLine]) -> tuple[float, list[OcrLine], str]:
 
 def ground(observations: list[dict[str, Any]], lines: list[OcrLine]) -> list[dict[str, Any]]:
     """Attach OCR boxes and corroboration status to model observations (dicts with field/text/...)."""
-    out = []
-    for ob in observations:
-        ob = dict(ob)
+    out: list[dict[str, Any]] = [dict(o) for o in observations]
+    claimed: set[int] = set()
+    # Longer, more specific readings are placed first.
+    for ob in sorted(out, key=lambda o: -len(_locate_key(o.get("text", "")))):
         ob["model_bbox"] = ob.get("bbox")
-        ratio, group, span = match(ob["text"], lines)
+        ratio, group, span = match(ob["text"], lines, claimed)
+        if ratio >= 0.72 and group:
+            claimed.update(id(g) for g in group)
         ob["ocr_match"] = round(ratio, 3)
         ob["ocr_text"] = span or None
         if ratio >= 0.72 and group:
@@ -144,7 +153,6 @@ def ground(observations: list[dict[str, Any]], lines: list[OcrLine]) -> list[dic
             ob["grounding"] = "model" if ob.get("bbox") else None
             ob["corroboration"] = "unmatched"
         ob["_group"] = tuple(id(g) for g in group) if ratio >= 0.72 and group else None
-        out.append(ob)
     # An OCR span that two different readings matched corroborates only the reading that explains it fully:
     # a short reading ("5 mL") inside another field's text ("200 mg per 5 mL") gets no corroboration from it.
     for ob in out:

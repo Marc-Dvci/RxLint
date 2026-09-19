@@ -34,3 +34,24 @@ Observations from building RxLint, each tied to what was measured.
 
 * The OpenAI-compatible API let one client serve both Token Factory and a local llama.cpp server,
   switching per role with a base URL.
+
+## Nebius Token Factory catalog
+
+* On 19 September 2026 the serverless catalog listed four NVIDIA models (Nemotron 3 Nano 30B,
+  Nemotron 3.5 Lightning, Nemotron 3 Super 120B, Nemotron 3 Ultra 550B), all text-to-text. Requests
+  for Nemotron 3 Nano Omni and the Nemotron Nano VL models returned 404 on the default, us-central1
+  and eu-north1 endpoints. RxLint therefore pairs a Token Factory vision model (DeepSeek V4.1 Flash)
+  for transcription with Nemotron for structuring, reasoning and auditing. A serverless Nemotron
+  vision or omni model on Token Factory would remove the second vendor from the pipeline.
+* Nemotron 3 Ultra answered explanation and clarification calls with `json_schema` output in under
+  one second. Nemotron 3 Nano structured a prescription transcript in about three seconds.
+* Nemotron 3 Super 120B returned an 18-token reply with no observations for the same structuring
+  request under `response_format: json_schema`, where Nemotron 3 Nano returned every field.
+
+## Tavily
+
+* A search with `include_domains: ["fda.gov"]` returned a result from drugs.com, and live checks
+  logged further off-allowlist results. RxLint re-checks every returned URL by hostname before use,
+  and the case page shows how many results each search rejected.
+* Search then Extract on a shortlist, as Tavily recommends for precision, fits a regulator check
+  well: the shortlist is chosen by deterministic lot and product matching before any page is read.

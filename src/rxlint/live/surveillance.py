@@ -203,8 +203,12 @@ def live_check(pack: RulePack, product: str | None, lot: str | None, country: st
         text = extracted.get(c["url"]) or c["content"]
         terms = product_terms(n, product, c["lang"])
         m = match_notice(text, c["title"], terms, lot_core, c["lang"])
+        published = iso_date(c.get("published_date")) or iso_date(_first_date(text))
+        if as_of and published and published > as_of:
+            # A historical check cannot see notices published after its date.
+            m = {**m, "match_type": "after_check_date"}
         notices.append({"source": "Tavily", "authority": c["authority"], "url": c["url"], "title": c["title"],
-                        "published_at": c.get("published_date") or _first_date(text), "retrieved_at": now,
+                        "published_at": published or c.get("published_date"), "retrieved_at": now,
                         "extracted": c["url"] in extracted, **m})
 
     applicable = [x for x in notices if x["match_type"] in APPLICABLE]
@@ -221,6 +225,29 @@ def live_check(pack: RulePack, product: str | None, lot: str | None, country: st
             "tavily_calls": [c.__dict__ for c in tavily.log],
             "statement": ("No applicable alert was retrieved from the configured sources during this check."
                           if status == "LIVE_CLEAR" else None)}
+
+
+MONTHS = {m: i for i, m in enumerate(["january", "february", "march", "april", "may", "june", "july", "august", "september",
+                                        "october", "november", "december"], 1)}
+
+
+def iso_date(s: str | None) -> str | None:
+    """'March 13, 2026', '13 March 2026', '2026-03-13' or an RFC 1123 date -> '2026-03-13'."""
+    if not s:
+        return None
+    t = s.strip()
+    m = re.search(r"(20\d\d)-(\d\d)-(\d\d)", t)
+    if m:
+        return m.group(0)
+    m = re.search(r"(\d{1,2})\s+([A-Za-z]+)\s+(20\d\d)", t) or re.search(r"([A-Za-z]+)\s+(\d{1,2}),?\s+(20\d\d)", t)
+    if m:
+        a, b, y = m.groups()
+        day, mon = (a, b) if a.isdigit() else (b, a)
+        k = mon.lower()[:3]
+        num = next((v for name, v in MONTHS.items() if name.startswith(k)), None)
+        if num:
+            return f"{y}-{num:02d}-{int(day):02d}"
+    return None
 
 
 def _first_date(text: str) -> str | None:

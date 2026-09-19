@@ -15,8 +15,8 @@ export default function About() {
       <div className="arch">
         <div className="node nv">
           <span className="upper">Reads</span>
-          <b>Nemotron 3 Nano Omni</b>
-          <span className="small muted">Transcribes the prescription and the label verbatim, with boxes and competing readings. Transcribes a spoken note. Never judges safety.</span>
+          <b>Transcription + Nemotron 3 Nano</b>
+          <span className="small muted">A vision model on Token Factory transcribes the photo line by line. Nemotron 3 Nano assigns lines to fields, and every value must be copied verbatim from the line it cites. Where Nemotron 3 Nano Omni is served, it reads the photo in one call.</span>
         </div>
         <div className="node det">
           <span className="upper">Corroborates</span>
@@ -31,7 +31,7 @@ export default function About() {
         <div className="node nv">
           <span className="upper">Clarifies and explains</span>
           <b>Nemotron 3 Ultra</b>
-          <span className="small muted">Picks the smallest clarification from a closed set, and explains established findings in four languages around locked values.</span>
+          <span className="small muted">Picks the smallest clarification from a closed set, and explains established findings in four languages around locked values. Nemotron 3 Nano audits each explanation against the result.</span>
         </div>
       </div>
 

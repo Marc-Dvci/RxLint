@@ -7,11 +7,18 @@ import LivePanel from "../components/LivePanel";
 
 const STEPS = [
   { key: "quality", title: "Photo checks", desc: "blur, glare, exposure" },
-  { key: "extract", title: "Nemotron 3 Nano Omni", desc: "reads both photos" },
+  { key: "extract", title: "Reading the photos", desc: "transcription + Nemotron" },
   { key: "normalize", title: "Grounding and parsing", desc: "OCR corroboration, unit grammar" },
   { key: "verify", title: "Deterministic kernel", desc: "rule pack checks" },
   { key: "clarify", title: "Nemotron 3 Ultra", desc: "smallest clarification" },
 ];
+
+function readerLabel(result?: CaseResult): string {
+  const m = result?.extractions.find((e) => e.model)?.model ?? "";
+  if (!m) return "";
+  if (m.includes("Omni")) return "Nemotron 3 Nano Omni";
+  return m.split(" + ").map((x) => x.split("/").pop()!.replace("NVIDIA-", "").replace(/-/g, " ")).join(" → ");
+}
 
 function Pipeline({ events, result }: { events: string[]; result?: CaseResult }) {
   const has = (k: string) => events.some((e) => e.startsWith(k));
@@ -24,7 +31,7 @@ function Pipeline({ events, result }: { events: string[]; result?: CaseResult })
   const t = result?.timings_ms ?? {};
   const detail: Record<string, string> = {
     quality: t.quality !== undefined ? `${t.quality} ms` : "",
-    extract: t.perception !== undefined ? `${(t.perception / 1000).toFixed(1)} s` : "",
+    extract: t.perception !== undefined ? `${(t.perception / 1000).toFixed(1)} s · ${readerLabel(result)}` : "",
     normalize: t.normalize !== undefined ? `${t.normalize} ms` : "",
     verify: t.verify !== undefined ? `${t.verify} ms, no model call` : "",
     clarify: result && !result.clarification ? "not needed"

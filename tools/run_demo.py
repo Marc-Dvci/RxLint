@@ -8,6 +8,9 @@ import sys
 from pathlib import Path
 
 from rxlint import demo
+from rxlint.config import load_env
+
+load_env()
 from rxlint.core import load_pack
 from rxlint.models.client import ModelClient
 from rxlint.pipeline import Asset, CaseInput, run_case
