@@ -25,6 +25,32 @@ ENGINE_VERSION = "rxlint-core-0.1.0"
 
 PASS, FAIL, CANNOT, NA, OOS = "pass", "fail", "cannot_evaluate", "not_applicable", "out_of_scope"
 
+FACT_LABEL = {
+    "rx.product": "the prescribed medicine", "rx.strength": "the prescribed strength", "rx.dose": "the dose",
+    "rx.frequency": "the frequency", "rx.duration_days": "the duration", "rx.indication": "the indication",
+    "rx.route": "the route", "rx.dosage_form": "the prescribed form", "dispensed.product": "the medicine on the label",
+    "dispensed.strength": "the label strength", "dispensed.expiry": "the expiry date", "dispensed.volume_ml": "the pack volume",
+    "dispensed.dosage_form": "the label form", "patient.weight_kg": "the weight", "patient.age_months": "the age",
+    "patient.allergies": "the allergy history", "patient.current_medications": "the current medicines",
+}
+
+
+def _label(key: str) -> str:
+    return FACT_LABEL.get(key, key)
+
+
+def _reason(key: str, reason: str | None) -> str:
+    r = reason or ""
+    r = r.split("; ")[0]
+    if "P-PERC-02" in r:
+        return f"{_label(key)} reading was not corroborated by an independent reader (P-PERC-02)"
+    if "competing readings" in r:
+        return f"{_label(key)} has competing readings ({r.split(': ', 1)[-1]})"
+    if "disagree" in r:
+        return f"sources disagree on {_label(key)} ({r.split(': ', 1)[-1]})"
+    return f"{_label(key)}: {r.split(': ', 1)[-1]}" if r else _label(key)
+
+
 ACTION_FOR_FACT = {
     "patient.weight_kg": "REQUEST_WEIGHT",
     "patient.age_months": "REQUEST_AGE",
@@ -674,13 +700,16 @@ def verify(snap: Snapshot, pack: RulePack) -> Verification:
             if rule.type.startswith("scope_") and not ambiguous and rule.type != "scope_ingredient":
                 # scope checks on missing patient facts surface through the dose rules' own requirements
                 pass
-            reasons = [f"{k}: {snap.fact(k).reason}" for k in ambiguous]
+            reasons = [_reason(k, snap.fact(k).reason) for k in ambiguous]
             confirm_only = ambiguous and all("P-PERC-02" in (snap.fact(k).reason or "") for k in ambiguous)
             action = "REQUEST_FIELD_CONFIRMATION" if confirm_only else "REQUEST_NEW_PHOTO" if any(k.startswith(("rx.", "dispensed.")) for k in ambiguous) else next(
                 (ACTION_FOR_FACT[k] for k in missing + ambiguous if k in ACTION_FOR_FACT), "REQUEST_FIELD_CONFIRMATION")
-            msg = "Cannot evaluate: " + ", ".join(missing + ambiguous) + (" missing" if missing and not ambiguous else " unreadable or contradictory" if ambiguous and not missing else " missing or unreadable")
-            if reasons:
-                msg += " (" + "; ".join(reasons) + ")"
+            parts = []
+            if missing:
+                parts.append(", ".join(_label(k) for k in missing) + (" is" if len(missing) == 1 else " are") + " missing")
+            parts.extend(reasons)
+            msg = "Cannot evaluate: " + "; ".join(parts) + "."
+
             findings.append(Finding(**base, status=CANNOT, severity="cannot_verify", message=msg, missing=missing + ambiguous,
                                     action=action, evidence=[snap.fact(k).evidence for k in ambiguous if snap.fact(k).evidence]))
             continue
@@ -717,7 +746,7 @@ def verify(snap: Snapshot, pack: RulePack) -> Verification:
             findings.append(Finding(
                 finding_id=f"fd_m_{key}", rule_id="RX-EVIDENCE-001", rule_version="1.0.0", title=f"Required fact {key}",
                 type="mandatory_fact", status=CANNOT, severity="cannot_verify",
-                message=f"Cannot verify: {key} is {'unreadable or contradictory' if fact.status == 'ambiguous' else 'missing'}" + (f" ({fact.reason})" if fact.reason else "") + ".",
+                message=(f"Cannot verify: {_reason(key, fact.reason)}." if fact.status == "ambiguous" else f"Cannot verify: {_label(key)} is missing."),
                 missing=[key], evidence=[fact.evidence] if fact.evidence else [],
                 action=("REQUEST_NEW_PHOTO" if fact.status == "ambiguous" and key.startswith(("rx.", "dispensed.")) else ACTION_FOR_FACT.get(key, "REQUEST_FIELD_CONFIRMATION")),
                 source={"primary": {"ref": "PACK", "title": "RxLint evidence policy", "locator": "snapshot.MANDATORY", "quotes": []}, "related": [],

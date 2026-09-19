@@ -151,6 +151,10 @@ class Cassette:
                     rec = json.loads(line)
                     self._items[rec["key"]] = rec
 
+    def has_role(self, role: str) -> bool:
+        # Records written before roles were stored are all Nano Omni perception calls.
+        return any(r.get("role", "omni") == role for r in self._items.values())
+
     def get(self, key: str) -> dict[str, Any] | None:
         return self._items.get(key)
 
@@ -178,9 +182,12 @@ class ModelClient:
 
     def available(self, role: str) -> bool:
         cfg = role_config(role)
+        live = bool(cfg.api_key) or cfg.provider == "local-llama.cpp"
         if self.mode == "replay":
-            return True
-        return bool(cfg.api_key) or cfg.provider == "local-llama.cpp"
+            return self.cassette.has_role(role)
+        if self.mode == "auto":
+            return live or self.cassette.has_role(role)
+        return live
 
     def chat(self, role: str, messages: list[dict], *, schema: dict | None = None, purpose: str = "",
              max_tokens: int = 2048, temperature: float = 0.0) -> ChatResult:
@@ -233,13 +240,17 @@ class ModelClient:
         content = msg.get("content") or ""
         reasoning = msg.get("reasoning_content") or msg.get("reasoning")
         usage = data.get("usage") or {}
-        rec = CallRecord(role=role, model=data.get("model") or cfg.model, provider=cfg.provider, purpose=purpose,
+        served = data.get("model") or cfg.model
+        if cfg.provider == "local-llama.cpp" and served.lower().endswith(".gguf"):
+            quant = re.search(r"(IQ\d_\w+?|Q\d_K_\w|Q\d_\d|MXFP4)(?=[._-]|$)", Path(served).name)
+            served = f"{cfg.model} ({quant.group(1) if quant else 'GGUF'} GGUF)"
+        rec = CallRecord(role=role, model=served, provider=cfg.provider, purpose=purpose,
                          latency_ms=latency, prompt_tokens=usage.get("prompt_tokens"),
                          completion_tokens=usage.get("completion_tokens"), ok=True, request_sha256=key,
                          recorded_at=datetime.now(timezone.utc).isoformat(timespec="seconds"))
         self.log.append(rec)
         if self.mode in ("record", "auto"):
-            self.cassette.put(key, {"model": rec.model, "provider": rec.provider, "purpose": purpose, "content": content,
+            self.cassette.put(key, {"role": role, "model": rec.model, "provider": rec.provider, "purpose": purpose, "content": content,
                                     "reasoning": reasoning, "latency_ms": latency, "prompt_tokens": rec.prompt_tokens,
                                     "completion_tokens": rec.completion_tokens, "recorded_at": rec.recorded_at})
         return ChatResult(content, reasoning, rec, data)
