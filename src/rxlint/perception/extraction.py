@@ -198,7 +198,7 @@ class SpeechExtraction(BaseModel):
     error: str | None = None
 
 
-def extract_speech(client: ModelClient, audio_bytes: bytes, asset_id: str, fmt: str = "wav") -> SpeechExtraction:
+def extract_speech(client: ModelClient, audio_bytes: bytes, fmt: str, asset_id: str) -> SpeechExtraction:
     messages = [
         {"role": "system", "content": SPEECH_SYSTEM},
         {"role": "user", "content": [audio_part(audio_bytes, fmt), {"type": "text", "text": "Transcribe and list the stated facts."}]},

@@ -19,7 +19,7 @@ from .core import EvidenceKind, Normalizer, Observation, SnapshotBuilder, load_p
 from .core.engine import Verification
 from .core.rulepack import RulePack
 from .models.client import ModelClient
-from .perception import grounding, quality
+from .perception import grounding, quality, reliability
 from .perception.extraction import Extraction, SpeechExtraction, extract_image, extract_speech
 from .reasoning.clarify import clarify
 
@@ -62,10 +62,14 @@ class CaseResult(BaseModel):
     untrusted_text_flagged: bool = False
 
 
-def _obs_from_extraction(ex: Extraction, lines: list[grounding.OcrLine] | None) -> list[dict[str, Any]]:
+def _obs_from_extraction(ex: Extraction, lines: list[grounding.OcrLine] | None, image: bytes | None = None,
+                         pack: RulePack | None = None) -> list[dict[str, Any]]:
     raw = [o.model_dump() for o in ex.observations]
     if lines is not None:
         raw = grounding.ground(raw, lines)
+        if image is not None and pack is not None:
+            doc = {"legibility": ex.legibility, "ocr_mean": sum(l.score for l in lines) / len(lines) if lines else 0.0}
+            raw = reliability.apply(raw, ex.kind, doc, image, Normalizer(pack))
     for r in raw:
         r["asset_id"] = ex.asset_id
         r["method"] = f"{ex.model or 'model'} via {ex.provider or '?'}" + (" (replay)" if ex.replayed else "")
@@ -99,7 +103,7 @@ def run_case(inp: CaseInput, blobs: dict[str, bytes], client: ModelClient, pack:
     with ThreadPoolExecutor(max_workers=4) as pool:
         ex_f = {a.id: pool.submit(extract_image, client, blobs[a.id], a.kind, a.id, a.mime) for a in images}
         ocr_f = {a.id: pool.submit(_safe_ocr, blobs[a.id]) for a in images}
-        sp_f = {a.id: pool.submit(extract_speech, client, blobs[a.id], a.id, a.mime.split("/")[-1].replace("x-wav", "wav").replace("mpeg", "mp3")) for a in audios}
+        sp_f = {a.id: pool.submit(extract_speech, client, *to_wav(blobs[a.id], a.mime), a.id) for a in audios}
         extractions = {k: f.result() for k, f in ex_f.items()}
         ocr = {k: f.result() for k, f in ocr_f.items()}
         speech: dict[str, SpeechExtraction] = {k: f.result() for k, f in sp_f.items()}
@@ -114,7 +118,7 @@ def run_case(inp: CaseInput, blobs: dict[str, bytes], client: ModelClient, pack:
     for a in images:
         ex = extractions[a.id]
         flagged |= ex.untrusted_instructions_seen
-        all_obs.extend(_obs_from_extraction(ex, ocr[a.id]))
+        all_obs.extend(_obs_from_extraction(ex, ocr[a.id], blobs[a.id], pack))
     for a in audios:
         sp = speech[a.id]
         for f in sp.facts:
@@ -190,6 +194,22 @@ def assess(inp: CaseInput, perception: dict[str, Any], client: ModelClient | Non
         timings_ms=timings,
         untrusted_text_flagged=perception["untrusted_text_flagged"],
     )
+
+
+def to_wav(data: bytes, mime: str) -> tuple[bytes, str]:
+    """Token Factory audio input takes wav or mp3; browser recordings (webm/ogg) are converted with ffmpeg."""
+    kind = mime.split("/")[-1].split(";")[0]
+    if kind in ("wav", "x-wav", "wave"):
+        return data, "wav"
+    if kind in ("mpeg", "mp3"):
+        return data, "mp3"
+    import subprocess
+
+    proc = subprocess.run(["ffmpeg", "-hide_banner", "-loglevel", "error", "-i", "pipe:0", "-ac", "1", "-ar", "16000", "-f", "wav", "pipe:1"],
+                          input=data, capture_output=True, timeout=60)
+    if proc.returncode != 0:
+        raise RuntimeError(f"audio conversion failed: {proc.stderr.decode(errors='ignore')[:200]}")
+    return proc.stdout, "wav"
 
 
 def _safe_ocr(data: bytes) -> list[grounding.OcrLine] | None:
