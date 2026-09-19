@@ -62,7 +62,9 @@ def product_terms(n: Normalizer, product: str, lang: str) -> dict[str, Any]:
         display = " ".join(fr.get(c, c) for c in comps)
     else:
         display = " and ".join(n.ingredients[c]["display"].lower() for c in comps)
-    return {"components": comps, "aliases": aliases, "display": display, "ingredient": n.ingredients[comps[0]]["display"]}
+    others = {c: [a for a in n.ingredients[c]["aliases"] if len(a) > 3] for c in n.ingredients if c not in comps}
+    return {"components": comps, "aliases": aliases, "display": display, "ingredient": n.ingredients[comps[0]]["display"],
+            "other_ingredients": others}
 
 
 def lot_pattern(lot: str) -> re.Pattern[str]:
@@ -78,14 +80,19 @@ def match_notice(text: str, title: str, terms: dict[str, Any], lot: str | None, 
     t = _fold(title + "\n" + text)
     comp_hits = {c: any(_fold(a) in t for a in al) for c, al in terms["aliases"].items()}
     product_named = all(comp_hits.values())
-    # A combination product must not match a single-ingredient notice and vice versa.
+    # A combination product must not match a single-ingredient notice and vice versa: a title that names
+    # this product together with another active ingredient is a notice about a different product.
+    title_f = _fold(title)
+    extra = [c for c, al in terms.get("other_ingredients", {}).items() if any(_fold(a) in title_f for a in al)]
+    if product_named and extra and all(any(_fold(a) in title_f for a in al) for al in terms["aliases"].values()):
+        product_named = False
     words = policies()["recall_words"]["en"] + policies()["recall_words"].get(lang, [])
     safety = policies()["safety_words"]["en"] + policies()["safety_words"].get(lang, [])
     is_recall = any(_fold(w) in t for w in words)
     is_safety = any(_fold(w) in t for w in safety)
     lot_hit = bool(lot and lot_pattern(lot).search(title + " " + text))
     listed_lots = sorted({m.group(1).upper() for m in LOT_LIST.finditer(title + " " + text)})
-    matched = [f"ingredient:{c}" for c, ok in comp_hits.items() if ok]
+    matched = [f"ingredient:{c}" for c, ok in comp_hits.items() if ok] + [f"other_product:{c}" for c in extra]
     if lot_hit:
         matched.append("lot")
     if not product_named:

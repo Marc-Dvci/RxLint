@@ -257,7 +257,7 @@ export const api = {
   drift: () => fetch("/api/rulepack/drift", { method: "POST" }).then((r) => j<Record<string, unknown>>(r)),
   bench: () => fetch("/api/bench").then((r) => j<Record<string, unknown>>(r)),
   assetUrl: (caseId: string, assetId: string) => `/api/cases/${caseId}/assets/${assetId}`,
-  demoAssetUrl: (id: string, name: string) => `/api/demo-cases/${id}/${name}`,
+  demoAssetUrl: (id: string, name: string, width?: number) => `/api/demo-cases/${id}/${name}${width ? `?w=${width}` : ""}`,
 };
 
 export interface RuleView {

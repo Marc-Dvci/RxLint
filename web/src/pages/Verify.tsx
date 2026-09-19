@@ -30,7 +30,7 @@ function DemoLibrary() {
       <div className="row" style={{ justifyContent: "space-between" }}>
         <div>
           <h2>Demo library</h2>
-          <p className="muted small">Rendered prescription and bottle photos. Running one executes the full pipeline.</p>
+          <p className="muted small">Photographed prescriptions and bottles. Running one executes the full pipeline.</p>
         </div>
       </div>
       {err && <div className="error">{err}</div>}
@@ -40,8 +40,8 @@ function DemoLibrary() {
           return (
             <button key={c.id} className="demo" onClick={() => run(c.id)} disabled={!!busy}>
               <div className="thumbs">
-                <img src={api.demoAssetUrl(c.id, "rx.jpg")} alt="" loading="lazy" />
-                <img src={api.demoAssetUrl(c.id, "label.jpg")} alt="" loading="lazy" />
+                <img src={api.demoAssetUrl(c.id, "rx.jpg", 360)} alt="" loading="lazy" />
+                <img src={api.demoAssetUrl(c.id, "label.jpg", 360)} alt="" loading="lazy" />
               </div>
               <div className="body">
                 <div className="ttl">
@@ -201,7 +201,7 @@ export default function Verify() {
         <div>
           <h1>Check the medicine against the prescription</h1>
           <p>
-            Nemotron 3 Nano Omni reads the photos. A deterministic kernel checks identity, concentration, weight-based dose,
+            NVIDIA Nemotron reads the photos. A deterministic kernel checks identity, concentration, weight-based dose,
             duration, allergies and interactions against a versioned WHO AWaRe rule pack. Every finding links to the pixels,
             the arithmetic and the rule that produced it.
           </p>

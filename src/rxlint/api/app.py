@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import asyncio
+import functools
 import json
 import os
 import threading
@@ -101,11 +102,27 @@ def demo_cases() -> list[dict[str, Any]]:
 
 
 @app.get("/api/demo-cases/{cid}/{name}")
-def demo_asset(cid: str, name: str):
+def demo_asset(cid: str, name: str, w: int | None = None):
     if cid not in demo.BY_ID or name not in ("rx.jpg", "label.jpg"):
         raise HTTPException(404)
     p = demo.photo(cid, name.split(".")[0])
+    if w:
+        return Response(_thumbnail(str(p), max(64, min(int(w), 800))), media_type="image/jpeg",
+                        headers={"Cache-Control": "public, max-age=86400"})
     return FileResponse(p, media_type=demo.mime(p))
+
+
+@functools.lru_cache(maxsize=64)
+def _thumbnail(path: str, width: int) -> bytes:
+    from io import BytesIO
+
+    from PIL import Image
+
+    im = Image.open(path).convert("RGB")
+    im.thumbnail((width, width * 2))
+    buf = BytesIO()
+    im.save(buf, "JPEG", quality=82, optimize=True)
+    return buf.getvalue()
 
 
 # ----------------------------------------------------------------------------- cases

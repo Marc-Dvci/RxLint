@@ -41,6 +41,14 @@ def test_single_ingredient_notice_does_not_match_combination(pack):
     assert match_notice(page, "Recall", terms(pack), "AS1466A", "en")["match_type"] == "not_applicable"
 
 
+def test_combination_notice_does_not_match_single_ingredient(pack):
+    title = "AMOXICILLINE ACIDE CLAVULANIQUE Zydus France 100 mg/12,5 mg par mL, poudre pour suspension buvable"
+    page = "Rappel de lot. " + title + ". Lots concernes : voir ci-dessous."
+    m = match_notice(page, title, product_terms(Normalizer(pack), "amoxicillin", "fr"), "A18840", "fr")
+    assert m["match_type"] == "not_applicable"
+    assert "other_product:clavulanic_acid" in m["matched_fields"]
+
+
 def test_french_recall_words(pack):
     page = "Rappel de lot : amoxicilline/acide clavulanique suspension buvable, lot K4471."
     m = match_notice(page, "ANSM", product_terms(Normalizer(pack), "amoxicillin+clavulanic_acid", "fr"), "K4471", "fr")

@@ -244,7 +244,11 @@ def explain(client: ModelClient, verification: dict[str, Any], language: str = "
     fallback = lambda extra: {**base, "text": deterministic(verification, language, audience), "source": "deterministic", **extra}
     if not (use_model and client.available("ultra")):
         return fallback({})
-    payload = {"action_token": "{{action}}", "findings": items}
+    payload: dict[str, Any] = {"action_token": "{{action}}", "findings": items}
+    if not items:
+        # Nothing failed: give the model the verdict to write about, or it returns the action token alone.
+        payload["note"] = ("No rule failed: the medicine, its strength, the dose and the duration match the prescription "
+                           "and the guideline. Say this in one or two plain sentences, then write the action token.")
     messages = [
         {"role": "system", "content": SYSTEM.format(language=i18n.LANGUAGES[language]["name"], audience=AUDIENCE[audience])},
         {"role": "user", "content": "Findings (values are placeholder tokens that already include units):\n" + json.dumps(payload, ensure_ascii=False, indent=1)},
