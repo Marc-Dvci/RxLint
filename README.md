@@ -60,7 +60,7 @@ rule sources ─► Tavily Extract + Search on who.int ─► newer guidance ─
 |---|---|---|
 | Photo checks | Blur, glare, exposure, resolution | none |
 | Perception | A vision model transcribes the photo; Nemotron 3 Nano assigns lines to fields and every value must be a verbatim copy of its cited lines. With Nemotron 3 Nano Omni available, it reads the photo in one call | `vision` + `structure` per image, or `omni` |
-| Corroboration | An independent OCR reader must agree on every high-risk number (policy P-PERC-02), or a calibrated reliability head accepts it (P-PERC-03), or the pharmacist confirms it | none |
+| Corroboration | An independent OCR reader must agree on every high-risk number (policy P-PERC-02), and a calibrated reliability head must score it as reliable (P-PERC-03); otherwise the pharmacist confirms it | none |
 | Normalisation | Strict unit grammar in `Decimal`; decimal commas, `q8h`, `BID`, `2 fois par jour`; household measures and alternatives fail closed | none |
 | Verification | 59 rules from WHO AWaRe Table 50.1, the AWaRe infection chapters and FDA prescribing information | none |
 | Clarification | Nemotron 3 Ultra picks one action from a closed list; numbers it did not see are rejected | `ultra`, only when blocked |
@@ -205,11 +205,25 @@ python -m rxlint.bench.run_extract --bench bench_out/v1 --run <run-name> --worke
 python -m rxlint.bench.evaluate --bench bench_out/v1 --run <run-name> --train-head
 ```
 
-The evaluator scores five systems on the same cases: the kernel on gold facts, Nano Omni readings
+The evaluator scores five systems on the same cases: the kernel on gold facts, the reader's output
 trusted as read, RxLint with OCR corroboration, RxLint with the reliability head, and OCR plus regex
 plus the same kernel. The headline metric is the false-safe rate: cases containing an error that
 come back `PASS`. Results are written to `benchmarks/results/summary.json` and shown on the
 Benchmark page.
+
+Results on the held-out test fold (120 cases: 40 clean, 60 with a rule violation, 20 with a missing
+or overwritten fact), read by DeepSeek V4.1 Flash and Nemotron 3 Nano on Token Factory:
+
+| System | False-safe | Exact verdict after confirmation | Clean PASS after confirmation | Overwritten dose held |
+|---|---|---|---|---|
+| Readings trusted as read | 0/80 | 90.0% | 97.5% | 2/10 |
+| RxLint: OCR corroboration + reliability head | **0/80** | **95.8%** | **100%** | **8/10** |
+| OCR + regex + the same kernel | 1/80 | 87.5% | 75.0% | 8/10 |
+
+On the 566 high-risk readings in the test fold (42 of them wrong), OCR corroboration alone let 5
+wrong readings through; with the reliability head as a second gate, 2 got through. The head was
+trained on the train fold and its threshold set on the validation fold, so the test fold measures
+an unseen handwriting font, four unseen perturbation families and an unseen product.
 
 ## Tests
 

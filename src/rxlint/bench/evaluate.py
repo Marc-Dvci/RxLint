@@ -7,7 +7,7 @@ Variants scored on the same cases:
 * ``oracle``        gold facts straight into the kernel (checks the rule oracle, perception excluded)
 * ``omni_trust``    Nano Omni readings accepted as read (no second reader)
 * ``rxlint_strict`` Nano Omni + OCR corroboration (P-PERC-02)
-* ``rxlint_head``   Nano Omni + OCR + calibrated reliability head (P-PERC-03)
+* ``rxlint_head``   reader + OCR + calibrated reliability head as a second gate (P-PERC-03)
 * ``ocr_rules``     OCR engine + regex field parser + the same kernel (no generative model)
 
 For every variant the case may end CANNOT_VERIFY with a confirmation request. The
@@ -110,7 +110,7 @@ def dataset(cases: list[dict[str, Any]], bench: Path) -> list[dict[str, Any]]:
     return rows
 
 
-def train_head(rows: list[dict[str, Any]], max_false_accept: float = 0.005) -> dict[str, Any]:
+def train_head(rows: list[dict[str, Any]], max_extra_confirm: float = 0.05) -> dict[str, Any]:
     import lightgbm as lgb
     from sklearn.isotonic import IsotonicRegression
     from sklearn.metrics import roc_auc_score
@@ -132,18 +132,18 @@ def train_head(rows: list[dict[str, Any]], max_false_accept: float = 0.005) -> d
     def cal(rs):
         return np.interp(booster.predict(X(rs)), grid, calib["y"])
 
-    # Threshold on high-risk fields in the validation fold: the lowest t whose accepted wrong readings stay under budget.
-    hv = [r for r in va if r["field"] in CORROBORATION_REQUIRED and r["corroboration"] != "contradicted"]
-    pv, yv = cal(hv), y(hv)
-    thr = 1.0
-    for t in np.linspace(0.5, 0.999, 200):
-        acc = pv >= t
-        if acc.sum() and ((acc & (yv == 0)).sum() / len(hv)) <= max_false_accept:
+    # The head only vetoes readings OCR already corroborated. Threshold on the validation fold: the highest t
+    # that sends at most max_extra_confirm of the corroborated high-risk readings to the pharmacist.
+    hv = [r for r in va if r["field"] in CORROBORATION_REQUIRED and r["corroboration"] == "corroborated"]
+    pv = cal(hv)
+    thr = 0.0
+    for t in np.linspace(0.999, 0.0, 1000):
+        if (pv < t).mean() <= max_extra_confirm:
             thr = float(t)
             break
     meta["threshold"] = thr
     meta["trained_at"] = datetime.now(timezone.utc).isoformat(timespec="seconds")
-    meta["max_false_accept"] = max_false_accept
+    meta["max_extra_confirm"] = max_extra_confirm
 
     report = {"threshold": thr, "n_train": len(tr), "n_val": len(va), "n_test": len(te)}
     for name, rs in (("val", va), ("test", te)):
@@ -155,7 +155,10 @@ def train_head(rows: list[dict[str, Any]], max_false_accept: float = 0.005) -> d
             p = cal(hr)
             yy = y(hr)
             strict = np.array([r["corroboration"] == "corroborated" for r in hr])
-            head = (p >= thr) & np.array([r["corroboration"] != "contradicted" for r in hr])
+            head = strict & (p >= thr)
+            cor = [i for i, r in enumerate(hr) if r["corroboration"] == "corroborated"]
+            if len(set(yy[cor])) > 1:
+                report[f"auc_{name}_corroborated"] = round(float(roc_auc_score(yy[cor], p[cor])), 4)
             for tag, acc in (("strict", strict), ("head", head)):
                 report[f"{name}_{tag}_accept_rate"] = round(float(acc.mean()), 4)
                 report[f"{name}_{tag}_false_accept"] = int((acc & (yy == 0)).sum())
@@ -413,12 +416,19 @@ def main() -> None:
         print(v, json.dumps(by_split.get("test", by_split["all"])[v]))
 
 
-NAMES = {"oracle": "Kernel on gold facts", "omni_trust": "Nano Omni readings trusted as read",
-         "rxlint_strict": "RxLint: Nano Omni + OCR corroboration", "rxlint_head": "RxLint: + reliability head",
-         "ocr_rules": "OCR + regex + same kernel"}
+def reader_name(run: str) -> str:
+    return "Nemotron 3 Nano Omni" if "omni" in run else "DeepSeek V4.1 Flash + Nemotron 3 Nano"
+
+
+def names(reader: str) -> dict[str, str]:
+    return {"oracle": "Kernel on gold facts", "omni_trust": f"{reader} readings trusted as read",
+            "rxlint_strict": "RxLint: reader + OCR corroboration", "rxlint_head": "RxLint: + reliability head",
+            "ocr_rules": "OCR + regex + same kernel"}
 
 
 def write_summary(full: dict[str, Any], out: Path) -> None:
+    reader = reader_name(full["run"])
+    NAMES = names(reader)
     split = "test" if "test" in full["scores"] else "all"
     s = full["scores"][split]
     cols = ["System", "False-safe", "False-safe after confirmation", "Review recall", "Exact verdict", "Clean PASS", "Asked to confirm", "Exact after confirmation"]
@@ -427,26 +437,36 @@ def write_summary(full: dict[str, Any], out: Path) -> None:
              "Asked to confirm": m["confirmation_requests"], "Exact after confirmation": m["exact_verdict_after_confirmation"]}
             for v, m in s.items()]
     best = s.get("rxlint_head") or s.get("rxlint_strict")
+    trust = s["omni_trust"]
     headline = [
         {"label": f"false-safe cases, RxLint ({split} fold)", "value": best["false_safe"], "note": "error cases returned as PASS"},
-        {"label": f"false-safe cases when Nano Omni readings are trusted as read", "value": s["omni_trust"]["false_safe"]},
-        {"label": "exact verdict after pharmacist confirmation", "value": f"{best['exact_verdict_after_confirmation'] * 100:.1f}%"},
+        {"label": "exact verdict after pharmacist confirmation", "value": f"{best['exact_verdict_after_confirmation'] * 100:.1f}%",
+         "note": f"{trust['exact_verdict_after_confirmation'] * 100:.1f}% when readings are trusted as read"},
+        {"label": "ambiguous handwritten entries held for confirmation", "value": best["ambiguous_blocked"],
+         "note": f"{trust['ambiguous_blocked']} when readings are trusted as read"},
     ]
+    r = full.get("reliability_head")
+    if r and f"{split}_head_false_accept" in r:
+        headline.append({"label": "wrong high-risk readings past the gate", "value": f"{r[f'{split}_head_false_accept']}/{r[f'{split}_high_risk_readings']}",
+                         "note": f"{r[f'{split}_strict_false_accept']} with OCR corroboration alone"})
     tables = [{"title": f"End-to-end verdicts, {split} fold ({s['oracle']['cases']} cases)",
                "note": "unseen handwriting font, perturbations and product" if split == "test" else "", "columns": cols, "rows": rows}]
     pf = full["perception"].get(split) or full["perception"]["all"]
-    tables.append({"title": "Nemotron 3 Nano Omni field accuracy (exact after RxLint parsing)", "columns": ["Field", "Exact"],
+    tables.append({"title": f"{reader} field accuracy (exact after RxLint parsing)", "columns": ["Field", "Exact"],
                    "rows": [{"Field": k, "Exact": v} for k, v in pf["field_exact"].items()]})
     if full.get("reliability_head"):
         r = full["reliability_head"]
-        tables.append({"title": "Reliability head on high-risk readings", "note": f"threshold {r['threshold']:.3f} set on validation",
-                       "columns": ["Fold", "Readings", "Wrong readings", "Accepted, OCR rule", "False accepts, OCR rule", "Accepted, head", "False accepts, head", "AUC head", "AUC model confidence"],
+        conf = any(r.get(f"auc_{f}_model_confidence") not in (None, 0.5) for f in ("val", "test"))
+        tables.append({"title": "Reliability head on high-risk readings", "note": f"threshold {r['threshold']:.3f} set on validation; the head only adds confirmations and never waives OCR corroboration",
+                       "columns": ["Fold", "Readings", "Wrong readings", "Accepted, OCR rule", "False accepts, OCR rule", "Accepted, OCR rule + head", "False accepts, OCR rule + head", "AUC head", "AUC head on corroborated"]
+                       + (["AUC model confidence"] if conf else []),
                        "rows": [{"Fold": f, "Readings": r.get(f"{f}_high_risk_readings"), "Wrong readings": r.get(f"{f}_high_risk_wrong"),
                                  "Accepted, OCR rule": r.get(f"{f}_strict_accept_rate"), "False accepts, OCR rule": r.get(f"{f}_strict_false_accept"),
-                                 "Accepted, head": r.get(f"{f}_head_accept_rate"), "False accepts, head": r.get(f"{f}_head_false_accept"),
-                                 "AUC head": r.get(f"auc_{f}"), "AUC model confidence": r.get(f"auc_{f}_model_confidence")} for f in ("val", "test")]})
+                                 "Accepted, OCR rule + head": r.get(f"{f}_head_accept_rate"), "False accepts, OCR rule + head": r.get(f"{f}_head_false_accept"),
+                                 "AUC head": r.get(f"auc_{f}"), "AUC head on corroborated": r.get(f"auc_{f}_corroborated"),
+                                 "AUC model confidence": r.get(f"auc_{f}_model_confidence")} for f in ("val", "test")]})
     summary = {"status": "ok", "generated_at": full["generated_at"], "headline": headline, "tables": tables,
-               "description": f"Run {full['run']}: {full['cases']} cases. Perception by Nemotron 3 Nano Omni; every verdict by the deterministic kernel."}
+               "description": f"Run {full['run']}: {full['cases']} cases. Perception by {reader}; every verdict by the deterministic kernel."}
     (out / "summary.json").write_text(json.dumps(summary, indent=1), encoding="utf-8")
 
 

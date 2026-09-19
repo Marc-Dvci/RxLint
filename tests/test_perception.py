@@ -63,3 +63,30 @@ def test_extraction_validation_drops_placeholders_and_foreign_fields():
 def test_parse_json_tolerates_fences_and_reasoning():
     assert parse_json('```json\n{"a": 1}\n```') == {"a": 1}
     assert parse_json("", 'thinking... {"b": {"c": "}"}} done') == {"b": {"c": "}"}}
+
+
+def test_reliability_head_never_waives_corroboration():
+    import io
+
+    from PIL import Image
+
+    from rxlint.core import normalize, rulepack
+    from rxlint.perception import reliability
+
+    if reliability.load_head() is None:
+        return
+    buf = io.BytesIO()
+    Image.new("RGB", (400, 300), "white").save(buf, "JPEG")
+    obs = [{"field": "rx.dose", "text": "2.5 mL", "corroboration": "unconfirmed", "ocr_text": "z.sml", "ocr_score": 0.99,
+            "bbox": [0.1, 0.5, 0.4, 0.55], "grounding": "ocr", "requires_confirmation": True}]
+    n = normalize.Normalizer(rulepack.load_pack())
+    out = reliability.apply(obs, "prescription", {"legibility": "good", "ocr_mean": 0.95}, buf.getvalue(), n)
+    assert out[0]["requires_confirmation"] is True
+
+
+def test_manufacturer_lead_in_is_dropped():
+    from rxlint.core.units import manufacturer_name
+
+    assert manufacturer_name("Manufactured by Solway Medicines") == "Solway Medicines"
+    assert manufacturer_name("Mfd. by: Calder Laboratories") == "Calder Laboratories"
+    assert manufacturer_name("Meridian Generics Ltd.") == "Meridian Generics Ltd."

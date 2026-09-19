@@ -1,4 +1,4 @@
-"""Reading-reliability head: a calibrated LightGBM model on top of Nemotron 3 Nano Omni.
+"""Reading-reliability head: a calibrated LightGBM model on top of the generative readers.
 
 For every reading the model makes, the head estimates the probability that the reading is
 exactly right, from signals the generative model does not see together: its own confidence,
@@ -6,9 +6,10 @@ what an independent OCR reader saw, whether RxLint's grammar can parse the text,
 strength exists in marketed products, how sharp the pixels inside the box are, and whether
 the model's box agrees with the OCR box.
 
-The head only decides whether a high-risk reading may enter the kernel without a person's
-confirmation (policy P-PERC-03). Hard rules still apply first: a reading the OCR reader
-contradicts is never accepted, and the head never touches a clinical rule.
+The head is a second gate on high-risk readings (policy P-PERC-03). A reading still needs OCR
+corroboration first (P-PERC-02); a corroborated reading the head scores below threshold goes to
+the pharmacist for confirmation as well. The head adds confirmations, never removes one, and
+never touches a clinical rule.
 """
 
 from __future__ import annotations
@@ -23,7 +24,7 @@ from typing import Any
 import numpy as np
 
 from ..core.normalize import Normalizer
-from ..core.units import (Unparseable, parse_age_months, parse_dose, parse_duration_days, parse_expiry, parse_frequency,
+from ..core.units import (manufacturer_name, Unparseable, parse_age_months, parse_dose, parse_duration_days, parse_expiry, parse_frequency,
                           parse_lot, parse_strength, parse_volume_ml, parse_weight_kg)
 from .grounding import CORROBORATION_REQUIRED, _confusable_digits, contains_sequence, numbers
 
@@ -58,6 +59,8 @@ def canonical(field: str, text: str, n: Normalizer | None = None) -> str | None:
         return r.value if r.status == "exact" else None
     if field == "rx.indication" and n is not None:
         return n.indication(t).value
+    if field == "dispensed.manufacturer":
+        t = manufacturer_name(t).rstrip(".")
     if field == "dispensed.gtin":
         d = re.sub(r"\D", "", t)
         return d or None
@@ -149,7 +152,10 @@ def calibrate(raw: np.ndarray, meta: dict[str, Any]) -> np.ndarray:
 
 
 def apply(observations: list[dict[str, Any]], kind: str, doc: dict[str, Any], image_bytes: bytes, n: Normalizer) -> list[dict[str, Any]]:
-    """Score each reading and set ``requires_confirmation`` for high-risk fields under P-PERC-03."""
+    """Score each reading and set ``requires_confirmation`` for high-risk fields under P-PERC-03.
+
+    The head adds a requirement and never removes one: a high-risk reading still needs OCR corroboration
+    (P-PERC-02), and a corroborated reading the head scores below threshold goes to the pharmacist as well."""
     head = load_head()
     if head is None:
         return observations
@@ -164,7 +170,7 @@ def apply(observations: list[dict[str, Any]], kind: str, doc: dict[str, Any], im
     for o, pi in zip(observations, p):
         o["p_correct"] = round(float(pi), 4)
         if o["field"] in CORROBORATION_REQUIRED:
-            hard_block = o.get("corroboration") == "contradicted" or not o.get("legible", True)
-            o["requires_confirmation"] = hard_block or pi < t
+            unproven = o.get("corroboration") != "corroborated" or not o.get("legible", True)
+            o["requires_confirmation"] = bool(unproven or o.get("requires_confirmation") or pi < t)
             o["gate"] = "P-PERC-03"
     return observations

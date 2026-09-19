@@ -398,3 +398,11 @@ class Calc:
             "unit": self.unit,
             "steps": self.steps,
         }
+
+
+_MFR_LEAD = re.compile(r"^\s*(?:manufactured|made|mfd\.?|mfg\.?|distributed|marketed|fabriqu[ée]|distribu[ée])\s*(?:for|by|par|pour)?\s*[:\-]?\s*", re.I)
+
+
+def manufacturer_name(text: str) -> str:
+    """The company name from a label line ("Manufactured by Solway Medicines" -> "Solway Medicines")."""
+    return _MFR_LEAD.sub("", text or "").strip().rstrip(",;").strip() or (text or "").strip()

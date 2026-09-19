@@ -1,0 +1,209 @@
+{
+ "status": "ok",
+ "generated_at": "2026-09-19T13:21:46+00:00",
+ "headline": [
+  {
+   "label": "false-safe cases, RxLint (test fold)",
+   "value": "0/80",
+   "note": "error cases returned as PASS"
+  },
+  {
+   "label": "exact verdict after pharmacist confirmation",
+   "value": "95.8%",
+   "note": "90.0% when readings are trusted as read"
+  },
+  {
+   "label": "ambiguous handwritten entries held for confirmation",
+   "value": "8/10",
+   "note": "2/10 when readings are trusted as read"
+  },
+  {
+   "label": "wrong high-risk readings past the gate",
+   "value": "2/566",
+   "note": "5 with OCR corroboration alone"
+  }
+ ],
+ "tables": [
+  {
+   "title": "End-to-end verdicts, test fold (120 cases)",
+   "note": "unseen handwriting font, perturbations and product",
+   "columns": [
+    "System",
+    "False-safe",
+    "False-safe after confirmation",
+    "Review recall",
+    "Exact verdict",
+    "Clean PASS",
+    "Asked to confirm",
+    "Exact after confirmation"
+   ],
+   "rows": [
+    {
+     "System": "Kernel on gold facts",
+     "False-safe": "0/80",
+     "False-safe after confirmation": "0/80",
+     "Review recall": 1.0,
+     "Exact verdict": 1.0,
+     "Clean PASS": 1.0,
+     "Asked to confirm": 0.1667,
+     "Exact after confirmation": 1.0
+    },
+    {
+     "System": "DeepSeek V4.1 Flash + Nemotron 3 Nano readings trusted as read",
+     "False-safe": "0/80",
+     "False-safe after confirmation": "0/80",
+     "Review recall": 0.7333,
+     "Exact verdict": 0.675,
+     "Clean PASS": 0.55,
+     "Asked to confirm": 0.3917,
+     "Exact after confirmation": 0.9
+    },
+    {
+     "System": "RxLint: reader + OCR corroboration",
+     "False-safe": "0/80",
+     "False-safe after confirmation": "0/80",
+     "Review recall": 0.65,
+     "Exact verdict": 0.5917,
+     "Clean PASS": 0.375,
+     "Asked to confirm": 0.5083,
+     "Exact after confirmation": 0.9583
+    },
+    {
+     "System": "RxLint: + reliability head",
+     "False-safe": "0/80",
+     "False-safe after confirmation": "0/80",
+     "Review recall": 0.65,
+     "Exact verdict": 0.5917,
+     "Clean PASS": 0.375,
+     "Asked to confirm": 0.5083,
+     "Exact after confirmation": 0.9583
+    },
+    {
+     "System": "OCR + regex + same kernel",
+     "False-safe": "1/80",
+     "False-safe after confirmation": "1/80",
+     "Review recall": 0.6,
+     "Exact verdict": 0.5583,
+     "Clean PASS": 0.375,
+     "Asked to confirm": 0.4833,
+     "Exact after confirmation": 0.875
+    }
+   ]
+  },
+  {
+   "title": "DeepSeek V4.1 Flash + Nemotron 3 Nano field accuracy (exact after RxLint parsing)",
+   "columns": [
+    "Field",
+    "Exact"
+   ],
+   "rows": [
+    {
+     "Field": "dispensed.drug",
+     "Exact": 0.8167
+    },
+    {
+     "Field": "dispensed.expiry",
+     "Exact": 0.75
+    },
+    {
+     "Field": "dispensed.gtin",
+     "Exact": 0.7333
+    },
+    {
+     "Field": "dispensed.lot",
+     "Exact": 0.7583
+    },
+    {
+     "Field": "dispensed.manufacturer",
+     "Exact": 0.7917
+    },
+    {
+     "Field": "dispensed.strength",
+     "Exact": 0.8
+    },
+    {
+     "Field": "dispensed.volume",
+     "Exact": 0.7297
+    },
+    {
+     "Field": "rx.allergies",
+     "Exact": 0.8
+    },
+    {
+     "Field": "rx.dose",
+     "Exact": 0.7
+    },
+    {
+     "Field": "rx.drug",
+     "Exact": 0.775
+    },
+    {
+     "Field": "rx.duration",
+     "Exact": 0.8
+    },
+    {
+     "Field": "rx.frequency",
+     "Exact": 0.7833
+    },
+    {
+     "Field": "rx.indication",
+     "Exact": 0.8021
+    },
+    {
+     "Field": "rx.patient_age",
+     "Exact": 0.7667
+    },
+    {
+     "Field": "rx.patient_weight",
+     "Exact": 0.725
+    },
+    {
+     "Field": "rx.strength",
+     "Exact": 0.7818
+    }
+   ]
+  },
+  {
+   "title": "Reliability head on high-risk readings",
+   "note": "threshold 0.976 set on validation; the head only adds confirmations and never waives OCR corroboration",
+   "columns": [
+    "Fold",
+    "Readings",
+    "Wrong readings",
+    "Accepted, OCR rule",
+    "False accepts, OCR rule",
+    "Accepted, OCR rule + head",
+    "False accepts, OCR rule + head",
+    "AUC head",
+    "AUC head on corroborated"
+   ],
+   "rows": [
+    {
+     "Fold": "val",
+     "Readings": 315,
+     "Wrong readings": 18,
+     "Accepted, OCR rule": 0.7841,
+     "False accepts, OCR rule": 4,
+     "Accepted, OCR rule + head": 0.7492,
+     "False accepts, OCR rule + head": 1,
+     "AUC head": 0.9787,
+     "AUC head on corroborated": 0.964,
+     "AUC model confidence": 0.5
+    },
+    {
+     "Fold": "test",
+     "Readings": 566,
+     "Wrong readings": 42,
+     "Accepted, OCR rule": 0.8092,
+     "False accepts, OCR rule": 5,
+     "Accepted, OCR rule + head": 0.788,
+     "False accepts, OCR rule + head": 2,
+     "AUC head": 0.9508,
+     "AUC head on corroborated": 0.7987,
+     "AUC model confidence": 0.5
+    }
+   ]
+  }
+ ],
+ "description": "Run tf-deepseek-nemotron-nano: 330 cases. Perception by DeepSeek V4.1 Flash + Nemotron 3 Nano; every verdict by the deterministic kernel."
+}

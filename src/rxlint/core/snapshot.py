@@ -19,6 +19,7 @@ from pydantic import BaseModel, Field
 from .evidence import Evidence, EvidenceGraph, EvidenceKind, SourceRef
 from .normalize import Normalizer
 from .units import (
+    manufacturer_name,
     Unparseable,
     parse_age_months,
     parse_dose,
@@ -357,7 +358,7 @@ class SnapshotBuilder:
             "dispensed.expiry": (parse_expiry, lambda d: d.isoformat()),
             "patient.weight_kg": (parse_weight_kg, dec_render),
             "patient.age_months": (parse_age_months, dec_render),
-            "dispensed.manufacturer": (lambda s: s.strip(), identity),
+            "dispensed.manufacturer": (manufacturer_name, identity),
             "dispensed.product_name": (lambda s: s.strip(), identity),
             "dispensed.gtin": (_parse_gtin, identity),
             "context.country": (lambda s: s.strip().upper()[:2], identity),
