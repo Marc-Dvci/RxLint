@@ -1,0 +1,183 @@
+{
+ "id": "F",
+ "title": "Clean pass",
+ "summary": "Cefalexin for pharyngitis at the WHO weight-band dose. No warnings for the sake of warnings.",
+ "expect": "PASS",
+ "patient": {
+  "patient.weight": "16 kg",
+  "patient.age": "5 years",
+  "patient.allergies": "none",
+  "patient.medications": "paracetamol"
+ },
+ "country": "FR",
+ "dispense_date": "2026-09-19",
+ "tags": [
+  "pass"
+ ],
+ "gold": {
+  "rx": [
+   {
+    "field": "rx.patient_age",
+    "raw": "5 years",
+    "bbox": [
+     0.2585,
+     0.1793,
+     0.3272,
+     0.1951
+    ]
+   },
+   {
+    "field": "rx.patient_weight",
+    "raw": "16 kg",
+    "bbox": [
+     0.2585,
+     0.2148,
+     0.3069,
+     0.2302
+    ]
+   },
+   {
+    "field": "rx.allergies",
+    "raw": "None known",
+    "bbox": [
+     0.2584,
+     0.2494,
+     0.3759,
+     0.2622
+    ]
+   },
+   {
+    "field": "rx.drug",
+    "raw": "Cefalexin oral suspension",
+    "bbox": [
+     0.1892,
+     0.3559,
+     0.5266,
+     0.3772
+    ]
+   },
+   {
+    "field": "rx.strength",
+    "raw": "250 mg/5 mL",
+    "bbox": [
+     0.189,
+     0.3896,
+     0.3383,
+     0.4089
+    ]
+   },
+   {
+    "field": "rx.dose",
+    "raw": "10 mL",
+    "bbox": [
+     0.2953,
+     0.4328,
+     0.3625,
+     0.4476
+    ]
+   },
+   {
+    "field": "rx.frequency",
+    "raw": "every 12 hours",
+    "bbox": [
+     0.3754,
+     0.4333,
+     0.5486,
+     0.4532
+    ]
+   },
+   {
+    "field": "rx.duration",
+    "raw": "5 days",
+    "bbox": [
+     0.2954,
+     0.4673,
+     0.4134,
+     0.4883
+    ]
+   },
+   {
+    "field": "rx.indication",
+    "raw": "Pharyngitis",
+    "bbox": [
+     0.3244,
+     0.5146,
+     0.4592,
+     0.536
+    ]
+   }
+  ],
+  "label": [
+   {
+    "field": "dispensed.drug",
+    "raw": "Cephalexin for Oral Suspension USP",
+    "bbox": [
+     0.1735,
+     0.4367,
+     0.3583,
+     0.4931
+    ]
+   },
+   {
+    "field": "dispensed.strength",
+    "raw": "250 mg/5 mL",
+    "bbox": [
+     0.1756,
+     0.5256,
+     0.3553,
+     0.5611
+    ]
+   },
+   {
+    "field": "dispensed.volume",
+    "raw": "100 mL (when mixed)",
+    "bbox": [
+     0.1685,
+     0.5877,
+     0.3249,
+     0.6093
+    ]
+   },
+   {
+    "field": "dispensed.lot",
+    "raw": "LOT C77120",
+    "bbox": [
+     0.5994,
+     0.4691,
+     0.7202,
+     0.4858
+    ]
+   },
+   {
+    "field": "dispensed.expiry",
+    "raw": "EXP 02/2028",
+    "bbox": [
+     0.5992,
+     0.5046,
+     0.7316,
+     0.525
+    ]
+   },
+   {
+    "field": "dispensed.gtin",
+    "raw": "05012345678900",
+    "bbox": [
+     0.5988,
+     0.6088,
+     0.7207,
+     0.6222
+    ]
+   },
+   {
+    "field": "dispensed.manufacturer",
+    "raw": "Aster Health Products",
+    "bbox": [
+     0.1629,
+     0.7187,
+     0.4128,
+     0.7407
+    ]
+   }
+  ]
+ }
+}

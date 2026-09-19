@@ -1,0 +1,73 @@
+- id: RX-PRODUCT-001
+  version: 1.0.0
+  title: Dispensed active ingredients match the prescription
+  type: identity_match
+  severity: critical
+  requires: [rx.product, dispensed.product]
+  source:
+    ref: PACK
+    locator: product reconciliation
+  explain: The set of active ingredients on the medicine must equal the set on the prescription.
+
+- id: RX-PRODUCT-002
+  version: 1.0.0
+  title: Dispensed dosage form matches the prescription
+  type: form_match
+  severity: high
+  requires: [rx.dosage_form, dispensed.dosage_form]
+  source:
+    ref: PACK
+    locator: product reconciliation
+  explain: A liquid prescribed in mL cannot be given from tablets or capsules without a new instruction.
+
+- id: RX-PRODUCT-003
+  version: 1.1.0
+  title: Dispensed concentration matches the prescribed concentration
+  type: concentration_match
+  severity: critical
+  requires: [rx.strength, dispensed.strength]
+  source:
+    ref: PACK
+    locator: product reconciliation
+  explain: >
+    Every active component must have the same amount per mL. The same volume from a different
+    concentration delivers a different dose.
+
+- id: RX-PRODUCT-004
+  version: 1.0.0
+  title: A volume dose states the concentration it was written for
+  type: volume_needs_strength
+  severity: cannot_verify
+  requires: [rx.dose]
+  source:
+    ref: PACK
+    locator: prescription completeness
+  explain: >
+    "5 mL" of an antibiotic liquid means different doses at 125, 250 or 400 mg per 5 mL. Without
+    the prescribed concentration the intended dose cannot be recovered.
+
+- id: RX-PRODUCT-005
+  version: 1.0.0
+  title: Medicine is in date for the whole course
+  type: expiry
+  severity: critical
+  requires: [dispensed.expiry, context.dispense_date]
+  params: {course_end_severity: moderate}
+  source:
+    ref: PACK
+    locator: dispensing checks
+  explain: >
+    An expired product is CRITICAL. A product that expires before the last dose of the course is
+    MODERATE.
+
+- id: RX-PRODUCT-006
+  version: 1.0.0
+  title: Supplied volume covers the prescribed course
+  type: quantity
+  severity: moderate
+  requires: [rx.dose, rx.frequency, rx.duration_days, dispensed.volume_ml]
+  params: {policy: P-QTY-01}
+  source:
+    ref: PACK
+    locator: P-QTY-01
+  explain: Dose volume x doses per day x days must fit in the supplied volume.

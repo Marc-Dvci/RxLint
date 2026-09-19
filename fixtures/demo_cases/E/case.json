@@ -1,0 +1,184 @@
+{
+ "id": "E",
+ "title": "French prescription, long course",
+ "summary": "Ordonnance en français: 10 jours pour une otite, where WHO gives 5 days.",
+ "expect": "REVIEW",
+ "patient": {
+  "patient.weight": "9.5 kg",
+  "patient.age": "14 months",
+  "patient.allergies": "none",
+  "patient.medications": "none"
+ },
+ "country": "FR",
+ "dispense_date": "2026-09-19",
+ "tags": [
+  "multilingual",
+  "stewardship"
+ ],
+ "gold": {
+  "rx": [
+   {
+    "field": "rx.patient_age",
+    "raw": "14 mois",
+    "bbox": [
+     0.2521,
+     0.2851,
+     0.3263,
+     0.2993
+    ]
+   },
+   {
+    "field": "rx.patient_weight",
+    "raw": "9,5 kg",
+    "bbox": [
+     0.254,
+     0.3233,
+     0.3143,
+     0.3406
+    ]
+   },
+   {
+    "field": "rx.allergies",
+    "raw": "Aucune connue",
+    "bbox": [
+     0.2559,
+     0.3613,
+     0.4088,
+     0.3768
+    ]
+   },
+   {
+    "field": "rx.drug",
+    "raw": "Amoxicilline/acide clavulanique suspension buvable",
+    "bbox": [
+     0.1911,
+     0.4698,
+     0.8581,
+     0.5034
+    ]
+   },
+   {
+    "field": "rx.strength",
+    "raw": "400 mg/57 mg pour 5 mL",
+    "bbox": [
+     0.1932,
+     0.505,
+     0.4792,
+     0.5287
+    ]
+   },
+   {
+    "field": "rx.dose",
+    "raw": "5 mL",
+    "bbox": [
+     0.3025,
+     0.5497,
+     0.3584,
+     0.5648
+    ]
+   },
+   {
+    "field": "rx.frequency",
+    "raw": "2 fois par jour",
+    "bbox": [
+     0.3705,
+     0.5496,
+     0.5289,
+     0.5714
+    ]
+   },
+   {
+    "field": "rx.duration",
+    "raw": "10 jours",
+    "bbox": [
+     0.3041,
+     0.5843,
+     0.4934,
+     0.6056
+    ]
+   },
+   {
+    "field": "rx.indication",
+    "raw": "Otite moyenne aiguë",
+    "bbox": [
+     0.3344,
+     0.6296,
+     0.5711,
+     0.6512
+    ]
+   }
+  ],
+  "label": [
+   {
+    "field": "dispensed.drug",
+    "raw": "Amoxicillin and Clavulanate Potassium for Oral Suspension USP",
+    "bbox": [
+     0.168,
+     0.4165,
+     0.6793,
+     0.4724
+    ]
+   },
+   {
+    "field": "dispensed.strength",
+    "raw": "400 mg/57 mg per 5 mL",
+    "bbox": [
+     0.1725,
+     0.5069,
+     0.5518,
+     0.5452
+    ]
+   },
+   {
+    "field": "dispensed.volume",
+    "raw": "140 mL (when reconstituted)",
+    "bbox": [
+     0.1672,
+     0.5734,
+     0.4003,
+     0.5958
+    ]
+   },
+   {
+    "field": "dispensed.lot",
+    "raw": "LOT K6230",
+    "bbox": [
+     0.5992,
+     0.4474,
+     0.7162,
+     0.4642
+    ]
+   },
+   {
+    "field": "dispensed.expiry",
+    "raw": "EXP 03/2027",
+    "bbox": [
+     0.6,
+     0.4854,
+     0.733,
+     0.5059
+    ]
+   },
+   {
+    "field": "dispensed.gtin",
+    "raw": "05012345678900",
+    "bbox": [
+     0.6024,
+     0.5966,
+     0.7253,
+     0.6095
+    ]
+   },
+   {
+    "field": "dispensed.manufacturer",
+    "raw": "Meridian Generics Ltd.",
+    "bbox": [
+     0.1662,
+     0.7181,
+     0.4205,
+     0.7387
+    ]
+   }
+  ]
+ }
+}

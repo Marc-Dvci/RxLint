@@ -1,0 +1,174 @@
+{
+ "id": "G",
+ "title": "Live regulator alert",
+ "summary": "The installed rules pass. The live plane finds FDA recall D-0151-2026 for this exact lot.",
+ "expect": "PASS",
+ "patient": {
+  "patient.weight": "8 kg",
+  "patient.age": "11 months",
+  "patient.allergies": "none",
+  "patient.medications": "none"
+ },
+ "country": "US",
+ "dispense_date": "2025-11-20",
+ "tags": [
+  "live",
+  "tavily"
+ ],
+ "gold": {
+  "rx": [
+   {
+    "field": "rx.patient_age",
+    "raw": "11 months",
+    "bbox": [
+     0.2772,
+     0.2368,
+     0.3659,
+     0.2473
+    ]
+   },
+   {
+    "field": "rx.patient_weight",
+    "raw": "8 kg",
+    "bbox": [
+     0.2753,
+     0.268,
+     0.3154,
+     0.2812
+    ]
+   },
+   {
+    "field": "rx.allergies",
+    "raw": "None known",
+    "bbox": [
+     0.2738,
+     0.2992,
+     0.3882,
+     0.3097
+    ]
+   },
+   {
+    "field": "rx.drug",
+    "raw": "Amoxicillin/clavulanate oral suspension",
+    "bbox": [
+     0.2011,
+     0.3916,
+     0.7151,
+     0.4172
+    ]
+   },
+   {
+    "field": "rx.strength",
+    "raw": "200 mg/28.5 mg per 5 mL",
+    "bbox": [
+     0.1992,
+     0.4221,
+     0.4891,
+     0.4434
+    ]
+   },
+   {
+    "field": "rx.dose",
+    "raw": "9.4 mL",
+    "bbox": [
+     0.3009,
+     0.4619,
+     0.3804,
+     0.4763
+    ]
+   },
+   {
+    "field": "rx.frequency",
+    "raw": "twice daily",
+    "bbox": [
+     0.3926,
+     0.4631,
+     0.5195,
+     0.4828
+    ]
+   },
+   {
+    "field": "rx.duration",
+    "raw": "5 days",
+    "bbox": [
+     0.2991,
+     0.4929,
+     0.415,
+     0.5133
+    ]
+   },
+   {
+    "field": "rx.indication",
+    "raw": "Acute otitis media",
+    "bbox": [
+     0.3255,
+     0.5359,
+     0.5425,
+     0.5556
+    ]
+   }
+  ],
+  "label": [
+   {
+    "field": "dispensed.drug",
+    "raw": "Amoxicillin and Clavulanate Potassium for Oral Suspension USP",
+    "bbox": [
+     0.1805,
+     0.4561,
+     0.7039,
+     0.5106
+    ]
+   },
+   {
+    "field": "dispensed.strength",
+    "raw": "200 mg/28.5 mg per 5 mL",
+    "bbox": [
+     0.1876,
+     0.544,
+     0.6164,
+     0.583
+    ]
+   },
+   {
+    "field": "dispensed.volume",
+    "raw": "100 mL (when reconstituted)",
+    "bbox": [
+     0.1832,
+     0.6113,
+     0.4308,
+     0.6347
+    ]
+   },
+   {
+    "field": "dispensed.lot",
+    "raw": "LOT 100062316",
+    "bbox": [
+     0.6273,
+     0.4835,
+     0.7734,
+     0.4994
+    ]
+   },
+   {
+    "field": "dispensed.expiry",
+    "raw": "EXP 01/2026",
+    "bbox": [
+     0.6283,
+     0.519,
+     0.7516,
+     0.5384
+    ]
+   },
+   {
+    "field": "dispensed.gtin",
+    "raw": "05012345678900",
+    "bbox": [
+     0.631,
+     0.6222,
+     0.7468,
+     0.6348
+    ]
+   }
+  ]
+ }
+}

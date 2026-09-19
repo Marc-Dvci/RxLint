@@ -1,0 +1,46 @@
+# Reviewed regulator-source policies. Trust is decided here, before any search runs.
+# Tavily is called with include_domains set to the listed domains, and every returned URL is
+# checked against the same list again before it is used.
+version: fr-us-gb-ke-ng-int-v1
+international:
+  - {authority: WHO, domains: [who.int], lang: en}
+countries:
+  US:
+    name: United States
+    authorities:
+      - {authority: FDA, domains: [fda.gov], lang: en}
+    structured_feeds: [openfda_enforcement]
+  FR:
+    name: France
+    authorities:
+      - {authority: ANSM, domains: [ansm.sante.fr], lang: fr}
+      - {authority: EMA, domains: [ema.europa.eu], lang: en}
+  GB:
+    name: United Kingdom
+    authorities:
+      - {authority: MHRA, domains: [gov.uk], lang: en, query_prefix: "MHRA"}
+  KE:
+    name: Kenya
+    authorities:
+      - {authority: PPB, domains: [pharmacyboardkenya.org, web.pharmacyboardkenya.org], lang: en}
+  NG:
+    name: Nigeria
+    authorities:
+      - {authority: NAFDAC, domains: [nafdac.gov.ng], lang: en}
+
+templates:
+  en:
+    recall_lot: "{product} {lot} recall"
+    recall: "{product} oral suspension recall"
+    safety: "{ingredient} safety communication"
+  fr:
+    recall_lot: "{product} lot {lot} rappel"
+    recall: "{product} suspension buvable rappel de lot"
+    safety: "{ingredient} information de sécurité"
+
+recall_words:
+  en: [recall, recalled, recalling, withdrawal, withdrawn, "drug alert", "enforcement report", "field safety notice", quarantine]
+  fr: [rappel, retrait, "information de sécurité", quarantaine]
+safety_words:
+  en: ["safety communication", "drug safety", "safety alert", "boxed warning", "safety information"]
+  fr: ["information de sécurité", "lettre aux professionnels", "alerte"]

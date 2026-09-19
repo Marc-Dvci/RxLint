@@ -1,0 +1,130 @@
+# Treatment durations for children, transcribed from the WHO AWaRe infection chapters.
+# A duration rule runs only when the indication is supplied and matches one below.
+indications:
+  acute_otitis_media: {display: Acute otitis media, aliases: [acute otitis media, otitis media, aom, ear infection, otite moyenne aiguë, otite, oma]}
+  pharyngitis: {display: Pharyngitis, aliases: [pharyngitis, strep throat, streptococcal pharyngitis, sore throat, tonsillitis, angine, pharyngite]}
+  acute_sinusitis: {display: Acute sinusitis, aliases: [acute sinusitis, sinusitis, bacterial sinusitis, sinusite]}
+  cap_mild: {display: Community-acquired pneumonia (mild), aliases: [community-acquired pneumonia, cap, pneumonia, mild pneumonia, pneumonie, pneumopathie]}
+  uti_lower: {display: Lower urinary tract infection, aliases: [lower urinary tract infection, uti, lower uti, cystitis, urinary tract infection, cystite, infection urinaire basse]}
+  ssti_mild: {display: Mild skin and soft tissue infection, aliases: [impetigo, cellulitis, erysipelas, skin infection, ssti, mild skin infection, impétigo, cellulite]}
+
+rules:
+- id: AWARE-DUR-AOM
+  version: 1.0.0
+  title: Duration for acute otitis media
+  type: duration_allowed
+  severity: moderate
+  indication: acute_otitis_media
+  requires: [rx.duration_days, rx.indication]
+  params:
+    by_product:
+      amoxicillin: {days: [5]}
+      amoxicillin+clavulanic_acid: {days: [5]}
+  source:
+    ref: WHO-AWARE-2022
+    locator: {printed_page: 44, pdf_page: 60, table: "5.3"}
+    quote: "≥ 20 kg: 500 mg given every 8 hours or 1 g given every 12 hours 5 days"
+
+- id: AWARE-DUR-PHARYNGITIS
+  version: 1.0.0
+  title: Duration for streptococcal pharyngitis
+  type: duration_allowed
+  severity: moderate
+  indication: pharyngitis
+  requires: [rx.duration_days, rx.indication]
+  params:
+    by_product:
+      amoxicillin: {days: [5, 10]}
+      phenoxymethylpenicillin: {days: [5, 10]}
+      cefalexin: {days: [5]}
+      clarithromycin: {days: [5]}
+  source:
+    ref: WHO-AWARE-2022
+    locator: {printed_page: 58, pdf_page: 74, table: "6.5"}
+    quote: "5b or 10c days depending on the local prevalence or previous history of rheumatic fever"
+  related_sources:
+    - ref: WHO-AWARE-2022
+      locator: {printed_page: 59, pdf_page: 75, table: "6.5 continued"}
+      quote: "Clarithromycin d (oral): 7.5 mg/kg/dose given every 12 hours 5 days"
+
+- id: AWARE-DUR-SINUSITIS
+  version: 1.0.0
+  title: Duration for acute bacterial sinusitis
+  type: duration_allowed
+  severity: moderate
+  indication: acute_sinusitis
+  requires: [rx.duration_days, rx.indication]
+  params:
+    by_product:
+      amoxicillin: {days: [5]}
+      amoxicillin+clavulanic_acid: {days: [5]}
+  source:
+    ref: WHO-AWARE-2022
+    locator: {printed_page: 71, pdf_page: 87, table: "7.3"}
+    quote: "1 g of amoxicillin/dose given every 12 hours 5 days"
+
+- id: AWARE-DUR-CAP
+  version: 1.0.0
+  title: Duration for mild community-acquired pneumonia in children
+  type: duration_allowed
+  severity: moderate
+  indication: cap_mild
+  requires: [rx.duration_days, rx.indication]
+  params:
+    by_product:
+      amoxicillin: {days: [3, 5]}
+  source:
+    ref: WHO-AWARE-2022
+    locator: {printed_page: 161, pdf_page: 177, table: "12.5"}
+    quote:
+      - "3 days for children in areas of low HIV prevalence and no chest indrawing"
+      - "5 days if the child has chest indrawing or lives in region of higher HIV prevalence"
+
+- id: AWARE-DUR-UTI
+  version: 1.0.0
+  title: Duration for lower urinary tract infection in children
+  type: duration_allowed
+  severity: moderate
+  indication: uti_lower
+  requires: [rx.duration_days, rx.indication]
+  params:
+    by_product:
+      amoxicillin+clavulanic_acid: {days_range: [3, 5]}
+      sulfamethoxazole+trimethoprim: {days: [3]}
+  source:
+    ref: WHO-AWARE-2022
+    locator: {printed_page: 290, pdf_page: 306, table: "23.5"}
+    quote: "1 g of amoxicillin/dose given every 12 hours 3–5 days"
+  related_sources:
+    - ref: WHO-AWARE-2022
+      locator: {printed_page: 291, pdf_page: 307, table: "23.5 continued"}
+      quote: "10–< 30 kg: 400 mg/80 mg given every 12 hours ≥ 30 kg: use adult dose 3 days"
+
+- id: AWARE-DUR-SSTI
+  version: 1.0.0
+  title: Duration for mild skin and soft tissue infection
+  type: duration_allowed
+  severity: moderate
+  indication: ssti_mild
+  requires: [rx.duration_days, rx.indication]
+  params:
+    by_product:
+      amoxicillin+clavulanic_acid: {days: [5]}
+      cefalexin: {days: [5]}
+  source:
+    ref: WHO-AWARE-2022
+    locator: {printed_page: 204, pdf_page: 220, table: "16.4"}
+    quote: "1 g of amoxicillin/dose given every 12 hours OR 5 daysd"
+
+- id: AWARE-IND-001
+  version: 1.0.0
+  title: Product is a WHO AWaRe option for the stated indication
+  type: indication_option
+  severity: advisory
+  requires: [rx.indication, rx.product]
+  source:
+    ref: PACK
+    locator: product lists of the AWARE-DUR-* rules (WHO AWaRe chapters 5, 6, 7, 12, 16, 23)
+  explain: >
+    Informational stewardship note. RxLint does not choose antibiotics; it notes when the
+    dispensed product is not among the options WHO lists for the stated indication.

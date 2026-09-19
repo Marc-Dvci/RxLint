@@ -1,0 +1,127 @@
+- id: RX-ALLERGY-000
+  version: 1.0.0
+  title: Every reported allergy is recognised
+  type: allergy_recognised
+  severity: cannot_verify
+  requires: [patient.allergies]
+  source:
+    ref: PACK
+    locator: formulary.yaml allergens
+  explain: >
+    An allergy that does not match a known allergen term cannot be checked. RxLint asks for
+    confirmation rather than guess what it refers to.
+
+- id: RX-ALLERGY-001
+  version: 1.0.0
+  title: Penicillin allergy and a penicillin-class product
+  type: allergy_contraindication
+  severity: critical
+  requires: [patient.allergies, dispensed.product]
+  params: {allergy_classes: [penicillin, beta_lactam], product_classes: [penicillin]}
+  source:
+    ref: FDA-LABEL-PENICILLIN-V
+    locator: {section: CONTRAINDICATIONS}
+    quote: "A previous hypersensitivity reaction to any penicillin is a contraindication."
+  related_sources:
+    - ref: FDA-LABEL-AMOXICILLIN
+      locator: {section: "4 CONTRAINDICATIONS"}
+      quote: "History of a serious hypersensitivity reaction (e.g., anaphylaxis or Stevens-Johnson syndrome) to amoxicillin tablets or to other beta-lactams (e.g., penicillins or cephalosporins)."
+
+- id: RX-ALLERGY-002
+  version: 1.0.0
+  title: Cephalosporin allergy and a cephalosporin
+  type: allergy_contraindication
+  severity: critical
+  requires: [patient.allergies, dispensed.product]
+  params: {allergy_classes: [cephalosporin, beta_lactam], product_classes: [cephalosporin]}
+  source:
+    ref: FDA-LABEL-CEPHALEXIN
+    locator: {section: "4 CONTRAINDICATIONS"}
+    quote: "Cephalexin capsules are contraindicated in patients with known hypersensitivity to cephalexin or other members of the cephalosporin class of antibacterial drugs."
+
+- id: RX-ALLERGY-003
+  version: 1.0.0
+  title: Penicillin allergy and a cephalosporin (cross-hypersensitivity)
+  type: allergy_contraindication
+  severity: high
+  requires: [patient.allergies, dispensed.product]
+  params: {allergy_classes: [penicillin], product_classes: [cephalosporin]}
+  source:
+    ref: FDA-LABEL-CEPHALEXIN
+    locator: {section: "5.1 Hypersensitivity Reactions"}
+    quote: "Cross-hypersensitivity among beta-lactam antibacterial drugs may occur in up to 10% of patients with a history of penicillin allergy."
+
+- id: RX-ALLERGY-004
+  version: 1.0.0
+  title: Cephalosporin allergy and a penicillin-class product
+  type: allergy_contraindication
+  severity: critical
+  requires: [patient.allergies, dispensed.product]
+  params: {allergy_classes: [cephalosporin], product_classes: [penicillin]}
+  source:
+    ref: FDA-LABEL-AMOXICILLIN
+    locator: {section: "4 CONTRAINDICATIONS"}
+    quote: "Amoxicillin tablets are contraindicated in patients who have experienced a serious hypersensitivity reaction (e.g., anaphylaxis or Stevens-Johnson syndrome) to amoxicillin tablets or to other β-lactam antibacterial drugs (e.g., penicillins and cephalosporins)."
+
+- id: RX-ALLERGY-005
+  version: 1.0.0
+  title: Macrolide allergy and a macrolide
+  type: allergy_contraindication
+  severity: critical
+  requires: [patient.allergies, dispensed.product]
+  params: {allergy_classes: [macrolide], product_classes: [macrolide]}
+  source:
+    ref: FDA-LABEL-AZITHROMYCIN
+    locator: {section: "4 CONTRAINDICATIONS"}
+    quote: "Patients with known hypersensitivity to azithromycin, erythromycin, any macrolide or ketolide drug."
+  related_sources:
+    - ref: FDA-LABEL-CLARITHROMYCIN
+      locator: {section: "4.1 Hypersensitivity"}
+      quote: "Clarithromycin tablets are contraindicated in patients with a known hypersensitivity to clarithromycin, erythromycin, or any of the macrolide antibacterial drugs"
+
+- id: RX-ALLERGY-006
+  version: 1.0.0
+  title: Sulfonamide or trimethoprim allergy and co-trimoxazole
+  type: allergy_contraindication
+  severity: critical
+  requires: [patient.allergies, dispensed.product]
+  params: {allergy_classes: [sulfonamide, trimethoprim], product_classes: [sulfonamide, trimethoprim]}
+  source:
+    ref: FDA-LABEL-SMX-TMP
+    locator: {section: CONTRAINDICATIONS}
+    quote: "Sulfamethoxazole and trimethoprim tablets are contraindicated in patients with a known hypersensitivity to trimethoprim or sulfonamides"
+
+- id: RX-SXT-AGE-001
+  version: 1.0.0
+  title: Co-trimoxazole under 2 months of age
+  type: min_age
+  severity: critical
+  applies_to: {product: sulfamethoxazole+trimethoprim}
+  requires: [patient.age_months]
+  params: {min_months: 2}
+  source:
+    ref: FDA-LABEL-SMX-TMP
+    locator: {section: CONTRAINDICATIONS}
+    quote: "Sulfamethoxazole and trimethoprim tablets are contraindicated in pediatric patients less than 2 months of age."
+
+- id: RX-DUP-001
+  version: 1.0.0
+  title: No duplicate active ingredient in current medicines
+  type: duplicate_ingredient
+  severity: high
+  requires: [dispensed.product]
+  source:
+    ref: PACK
+    locator: duplicate therapy
+  explain: A current medicine that contains the same active ingredient doubles the exposure.
+
+- id: RX-DUP-002
+  version: 1.0.0
+  title: No second antibiotic of the same class in current medicines
+  type: duplicate_class
+  severity: moderate
+  requires: [dispensed.product]
+  params: {classes: [penicillin, cephalosporin, macrolide, sulfonamide]}
+  source:
+    ref: PACK
+    locator: duplicate therapy

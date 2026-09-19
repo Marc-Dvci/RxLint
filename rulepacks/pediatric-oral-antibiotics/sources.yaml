@@ -1,0 +1,110 @@
+WHO-AWARE-2022:
+  title: The WHO AWaRe (Access, Watch, Reserve) antibiotic book
+  publisher: World Health Organization
+  edition: "2022"
+  isbn: 978-92-4-006238-2
+  url: https://www.who.int/publications/i/item/9789240062382
+  document_url: https://iris.who.int/server/api/core/bitstreams/61517f8b-3a34-413c-ae36-67a059ebe485/content
+  license: CC BY-NC-SA 3.0 IGO
+  reviewed_at: "2026-09-19"
+  reviewed_sha256: 4960ecc4fa5bab8281feda656a0da3176dafa1fd21971d87e3b2092d7dac562f
+  page_text: sources/who-aware-2022-pages.json
+  notes: >
+    The reviewed electronic file incorporates the corrigendum of 22 April 2024 (Table 50.1,
+    printed page 652). Locators give the printed page number and the PDF page index.
+  reviewed_documents:
+    - title: The WHO AWaRe (Access, Watch, Reserve) antibiotic book
+      date: "2022-12-09"
+    - title: Corrigenda (22 April 2024)
+      date: "2024-04-22"
+  monitoring:
+    authority: WHO
+    domains: [who.int]
+    publication_page: https://www.who.int/publications/i/item/9789240062382
+    topics:
+      - id: pneumonia-children
+        query: WHO guideline management of pneumonia in children amoxicillin
+        rules: [AWARE-DUR-CAP, AWARE-AMX-PED-001]
+      - id: pediatric-antibiotic-dosing
+        query: WHO AWaRe antibiotic book update children oral antibiotic dosing
+        rules: [AWARE-AMX-PED-001, AWARE-AMC-PED-001, AWARE-CFX-PED-001, AWARE-AZM-PED-001, AWARE-CLR-PED-001, AWARE-PEN-PED-001, AWARE-SXT-PED-001]
+      - id: pharyngitis-otitis
+        query: WHO guidance streptococcal pharyngitis acute otitis media children antibiotic duration
+        rules: [AWARE-DUR-PHARYNGITIS, AWARE-DUR-AOM]
+
+FDA-LABEL-AMOXICILLIN:
+  title: Amoxicillin prescribing information (Structured Product Label)
+  publisher: U.S. Food and Drug Administration / National Library of Medicine (via openFDA)
+  set_id: 00fbd46e-05fd-4f8a-9f59-a7a4d01c8e54
+  label_version: "14"
+  effective_time: "20231218"
+  url: https://dailymed.nlm.nih.gov/dailymed/lookup.cfm?setid=00fbd46e-05fd-4f8a-9f59-a7a4d01c8e54
+  license: Public domain (U.S. Government work)
+  page_text: sources/fda-labels.json
+  reviewed_at: "2026-09-19"
+
+FDA-LABEL-AMOXICILLIN-CLAVULANATE:
+  title: Amoxicillin and clavulanate potassium for oral suspension prescribing information
+  publisher: U.S. Food and Drug Administration / National Library of Medicine (via openFDA)
+  set_id: 00b86913-50c8-443f-8467-f4f499d358af
+  label_version: "2"
+  effective_time: "20260723"
+  url: https://dailymed.nlm.nih.gov/dailymed/lookup.cfm?setid=00b86913-50c8-443f-8467-f4f499d358af
+  license: Public domain (U.S. Government work)
+  page_text: sources/fda-labels.json
+  reviewed_at: "2026-09-19"
+
+FDA-LABEL-CEPHALEXIN:
+  title: Cephalexin prescribing information
+  publisher: U.S. Food and Drug Administration / National Library of Medicine (via openFDA)
+  set_id: 02b5cd6f-3df8-43c1-879d-217fcf55231a
+  label_version: "16"
+  effective_time: "20250211"
+  url: https://dailymed.nlm.nih.gov/dailymed/lookup.cfm?setid=02b5cd6f-3df8-43c1-879d-217fcf55231a
+  license: Public domain (U.S. Government work)
+  page_text: sources/fda-labels.json
+  reviewed_at: "2026-09-19"
+
+FDA-LABEL-AZITHROMYCIN:
+  title: Azithromycin prescribing information
+  publisher: U.S. Food and Drug Administration / National Library of Medicine (via openFDA)
+  set_id: 003307c5-3f73-4a5d-a704-bfdea3c656e8
+  label_version: "7"
+  effective_time: "20260316"
+  url: https://dailymed.nlm.nih.gov/dailymed/lookup.cfm?setid=003307c5-3f73-4a5d-a704-bfdea3c656e8
+  license: Public domain (U.S. Government work)
+  page_text: sources/fda-labels.json
+  reviewed_at: "2026-09-19"
+
+FDA-LABEL-CLARITHROMYCIN:
+  title: Clarithromycin prescribing information
+  publisher: U.S. Food and Drug Administration / National Library of Medicine (via openFDA)
+  set_id: 0be243c6-de02-45dd-8210-cab1bbc8dfa7
+  label_version: "29"
+  effective_time: "20251015"
+  url: https://dailymed.nlm.nih.gov/dailymed/lookup.cfm?setid=0be243c6-de02-45dd-8210-cab1bbc8dfa7
+  license: Public domain (U.S. Government work)
+  page_text: sources/fda-labels.json
+  reviewed_at: "2026-09-19"
+
+FDA-LABEL-PENICILLIN-V:
+  title: Penicillin V potassium prescribing information
+  publisher: U.S. Food and Drug Administration / National Library of Medicine (via openFDA)
+  set_id: 0151c742-7525-4707-af03-bd48d50cd586
+  label_version: "14"
+  effective_time: "20251015"
+  url: https://dailymed.nlm.nih.gov/dailymed/lookup.cfm?setid=0151c742-7525-4707-af03-bd48d50cd586
+  license: Public domain (U.S. Government work)
+  page_text: sources/fda-labels.json
+  reviewed_at: "2026-09-19"
+
+FDA-LABEL-SMX-TMP:
+  title: Sulfamethoxazole and trimethoprim prescribing information
+  publisher: U.S. Food and Drug Administration / National Library of Medicine (via openFDA)
+  set_id: 079c828c-148f-45b9-966e-d8906043b2a2
+  label_version: "12"
+  effective_time: "20241217"
+  url: https://dailymed.nlm.nih.gov/dailymed/lookup.cfm?setid=079c828c-148f-45b9-966e-d8906043b2a2
+  license: Public domain (U.S. Government work)
+  page_text: sources/fda-labels.json
+  reviewed_at: "2026-09-19"

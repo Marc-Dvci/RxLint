@@ -1,0 +1,183 @@
+{
+ "id": "D",
+ "title": "Ambiguous handwriting",
+ "summary": "The dose is overwritten: 2.5 or 7.5 mL. RxLint asks instead of guessing.",
+ "expect": "CANNOT_VERIFY",
+ "patient": {
+  "patient.weight": "6.5 kg",
+  "patient.age": "7 months",
+  "patient.allergies": "none",
+  "patient.medications": "none"
+ },
+ "country": "FR",
+ "dispense_date": "2026-09-19",
+ "tags": [
+  "uncertainty"
+ ],
+ "gold": {
+  "rx": [
+   {
+    "field": "rx.patient_age",
+    "raw": "7 months",
+    "bbox": [
+     0.2799,
+     0.215,
+     0.3868,
+     0.2363
+    ]
+   },
+   {
+    "field": "rx.patient_weight",
+    "raw": "6.5 kg",
+    "bbox": [
+     0.2783,
+     0.2502,
+     0.3464,
+     0.2748
+    ]
+   },
+   {
+    "field": "rx.allergies",
+    "raw": "None known",
+    "bbox": [
+     0.2769,
+     0.2809,
+     0.4131,
+     0.3072
+    ]
+   },
+   {
+    "field": "rx.drug",
+    "raw": "Amoxicillin oral suspension",
+    "bbox": [
+     0.2007,
+     0.3769,
+     0.5776,
+     0.4229
+    ]
+   },
+   {
+    "field": "rx.strength",
+    "raw": "250 mg/5 mL",
+    "bbox": [
+     0.213,
+     0.4314,
+     0.4079,
+     0.4691
+    ]
+   },
+   {
+    "field": "rx.dose",
+    "raw": "2.5 mL | 7.5 mL",
+    "bbox": [
+     0.307,
+     0.4784,
+     0.402,
+     0.5037
+    ]
+   },
+   {
+    "field": "rx.frequency",
+    "raw": "twice daily",
+    "bbox": [
+     0.4147,
+     0.4731,
+     0.5611,
+     0.5045
+    ]
+   },
+   {
+    "field": "rx.duration",
+    "raw": "5 days",
+    "bbox": [
+     0.3053,
+     0.5171,
+     0.4473,
+     0.5482
+    ]
+   },
+   {
+    "field": "rx.indication",
+    "raw": "Acute otitis media",
+    "bbox": [
+     0.3334,
+     0.5609,
+     0.5826,
+     0.5925
+    ]
+   }
+  ],
+  "label": [
+   {
+    "field": "dispensed.drug",
+    "raw": "Amoxicillin for Oral Suspension USP",
+    "bbox": [
+     0.171,
+     0.4933,
+     0.3591,
+     0.5482
+    ]
+   },
+   {
+    "field": "dispensed.strength",
+    "raw": "250 mg/5 mL",
+    "bbox": [
+     0.1797,
+     0.5838,
+     0.3605,
+     0.6192
+    ]
+   },
+   {
+    "field": "dispensed.volume",
+    "raw": "100 mL (when reconstituted)",
+    "bbox": [
+     0.1774,
+     0.6491,
+     0.4064,
+     0.6696
+    ]
+   },
+   {
+    "field": "dispensed.lot",
+    "raw": "LOT A18840",
+    "bbox": [
+     0.5958,
+     0.5269,
+     0.7148,
+     0.5438
+    ]
+   },
+   {
+    "field": "dispensed.expiry",
+    "raw": "EXP 06/2027",
+    "bbox": [
+     0.5963,
+     0.5637,
+     0.7204,
+     0.5836
+    ]
+   },
+   {
+    "field": "dispensed.gtin",
+    "raw": "05012345678900",
+    "bbox": [
+     0.5977,
+     0.6693,
+     0.7111,
+     0.6807
+    ]
+   },
+   {
+    "field": "dispensed.manufacturer",
+    "raw": "Northwind Pharma",
+    "bbox": [
+     0.183,
+     0.7872,
+     0.3993,
+     0.8025
+    ]
+   }
+  ]
+ }
+}

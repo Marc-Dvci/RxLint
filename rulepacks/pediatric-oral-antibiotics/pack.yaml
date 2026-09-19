@@ -1,0 +1,55 @@
+id: rxlint-pediatric-oral-antibiotics
+version: 0.1.0
+title: Pediatric oral antibiotics
+effective_date: "2026-09-19"
+summary: >
+  Dispensing checks for oral antibiotic liquids and solids given to children aged 28 days to
+  12 years: product identity and concentration reconciliation, weight-based dose, frequency,
+  duration for named indications, maximum daily dose, encoded allergy contraindications, a
+  published set of interactions, duplicate therapy, expiry and supplied quantity.
+scope:
+  route: oral
+  age_months: {min: 0.92, max_exclusive: 144}   # 28 days to 12 years (WHO AWaRe chapter 25 title)
+  weight_kg: {min: 3}                             # the smallest WHO AWaRe oral weight band starts at 3 kg
+  ingredients:
+    - amoxicillin
+    - amoxicillin+clavulanic_acid
+    - cefalexin
+    - azithromycin
+    - clarithromycin
+    - phenoxymethylpenicillin
+    - sulfamethoxazole+trimethoprim
+policies:
+  # RxLint policies are institution-configurable parameters. They are not clinical guidance and
+  # every calculation trace that uses one names it.
+  P-ROUND-01:
+    title: Dose measurement tolerance
+    value: 0.10
+    text: >
+      A dose is compared to a guideline range or weight-band dose with a relative tolerance of
+      10% for rounding to a measurable volume (for example 6.4 mL for a calculated 6.375 mL).
+  P-SEV-01:
+    title: Dose deviation escalation
+    value: 2.0
+    text: >
+      A dose outside the tolerated range is HIGH severity. A dose at or above twice the upper
+      bound, or at or below half the lower bound, is CRITICAL. Ten-fold decimal errors land here.
+  P-QTY-01:
+    title: Supplied quantity
+    text: >
+      The supplied volume must cover dose volume x doses per day x duration in days. A product
+      volume stated "after reconstitution" is taken as the usable volume.
+  P-INT-01:
+    title: Interaction coverage
+    text: >
+      Only the interaction pairs listed in this pack are evaluated. A current medicine outside the
+      covered set is listed in the report as not covered.
+sources: sources.yaml
+formulary: formulary.yaml
+rule_files:
+  - rules/scope.yaml
+  - rules/product.yaml
+  - rules/dose.yaml
+  - rules/duration.yaml
+  - rules/safety.yaml
+  - rules/interactions.yaml

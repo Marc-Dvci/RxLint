@@ -1,0 +1,49 @@
+- id: RX-SCOPE-001
+  version: 1.0.0
+  title: Medicine is covered by the installed pack
+  type: scope_ingredient
+  severity: out_of_scope
+  requires: [rx.product]
+  source:
+    ref: PACK
+    locator: pack.yaml scope.ingredients
+  explain: The prescribed medicine must be one of the pack's seven oral antibiotic products.
+
+- id: RX-SCOPE-002
+  version: 1.0.0
+  title: Route is oral
+  type: scope_route
+  severity: out_of_scope
+  requires: []
+  params: {allowed: [oral]}
+  source:
+    ref: PACK
+    locator: pack.yaml scope.route
+  explain: Only oral regimens are encoded. IV and IM dosing uses a different table and is not installed.
+
+- id: RX-SCOPE-003
+  version: 1.0.0
+  title: Patient age is within the pediatric range
+  type: scope_age
+  severity: out_of_scope
+  requires: [patient.age_months]
+  params: {min_months: 0.92, max_months_exclusive: 144}
+  source:
+    ref: WHO-AWARE-2022
+    locator: {chapter: "25", printed_page: 319, pdf_page: 335, heading: Chapter title}
+    quote: "Sepsis in neonates (< 28 days) and children (28 days–12 years)"
+  explain: >
+    The pack covers children from 28 days to 12 years. Neonatal dosing needs a separate pack.
+
+- id: RX-SCOPE-004
+  version: 1.0.0
+  title: Patient weight is within the WHO weight bands
+  type: scope_weight
+  severity: out_of_scope
+  requires: [patient.weight_kg]
+  params: {min_kg: 3}
+  source:
+    ref: WHO-AWARE-2022
+    locator: {printed_page: 640, pdf_page: 656, table: "50.1"}
+    quote: "Weight bands: 3–<6 kg: 250 mg given every 12 hours"
+  explain: The smallest oral weight band in Table 50.1 starts at 3 kg.

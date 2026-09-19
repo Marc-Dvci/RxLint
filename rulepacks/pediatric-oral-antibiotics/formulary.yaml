@@ -1,0 +1,118 @@
+# Terminology for normalisation. Aliases resolve by exact match after case folding and
+# whitespace collapse; anything else is reported as unrecognised with candidates, never mapped.
+ingredients:
+  amoxicillin:
+    display: Amoxicillin
+    classes: [penicillin, beta_lactam]
+    aware: Access
+    aliases: [amoxicillin, amoxycillin, amoxicilline, amoxil, clamoxyl, amoxicillin trihydrate]
+  clavulanic_acid:
+    display: Clavulanic acid
+    classes: [beta_lactamase_inhibitor]
+    aliases: [clavulanic acid, clavulanate, clavulanate potassium, potassium clavulanate, acide clavulanique]
+  cefalexin:
+    display: Cefalexin
+    classes: [cephalosporin, beta_lactam]
+    aware: Access
+    aliases: [cefalexin, cephalexin, céfalexine, cefalexine, keflex]
+  azithromycin:
+    display: Azithromycin
+    classes: [macrolide]
+    aware: Watch
+    aliases: [azithromycin, azithromycine, zithromax]
+  clarithromycin:
+    display: Clarithromycin
+    classes: [macrolide]
+    aware: Watch
+    aliases: [clarithromycin, clarithromycine, klacid, biaxin]
+  phenoxymethylpenicillin:
+    display: Phenoxymethylpenicillin
+    classes: [penicillin, beta_lactam]
+    aware: Access
+    aliases: [phenoxymethylpenicillin, penicillin v, penicillin v potassium, pen v, penicillin vk, oracilline]
+  sulfamethoxazole:
+    display: Sulfamethoxazole
+    classes: [sulfonamide]
+    aliases: [sulfamethoxazole, sulphamethoxazole]
+  trimethoprim:
+    display: Trimethoprim
+    classes: [trimethoprim]
+    aliases: [trimethoprim]
+  # Current-medication terms used by the interaction and duplicate rules.
+  probenecid: {display: Probenecid, classes: [uricosuric], aliases: [probenecid]}
+  warfarin: {display: Warfarin, classes: [oral_anticoagulant, vitamin_k_antagonist], aliases: [warfarin, coumadin]}
+  acenocoumarol: {display: Acenocoumarol, classes: [oral_anticoagulant, vitamin_k_antagonist], aliases: [acenocoumarol, sintrom]}
+  allopurinol: {display: Allopurinol, classes: [xanthine_oxidase_inhibitor], aliases: [allopurinol]}
+  methotrexate: {display: Methotrexate, classes: [antifolate], aliases: [methotrexate]}
+  phenytoin: {display: Phenytoin, classes: [antiepileptic], aliases: [phenytoin]}
+  carbamazepine: {display: Carbamazepine, classes: [antiepileptic], aliases: [carbamazepine, tegretol]}
+  pimozide: {display: Pimozide, classes: [antipsychotic], aliases: [pimozide]}
+  cisapride: {display: Cisapride, classes: [prokinetic], aliases: [cisapride]}
+  simvastatin: {display: Simvastatin, classes: [statin], aliases: [simvastatin]}
+  lovastatin: {display: Lovastatin, classes: [statin], aliases: [lovastatin]}
+  metformin: {display: Metformin, classes: [biguanide], aliases: [metformin]}
+  nelfinavir: {display: Nelfinavir, classes: [protease_inhibitor], aliases: [nelfinavir]}
+  # Common co-medications recognised so the report can state they are outside interaction coverage.
+  paracetamol: {display: Paracetamol, classes: [analgesic], aliases: [paracetamol, acetaminophen, doliprane, tylenol]}
+  ibuprofen: {display: Ibuprofen, classes: [nsaid], aliases: [ibuprofen, advil, nurofen]}
+  salbutamol: {display: Salbutamol, classes: [bronchodilator], aliases: [salbutamol, albuterol, ventolin]}
+  cetirizine: {display: Cetirizine, classes: [antihistamine], aliases: [cetirizine]}
+
+products:
+  amoxicillin:
+    components: [amoxicillin]
+    classes: [penicillin, beta_lactam]
+  amoxicillin+clavulanic_acid:
+    components: [amoxicillin, clavulanic_acid]
+    classes: [penicillin, beta_lactam]
+    aliases: [augmentin, co-amoxiclav, coamoxiclav, amoxiclav, amoxicillin/clavulanate, amoxicillin-clavulanate,
+              amoxicillin clavulanate, amoxicillin and clavulanate, amoxicillin and clavulanate potassium,
+              amoxicillin/clavulanic acid, amoxicillin + clavulanic acid, amoxicillin+clavulanic acid,
+              amoxicilline/acide clavulanique, amoxicilline acide clavulanique]
+  cefalexin: {components: [cefalexin], classes: [cephalosporin, beta_lactam]}
+  azithromycin: {components: [azithromycin], classes: [macrolide]}
+  clarithromycin: {components: [clarithromycin], classes: [macrolide]}
+  phenoxymethylpenicillin: {components: [phenoxymethylpenicillin], classes: [penicillin, beta_lactam]}
+  sulfamethoxazole+trimethoprim:
+    components: [sulfamethoxazole, trimethoprim]
+    classes: [sulfonamide, trimethoprim]
+    aliases: [co-trimoxazole, cotrimoxazole, bactrim, septrin, smx-tmp, tmp-smx, smx/tmp, sulfamethoxazole/trimethoprim,
+              sulfamethoxazole and trimethoprim, sulfamethoxazole-trimethoprim, sulfamethoxazole + trimethoprim,
+              sulfamethoxazole+trimethoprim, cotrimoxazole suspension]
+
+# Liquid strengths recognised in marketed products (mg of each component per 5 mL). Used only as a
+# perception plausibility signal: an unrecognised strength lowers extraction confidence and asks
+# for confirmation. It never makes a rule pass or fail.
+recognised_liquid_strengths:
+  amoxicillin: [[125], [200], [250], [400]]
+  amoxicillin+clavulanic_acid: [[125, 31.25], [250, 62.5], [200, 28.5], [400, 57], [600, 42.9]]
+  cefalexin: [[125], [250]]
+  azithromycin: [[100], [200]]
+  clarithromycin: [[125], [250]]
+  phenoxymethylpenicillin: [[125], [250]]
+  sulfamethoxazole+trimethoprim: [[200, 40]]
+
+dosage_forms:
+  oral_liquid: [oral suspension, suspension, powder for oral suspension, for oral suspension, oral liquid, syrup,
+                granules for oral suspension, poudre pour suspension buvable, suspension buvable, sirop, susp, susp.,
+                powder for suspension, drops, oral drops]
+  tablet: [tablet, tablets, tab, tabs, film-coated tablet, comprimé, comprimés, chewable tablet, dispersible tablet]
+  capsule: [capsule, capsules, cap, caps, gélule, gélules]
+
+routes:
+  oral: [oral, po, p.o., by mouth, per os, orally, voie orale, par voie orale, buvable, per os.]
+  iv: [iv, intravenous, i.v.]
+  im: [im, intramuscular, i.m.]
+
+allergens:
+  penicillin: [penicillin, penicillins, pcn, pénicilline, pénicillines, penicilline, amoxicillin, amoxil, augmentin,
+               co-amoxiclav, penicillin allergy]
+  cephalosporin: [cephalosporin, cephalosporins, céphalosporine, céphalosporines, cefalexin, cephalexin, keflex]
+  beta_lactam: [beta-lactam, beta lactam, beta-lactams, β-lactam, bêta-lactamine, bêta-lactamines]
+  macrolide: [macrolide, macrolides, azithromycin, clarithromycin, erythromycin, zithromax]
+  sulfonamide: [sulfa, sulfa drugs, sulfonamide, sulfonamides, sulphonamide, sulfamides, sulfamide,
+                co-trimoxazole, cotrimoxazole, bactrim, sulfamethoxazole]
+  trimethoprim: [trimethoprim]
+  none: [nkda, nka, none, no known allergies, no known drug allergies, aucune, aucune connue, aucune allergie connue, aucune allergie, none known]
+  not_relevant: [peanut, peanuts, egg, eggs, latex, dust, pollen, tree nuts, nuts, shellfish, cats, dogs, bee stings,
+                 house dust mite, milk protein, strawberries, kiwi, arachide, oeuf, pollen de graminées]

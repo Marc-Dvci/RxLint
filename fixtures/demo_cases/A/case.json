@@ -1,0 +1,184 @@
+{
+ "id": "A",
+ "title": "Concentration mismatch",
+ "summary": "Right drug, right volume, wrong bottle: 400/57 prescribed, 250/62.5 on the shelf.",
+ "expect": "REVIEW",
+ "patient": {
+  "patient.weight": "9.5 kg",
+  "patient.age": "14 months",
+  "patient.allergies": "none",
+  "patient.medications": "none"
+ },
+ "country": "FR",
+ "dispense_date": "2026-09-19",
+ "tags": [
+  "hero",
+  "product"
+ ],
+ "gold": {
+  "rx": [
+   {
+    "field": "rx.patient_age",
+    "raw": "14 months",
+    "bbox": [
+     0.3245,
+     0.2405,
+     0.423,
+     0.2563
+    ]
+   },
+   {
+    "field": "rx.patient_weight",
+    "raw": "9.5 kg",
+    "bbox": [
+     0.3243,
+     0.2767,
+     0.3833,
+     0.2939
+    ]
+   },
+   {
+    "field": "rx.allergies",
+    "raw": "None known",
+    "bbox": [
+     0.3242,
+     0.3085,
+     0.4438,
+     0.3251
+    ]
+   },
+   {
+    "field": "rx.drug",
+    "raw": "Amoxicillin/clavulanate oral suspension",
+    "bbox": [
+     0.2534,
+     0.3957,
+     0.7735,
+     0.4386
+    ]
+   },
+   {
+    "field": "rx.strength",
+    "raw": "400 mg/57 mg per 5 mL",
+    "bbox": [
+     0.2533,
+     0.4393,
+     0.5284,
+     0.4689
+    ]
+   },
+   {
+    "field": "rx.dose",
+    "raw": "5 mL",
+    "bbox": [
+     0.3612,
+     0.4847,
+     0.4176,
+     0.5006
+    ]
+   },
+   {
+    "field": "rx.frequency",
+    "raw": "twice daily",
+    "bbox": [
+     0.4306,
+     0.4783,
+     0.5574,
+     0.5015
+    ]
+   },
+   {
+    "field": "rx.duration",
+    "raw": "5 days",
+    "bbox": [
+     0.3611,
+     0.5147,
+     0.4784,
+     0.538
+    ]
+   },
+   {
+    "field": "rx.indication",
+    "raw": "Acute otitis media",
+    "bbox": [
+     0.39,
+     0.5535,
+     0.6063,
+     0.5764
+    ]
+   }
+  ],
+  "label": [
+   {
+    "field": "dispensed.drug",
+    "raw": "Amoxicillin and Clavulanate Potassium for Oral Suspension USP",
+    "bbox": [
+     0.1816,
+     0.442,
+     0.6995,
+     0.4972
+    ]
+   },
+   {
+    "field": "dispensed.strength",
+    "raw": "250 mg/62.5 mg per 5 mL",
+    "bbox": [
+     0.1899,
+     0.5327,
+     0.6081,
+     0.5683
+    ]
+   },
+   {
+    "field": "dispensed.volume",
+    "raw": "100 mL (when reconstituted)",
+    "bbox": [
+     0.1869,
+     0.5994,
+     0.4246,
+     0.619
+    ]
+   },
+   {
+    "field": "dispensed.lot",
+    "raw": "LOT K4471",
+    "bbox": [
+     0.6197,
+     0.4706,
+     0.7307,
+     0.4869
+    ]
+   },
+   {
+    "field": "dispensed.expiry",
+    "raw": "EXP 03/2027",
+    "bbox": [
+     0.6213,
+     0.5076,
+     0.7528,
+     0.527
+    ]
+   },
+   {
+    "field": "dispensed.gtin",
+    "raw": "05012345678900",
+    "bbox": [
+     0.6259,
+     0.6153,
+     0.7469,
+     0.6264
+    ]
+   },
+   {
+    "field": "dispensed.manufacturer",
+    "raw": "Meridian Generics Ltd.",
+    "bbox": [
+     0.1917,
+     0.741,
+     0.4489,
+     0.756
+    ]
+   }
+  ]
+ }
+}

@@ -1,0 +1,360 @@
+# Pediatric oral doses transcribed from WHO AWaRe Table 50.1 (Dosing guidance - Children).
+# weight_dose passes when the dose is inside the mg/kg range OR equals the Table 50.1 weight-band
+# dose for the patient's weight, each within policy P-ROUND-01. Deviations escalate by P-SEV-01.
+
+# ---------------- Amoxicillin ----------------
+- id: AWARE-AMX-PED-001
+  version: 1.0.0
+  title: Amoxicillin daily dose for body weight
+  type: weight_dose
+  severity: high
+  applies_to: {product: amoxicillin}
+  component: amoxicillin
+  requires: [patient.weight_kg, rx.dose, rx.frequency, dispensed.strength]
+  params:
+    basis: per_day
+    range_mg_per_kg: [80, 90]
+    weight_bands:
+      - {min: 3, max: 6, dose_mg: 250, per_day: 2}
+      - {min: 6, max: 10, dose_mg: 375, per_day: 2}
+      - {min: 10, max: 15, dose_mg: 500, per_day: 2}
+      - {min: 15, max: 20, dose_mg: 750, per_day: 2}
+      - {min: 20, dose_mg: 500, per_day: 3}
+      - {min: 20, dose_mg: 1000, per_day: 2}
+  source:
+    ref: WHO-AWARE-2022
+    locator: {printed_page: 640, pdf_page: 656, table: "50.1", row: Amoxicillin}
+    quote:
+      - "Oral: 80–90 mg/kg/day"
+      - "3–<6 kg: 250 mg given every 12 hours"
+      - "6–<10 kg: 375 mg given every 12 hours"
+      - "10–<15 kg: 500 mg given every 12 hours"
+      - "15–<20 kg: 750mg given every 12 hours"
+      - "≥ 20 kg: 500 mg given every 8 hours or 1 g given every 12 hours"
+
+- id: AWARE-AMX-PED-002
+  version: 1.0.0
+  title: Amoxicillin maximum daily dose
+  type: max_daily_dose
+  severity: advisory
+  applies_to: {product: amoxicillin}
+  component: amoxicillin
+  requires: [rx.dose, rx.frequency, dispensed.strength]
+  params: {limit_mg: 1500}
+  source:
+    ref: WHO-AWARE-2022
+    locator: {printed_page: 640, pdf_page: 656, table: "50.1", row: Amoxicillin}
+    quote: "Up to a maximum daily dose of 1.5 g but can be higher for serious bacterial infections"
+  explain: >
+    WHO allows a higher daily dose for serious bacterial infections, so exceeding 1.5 g is a note
+    for the pharmacist and does not change the verdict.
+
+- id: AWARE-AMX-PED-003
+  version: 1.0.0
+  title: Amoxicillin dosing interval
+  type: frequency_allowed
+  severity: moderate
+  applies_to: {product: amoxicillin}
+  requires: [rx.frequency, patient.weight_kg]
+  params:
+    by_weight:
+      - {min: 3, max: 20, per_day: [2]}
+      - {min: 20, per_day: [2, 3]}
+  source:
+    ref: WHO-AWARE-2022
+    locator: {printed_page: 640, pdf_page: 656, table: "50.1", row: Amoxicillin}
+    quote:
+      - "15–<20 kg: 750mg given every 12 hours"
+      - "≥ 20 kg: 500 mg given every 8 hours or 1 g given every 12 hours"
+
+# ---------------- Amoxicillin + clavulanic acid ----------------
+- id: AWARE-AMC-PED-001
+  version: 1.0.0
+  title: Amoxicillin+clavulanic acid daily dose for body weight (amoxicillin component)
+  type: weight_dose
+  severity: high
+  applies_to: {product: amoxicillin+clavulanic_acid}
+  component: amoxicillin
+  requires: [patient.weight_kg, rx.dose, rx.frequency, dispensed.strength]
+  params:
+    basis: per_day
+    range_mg_per_kg: [80, 90]
+    weight_bands:
+      - {min: 3, max: 6, dose_mg: 250, per_day: 2}
+      - {min: 6, max: 10, dose_mg: 375, per_day: 2}
+      - {min: 10, max: 15, dose_mg: 500, per_day: 2}
+      - {min: 15, max: 20, dose_mg: 750, per_day: 2}
+      - {min: 20, dose_mg: 500, per_day: 3}
+      - {min: 20, dose_mg: 1000, per_day: 2}
+  source:
+    ref: WHO-AWARE-2022
+    locator: {printed_page: 641, pdf_page: 657, table: "50.1", row: Amoxicillin+clavulanic acid}
+    quote:
+      - "80–90 mg/kg/day (amoxicillin component)"
+      - "3–< 6 kg: 250 mg of amoxicillin/dose given every 12 hours"
+      - "10–< 15 kg: 500 mg of amoxicillin/dose given every 12 hours"
+      - "15–< 20 kg: 750 mg of amoxicillin/dose given every 12 hours"
+
+- id: AWARE-AMC-PED-003
+  version: 1.0.0
+  title: Amoxicillin+clavulanic acid dosing interval
+  type: frequency_allowed
+  severity: moderate
+  applies_to: {product: amoxicillin+clavulanic_acid}
+  requires: [rx.frequency, patient.weight_kg]
+  params:
+    by_weight:
+      - {min: 3, max: 20, per_day: [2]}
+      - {min: 20, per_day: [2, 3]}
+  source:
+    ref: WHO-AWARE-2022
+    locator: {printed_page: 641, pdf_page: 657, table: "50.1", row: Amoxicillin+clavulanic acid}
+    quote:
+      - "15–< 20 kg: 750 mg of amoxicillin/dose given every 12 hours"
+      - "≥ 20 kg: 500 mg of amoxicillin/dose given every 8 hours or 1 g of amoxicillin/ dose given every 12 hours"
+
+# ---------------- Cefalexin ----------------
+- id: AWARE-CFX-PED-001
+  version: 1.0.0
+  title: Cefalexin dose for body weight
+  type: weight_dose
+  severity: high
+  applies_to: {product: cefalexin}
+  component: cefalexin
+  requires: [patient.weight_kg, rx.dose, rx.frequency, dispensed.strength]
+  params:
+    basis: per_dose
+    range_mg_per_kg: [25, 25]
+    weight_bands:
+      - {min: 3, max: 6, dose_mg: 125, per_day: 2}
+      - {min: 6, max: 10, dose_mg: 250, per_day: 2}
+      - {min: 10, max: 15, dose_mg: 375, per_day: 2}
+      - {min: 15, max: 20, dose_mg: 500, per_day: 2}
+      - {min: 20, max: 30, dose_mg: 625, per_day: 2}
+      - {min: 30, dose_mg: 500, per_day: 3, adult: true}
+    mg_per_kg_below_kg: 30
+  source:
+    ref: WHO-AWARE-2022
+    locator: {printed_page: 643, pdf_page: 659, table: "50.1", row: Cefalexin}
+    quote:
+      - "Oral: 25 mg/kg/dose given every 12 hours"
+      - "3–< 6 kg: 125 mg given every 12 hours"
+      - "20–< 30 kg: 625 mg given every 12 hours"
+      - "≥ 30 kg: use adult dose"
+  related_sources:
+    - ref: WHO-AWARE-2022
+      locator: {printed_page: 631, pdf_page: 647, table: "49.1", row: Cefalexin}
+      quote: "Oral: 500 mg given every 8 hours"
+
+- id: AWARE-CFX-PED-002
+  version: 1.0.0
+  title: Cefalexin maximum daily dose (adult dosing)
+  type: max_daily_dose
+  severity: high
+  applies_to: {product: cefalexin}
+  component: cefalexin
+  requires: [rx.dose, rx.frequency, dispensed.strength]
+  params: {limit_mg: 1500, derived: "adult dose 500 mg every 8 hours = 1500 mg/day"}
+  source:
+    ref: WHO-AWARE-2022
+    locator: {printed_page: 643, pdf_page: 659, table: "50.1", row: Cefalexin}
+    quote: "Maximum daily dose: use adult dosing"
+  related_sources:
+    - ref: WHO-AWARE-2022
+      locator: {printed_page: 631, pdf_page: 647, table: "49.1", row: Cefalexin}
+      quote: "Oral: 500 mg given every 8 hours"
+
+- id: AWARE-CFX-PED-003
+  version: 1.0.0
+  title: Cefalexin dosing interval
+  type: frequency_allowed
+  severity: moderate
+  applies_to: {product: cefalexin}
+  requires: [rx.frequency, patient.weight_kg]
+  params:
+    by_weight:
+      - {min: 3, max: 30, per_day: [2]}
+      - {min: 30, per_day: [3]}
+  source:
+    ref: WHO-AWARE-2022
+    locator: {printed_page: 643, pdf_page: 659, table: "50.1", row: Cefalexin}
+    quote: "Oral: 25 mg/kg/dose given every 12 hours"
+
+# ---------------- Azithromycin ----------------
+- id: AWARE-AZM-PED-001
+  version: 1.0.0
+  title: Azithromycin dose for body weight
+  type: weight_dose
+  severity: high
+  applies_to: {product: azithromycin}
+  component: azithromycin
+  requires: [patient.weight_kg, rx.dose, rx.frequency, dispensed.strength]
+  params:
+    basis: per_dose
+    options_mg_per_kg: [10, 20]
+  source:
+    ref: WHO-AWARE-2022
+    locator: {printed_page: 642, pdf_page: 658, table: "50.1", row: Azithromycin}
+    quote:
+      - "10 mg/kg/dose given every 24 hours"
+      - "20 mg/kg/dose given every 24 hours"
+
+- id: AWARE-AZM-PED-002
+  version: 1.0.0
+  title: Azithromycin maximum daily dose
+  type: max_daily_dose
+  severity: high
+  applies_to: {product: azithromycin}
+  component: azithromycin
+  requires: [rx.dose, rx.frequency, dispensed.strength]
+  params: {limit_mg: 500}
+  source:
+    ref: WHO-AWARE-2022
+    locator: {printed_page: 642, pdf_page: 658, table: "50.1", row: Azithromycin}
+    quote: "Up to a maximum daily dose of 500 mg"
+
+- id: AWARE-AZM-PED-003
+  version: 1.0.0
+  title: Azithromycin dosing interval
+  type: frequency_allowed
+  severity: moderate
+  applies_to: {product: azithromycin}
+  requires: [rx.frequency]
+  params: {per_day: [1]}
+  source:
+    ref: WHO-AWARE-2022
+    locator: {printed_page: 642, pdf_page: 658, table: "50.1", row: Azithromycin}
+    quote: "10 mg/kg/dose given every 24 hours"
+
+# ---------------- Clarithromycin ----------------
+- id: AWARE-CLR-PED-001
+  version: 1.0.0
+  title: Clarithromycin dose for body weight
+  type: weight_dose
+  severity: high
+  applies_to: {product: clarithromycin}
+  component: clarithromycin
+  requires: [patient.weight_kg, rx.dose, rx.frequency, dispensed.strength]
+  params:
+    basis: per_dose
+    range_mg_per_kg: [7.5, 7.5]
+  source:
+    ref: WHO-AWARE-2022
+    locator: {printed_page: 646, pdf_page: 662, table: "50.1", row: Clarithromycin}
+    quote: "Oral: 7.5 mg/kg/dose given every 12 hours"
+
+- id: AWARE-CLR-PED-002
+  version: 1.0.0
+  title: Clarithromycin maximum daily dose
+  type: max_daily_dose
+  severity: high
+  applies_to: {product: clarithromycin}
+  component: clarithromycin
+  requires: [rx.dose, rx.frequency, dispensed.strength]
+  params: {limit_mg: 1000}
+  source:
+    ref: WHO-AWARE-2022
+    locator: {printed_page: 646, pdf_page: 662, table: "50.1", row: Clarithromycin}
+    quote: "Up to a maximum daily dose of 1 g"
+
+- id: AWARE-CLR-PED-003
+  version: 1.0.0
+  title: Clarithromycin dosing interval
+  type: frequency_allowed
+  severity: moderate
+  applies_to: {product: clarithromycin}
+  requires: [rx.frequency]
+  params: {per_day: [2]}
+  source:
+    ref: WHO-AWARE-2022
+    locator: {printed_page: 646, pdf_page: 662, table: "50.1", row: Clarithromycin}
+    quote: "Oral: 7.5 mg/kg/dose given every 12 hours"
+
+# ---------------- Phenoxymethylpenicillin ----------------
+- id: AWARE-PEN-PED-001
+  version: 1.0.0
+  title: Phenoxymethylpenicillin dose for body weight
+  type: weight_dose
+  severity: high
+  applies_to: {product: phenoxymethylpenicillin}
+  component: phenoxymethylpenicillin
+  requires: [patient.weight_kg, rx.dose, rx.frequency, dispensed.strength]
+  params:
+    basis: per_dose
+    range_mg_per_kg: [10, 15]
+  source:
+    ref: WHO-AWARE-2022
+    locator: {printed_page: 650, pdf_page: 666, table: "50.1", row: Phenoxymethylpenicillin}
+    quote: "Oral: 10–15 mg/kg/dose (16 000–24 000 IUa/kg/dose) given every 6–8 hours"
+
+- id: AWARE-PEN-PED-003
+  version: 1.0.0
+  title: Phenoxymethylpenicillin dosing interval
+  type: frequency_allowed
+  severity: moderate
+  applies_to: {product: phenoxymethylpenicillin}
+  requires: [rx.frequency]
+  params: {per_day: [3, 4]}
+  source:
+    ref: WHO-AWARE-2022
+    locator: {printed_page: 650, pdf_page: 666, table: "50.1", row: Phenoxymethylpenicillin}
+    quote: "given every 6–8 hours"
+
+# ---------------- Sulfamethoxazole + trimethoprim ----------------
+- id: AWARE-SXT-PED-001
+  version: 1.0.0
+  title: Sulfamethoxazole+trimethoprim dose for body weight (sulfamethoxazole component)
+  type: weight_dose
+  severity: high
+  applies_to: {product: sulfamethoxazole+trimethoprim}
+  component: sulfamethoxazole
+  requires: [patient.weight_kg, rx.dose, rx.frequency, dispensed.strength]
+  params:
+    basis: per_dose
+    range_mg_per_kg: [20, 20]
+    weight_bands:
+      - {min: 3, max: 6, dose_mg: 100, per_day: 2}
+      - {min: 6, max: 10, dose_mg: 200, per_day: 2}
+      - {min: 10, max: 30, dose_mg: 400, per_day: 2}
+      - {min: 30, dose_mg: 800, per_day: 2, adult: true}
+    mg_per_kg_below_kg: 30
+  source:
+    ref: WHO-AWARE-2022
+    locator: {printed_page: 651, pdf_page: 667, table: "50.1", row: Sulfamethoxazole+trimethoprim}
+    quote:
+      - "Oral: 20 mg/kg of sulfamethoxazole + 4 mg/kg of trimethoprim given every 12 hours"
+      - "3–< 6 kg: 100 mg + 20 mg given every 12 hours"
+      - "6–< 10 kg: 200 mg + 40 mg given every 12 hours"
+      - "10–< 30 kg: 400 mg + 80 mg given every 12 hours"
+      - "≥ 30 kg: use adult dose"
+  related_sources:
+    - ref: WHO-AWARE-2022
+      locator: {printed_page: 637, pdf_page: 653, table: "49.1", row: Sulfamethoxazole+trimethoprim}
+      quote: "Oral: 800 mg + 160 mg given every 12 hours"
+
+- id: AWARE-SXT-PED-002
+  version: 1.0.0
+  title: Sulfamethoxazole+trimethoprim maximum daily dose
+  type: max_daily_dose
+  severity: high
+  applies_to: {product: sulfamethoxazole+trimethoprim}
+  component: sulfamethoxazole
+  requires: [rx.dose, rx.frequency, dispensed.strength]
+  params: {limit_mg: 1200}
+  source:
+    ref: WHO-AWARE-2022
+    locator: {printed_page: 651, pdf_page: 667, table: "50.1", row: Sulfamethoxazole+trimethoprim}
+    quote: "Up to a maximum daily dose of 1200 mg of sulfamethoxazole component"
+
+- id: AWARE-SXT-PED-003
+  version: 1.0.0
+  title: Sulfamethoxazole+trimethoprim dosing interval
+  type: frequency_allowed
+  severity: moderate
+  applies_to: {product: sulfamethoxazole+trimethoprim}
+  requires: [rx.frequency]
+  params: {per_day: [2]}
+  source:
+    ref: WHO-AWARE-2022
+    locator: {printed_page: 651, pdf_page: 667, table: "50.1", row: Sulfamethoxazole+trimethoprim}
+    quote: "given every 12 hours"

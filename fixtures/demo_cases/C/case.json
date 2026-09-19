@@ -1,0 +1,173 @@
+{
+ "id": "C",
+ "title": "Known allergy",
+ "summary": "The caregiver reports a penicillin rash; the bottle is amoxicillin/clavulanate.",
+ "expect": "REVIEW",
+ "patient": {
+  "patient.weight": "9.5 kg",
+  "patient.age": "14 months",
+  "patient.allergies": "penicillin (rash as a baby)",
+  "patient.medications": "none"
+ },
+ "country": "FR",
+ "dispense_date": "2026-09-19",
+ "tags": [
+  "allergy"
+ ],
+ "gold": {
+  "rx": [
+   {
+    "field": "rx.patient_age",
+    "raw": "14 months",
+    "bbox": [
+     0.2894,
+     0.2846,
+     0.3933,
+     0.2968
+    ]
+   },
+   {
+    "field": "rx.patient_weight",
+    "raw": "9.5 kg",
+    "bbox": [
+     0.2911,
+     0.3213,
+     0.3534,
+     0.3367
+    ]
+   },
+   {
+    "field": "rx.drug",
+    "raw": "Amoxicillin/clavulanate oral suspension",
+    "bbox": [
+     0.2248,
+     0.463,
+     0.7594,
+     0.4842
+    ]
+   },
+   {
+    "field": "rx.strength",
+    "raw": "400 mg/57 mg per 5 mL",
+    "bbox": [
+     0.2265,
+     0.4968,
+     0.5095,
+     0.5151
+    ]
+   },
+   {
+    "field": "rx.dose",
+    "raw": "5 mL",
+    "bbox": [
+     0.3394,
+     0.5381,
+     0.3975,
+     0.5518
+    ]
+   },
+   {
+    "field": "rx.frequency",
+    "raw": "twice daily",
+    "bbox": [
+     0.4103,
+     0.5376,
+     0.5401,
+     0.5557
+    ]
+   },
+   {
+    "field": "rx.duration",
+    "raw": "5 days",
+    "bbox": [
+     0.3408,
+     0.5709,
+     0.4607,
+     0.5895
+    ]
+   },
+   {
+    "field": "rx.indication",
+    "raw": "Acute otitis media",
+    "bbox": [
+     0.372,
+     0.6149,
+     0.5911,
+     0.6292
+    ]
+   }
+  ],
+  "label": [
+   {
+    "field": "dispensed.drug",
+    "raw": "Amoxicillin and Clavulanate Potassium for Oral Suspension USP",
+    "bbox": [
+     0.1734,
+     0.4267,
+     0.6911,
+     0.4927
+    ]
+   },
+   {
+    "field": "dispensed.strength",
+    "raw": "400 mg/57 mg per 5 mL",
+    "bbox": [
+     0.1762,
+     0.5195,
+     0.5616,
+     0.5627
+    ]
+   },
+   {
+    "field": "dispensed.volume",
+    "raw": "70 mL (when reconstituted)",
+    "bbox": [
+     0.1694,
+     0.589,
+     0.3956,
+     0.613
+    ]
+   },
+   {
+    "field": "dispensed.lot",
+    "raw": "LOT K5102",
+    "bbox": [
+     0.6115,
+     0.4543,
+     0.7229,
+     0.4729
+    ]
+   },
+   {
+    "field": "dispensed.expiry",
+    "raw": "EXP 03/2027",
+    "bbox": [
+     0.6112,
+     0.4905,
+     0.7434,
+     0.5126
+    ]
+   },
+   {
+    "field": "dispensed.gtin",
+    "raw": "05012345678900",
+    "bbox": [
+     0.6105,
+     0.598,
+     0.7328,
+     0.6115
+    ]
+   },
+   {
+    "field": "dispensed.manufacturer",
+    "raw": "Meridian Generics Ltd.",
+    "bbox": [
+     0.1648,
+     0.73,
+     0.4239,
+     0.7496
+    ]
+   }
+  ]
+ }
+}

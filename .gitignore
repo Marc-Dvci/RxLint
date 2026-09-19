@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.hypothesis/
+.env
+node_modules/
+web/dist/
+data/
+bench_out/
+*.log

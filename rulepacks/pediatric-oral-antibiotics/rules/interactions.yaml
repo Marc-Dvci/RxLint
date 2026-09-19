@@ -1,0 +1,157 @@
+# The complete interaction set of this pack (policy P-INT-01). A pair not listed here is reported
+# as outside coverage, never as safe.
+- id: DDI-AMX-001
+  version: 1.0.0
+  title: Amoxicillin with probenecid
+  type: interaction
+  severity: moderate
+  requires: [dispensed.product]
+  params: {product_ingredients: [amoxicillin], with: [probenecid]}
+  source:
+    ref: FDA-LABEL-AMOXICILLIN
+    locator: {section: "7.1 Probenecid"}
+    quote: "Concurrent use of amoxicillin and probenecid may result in increased and prolonged blood levels of amoxicillin."
+
+- id: DDI-AMX-002
+  version: 1.0.0
+  title: Amoxicillin with an oral anticoagulant
+  type: interaction
+  severity: moderate
+  requires: [dispensed.product]
+  params: {product_ingredients: [amoxicillin], with_classes: [oral_anticoagulant]}
+  source:
+    ref: FDA-LABEL-AMOXICILLIN
+    locator: {section: "7.2 Oral Anticoagulants"}
+    quote: "Abnormal prolongation of prothrombin time (increased international normalized ratio [INR]) has been reported in patients receiving amoxicillin and oral anticoagulants."
+
+- id: DDI-AMX-003
+  version: 1.0.0
+  title: Amoxicillin with allopurinol
+  type: interaction
+  severity: advisory
+  requires: [dispensed.product]
+  params: {product_ingredients: [amoxicillin], with: [allopurinol]}
+  source:
+    ref: FDA-LABEL-AMOXICILLIN
+    locator: {section: "7.3 Allopurinol"}
+    quote: "The concurrent administration of allopurinol and amoxicillin increases the incidence of rashes in patients receiving both drugs as compared to patients receiving amoxicillin alone."
+
+- id: DDI-CFX-001
+  version: 1.0.0
+  title: Cefalexin with metformin
+  type: interaction
+  severity: moderate
+  requires: [dispensed.product]
+  params: {product_ingredients: [cefalexin], with: [metformin]}
+  source:
+    ref: FDA-LABEL-CEPHALEXIN
+    locator: {section: "7.1 Metformin"}
+    quote: "Administration of cephalexin with metformin results in increased plasma metformin concentrations and decreased renal clearance of metformin."
+
+- id: DDI-CFX-002
+  version: 1.0.0
+  title: Cefalexin with probenecid
+  type: interaction
+  severity: moderate
+  requires: [dispensed.product]
+  params: {product_ingredients: [cefalexin], with: [probenecid]}
+  source:
+    ref: FDA-LABEL-CEPHALEXIN
+    locator: {section: "7.2 Probenecid"}
+    quote: "Co-administration of probenecid with cephalexin is not recommended."
+
+- id: DDI-AZM-001
+  version: 1.0.0
+  title: Azithromycin with warfarin
+  type: interaction
+  severity: moderate
+  requires: [dispensed.product]
+  params: {product_ingredients: [azithromycin], with_classes: [oral_anticoagulant]}
+  source:
+    ref: FDA-LABEL-AZITHROMYCIN
+    locator: {section: "7.2 Warfarin"}
+    quote: "Prothrombin times should be carefully monitored while patients are receiving azithromycin and oral anticoagulants concomitantly."
+
+- id: DDI-AZM-002
+  version: 1.0.0
+  title: Azithromycin with nelfinavir
+  type: interaction
+  severity: moderate
+  requires: [dispensed.product]
+  params: {product_ingredients: [azithromycin], with: [nelfinavir]}
+  source:
+    ref: FDA-LABEL-AZITHROMYCIN
+    locator: {section: "7.1 Nelfinavir"}
+    quote: "Co-administration of nelfinavir at steady-state with a single oral dose of azithromycin resulted in increased azithromycin serum concentrations."
+
+- id: DDI-CLR-001
+  version: 1.0.0
+  title: Clarithromycin with cisapride or pimozide
+  type: interaction
+  severity: critical
+  requires: [dispensed.product]
+  params: {product_ingredients: [clarithromycin], with: [cisapride, pimozide]}
+  source:
+    ref: FDA-LABEL-CLARITHROMYCIN
+    locator: {section: "4.2 Cisapride and Pimozide"}
+    quote: "Concomitant administration of clarithromycin tablets with cisapride and pimozide is contraindicated"
+
+- id: DDI-CLR-002
+  version: 1.0.0
+  title: Clarithromycin with lovastatin or simvastatin
+  type: interaction
+  severity: critical
+  requires: [dispensed.product]
+  params: {product_ingredients: [clarithromycin], with: [lovastatin, simvastatin]}
+  source:
+    ref: FDA-LABEL-CLARITHROMYCIN
+    locator: {section: "4 CONTRAINDICATIONS"}
+    quote: "Lomitapide, lovastatin, and simvastatin ( 4.5 )"
+
+- id: DDI-CLR-003
+  version: 1.0.0
+  title: Clarithromycin with carbamazepine
+  type: interaction
+  severity: high
+  requires: [dispensed.product]
+  params: {product_ingredients: [clarithromycin], with: [carbamazepine]}
+  source:
+    ref: FDA-LABEL-CLARITHROMYCIN
+    locator: {section: "7 DRUG INTERACTIONS"}
+    quote: "Clarithromycin tablets should be used with caution in patients receiving treatment with other drugs known to be CYP3A enzyme substrates, especially if the CYP3A substrate has a narrow safety margin (e.g., carbamazepine)"
+
+- id: DDI-SXT-001
+  version: 1.0.0
+  title: Co-trimoxazole with methotrexate
+  type: interaction
+  severity: high
+  requires: [dispensed.product]
+  params: {product_ingredients: [sulfamethoxazole, trimethoprim], with: [methotrexate]}
+  source:
+    ref: FDA-LABEL-SMX-TMP
+    locator: {section: Drug Interactions}
+    quote: "Sulfonamides can also displace methotrexate from plasma protein binding sites and can compete with the renal transport of methotrexate, thus increasing free methotrexate concentrations."
+
+- id: DDI-SXT-002
+  version: 1.0.0
+  title: Co-trimoxazole with warfarin
+  type: interaction
+  severity: high
+  requires: [dispensed.product]
+  params: {product_ingredients: [sulfamethoxazole, trimethoprim], with_classes: [oral_anticoagulant]}
+  source:
+    ref: FDA-LABEL-SMX-TMP
+    locator: {section: Drug Interactions}
+    quote: "It has been reported that sulfamethoxazole and trimethoprim may prolong the prothrombin time in patients who are receiving the anticoagulant warfarin (a CYP2C9 substrate)."
+
+- id: DDI-SXT-003
+  version: 1.0.0
+  title: Co-trimoxazole with phenytoin
+  type: interaction
+  severity: moderate
+  requires: [dispensed.product]
+  params: {product_ingredients: [sulfamethoxazole, trimethoprim], with: [phenytoin]}
+  source:
+    ref: FDA-LABEL-SMX-TMP
+    locator: {section: Drug Interactions}
+    quote: "Sulfamethoxazole and trimethoprim may inhibit the hepatic metabolism of phenytoin (a CYP2C9 substrate)."
