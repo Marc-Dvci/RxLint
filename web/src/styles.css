@@ -130,6 +130,7 @@ p { margin: 0; }
 .row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
 .grid2 { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 16px; }
 .grid3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.grid4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
 .muted { color: var(--muted); }
 .faint { color: var(--faint); }
 .small { font-size: 12.5px; }
@@ -310,7 +311,7 @@ blockquote.q { margin: 0; padding: 10px 14px; border-left: 3px solid var(--brand
   .nav { flex-direction: row; flex-wrap: wrap; }
   .page { padding: 16px 16px 48px; }
   .topbar { padding: 10px 16px; }
-  .grid3 { grid-template-columns: 1fr; }
+  .grid3, .grid4 { grid-template-columns: 1fr; }
   .verdict { grid-template-columns: auto 1fr; }
   .hashes { grid-column: 1 / -1; text-align: left; }
   .confirm .item { grid-template-columns: 1fr; }

@@ -27,7 +27,7 @@ export default function Bench() {
       {!s && <span className="spinner" />}
       {s?.status === "NOT_RUN" && <div className="card empty">No benchmark results published in this deployment yet. Run <code>python -m rxlint.bench.evaluate</code>.</div>}
       {s?.headline && (
-        <div className="grid3">
+        <div className={s.headline.length === 4 ? "grid4" : "grid3"}>
           {s.headline.map((h) => (
             <div key={h.label} className="card metric"><div className="v">{h.value}</div><div className="l">{h.label}</div>{h.note && <div className="tiny faint">{h.note}</div>}</div>
           ))}
@@ -39,7 +39,7 @@ export default function Bench() {
           <div style={{ overflowX: "auto" }}>
             <table className="tbl">
               <thead><tr>{t.columns.map((c) => <th key={c}>{c}</th>)}</tr></thead>
-              <tbody>{t.rows.map((r, i) => <tr key={i}>{t.columns.map((c) => <td key={c}>{r[c] ?? ""}</td>)}</tr>)}</tbody>
+              <tbody>{t.rows.map((r, i) => <tr key={i}>{t.columns.map((c) => <td key={c}>{cell(c, r[c])}</td>)}</tr>)}</tbody>
             </table>
           </div>
         </div>
@@ -47,4 +47,12 @@ export default function Bench() {
       {s?.generated_at && <div className="tiny muted">Generated {s.generated_at}. {s.description}</div>}
     </div>
   );
+}
+
+/** Rates as percentages, AUC as three decimals, counts and labels as published. */
+function cell(column: string, v: unknown): string {
+  if (typeof v !== "number") return v == null ? "" : String(v);
+  if (/auc/i.test(column)) return v.toFixed(3);
+  if (Number.isInteger(v) && v > 1) return String(v);
+  return v >= 0 && v <= 1 ? `${(v * 100).toFixed(1)}%` : String(v);
 }
