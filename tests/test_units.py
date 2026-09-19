@@ -128,3 +128,14 @@ def test_dose_decimal_comma_equivalence(v):
     dot = parse_dose(f"{v} mL").volume_ml
     comma = parse_dose(f"{str(v).replace('.', ',')} mL").volume_ml
     assert dot == comma
+
+
+@pytest.mark.parametrize("raw", ["2.5 7.5 mL", "2.5/7.5 mL", "2.57.5mL", "2,5 7,5 ml"])
+def test_dose_with_a_second_candidate_amount_fails_closed(raw):
+    with pytest.raises(Unparseable):
+        parse_dose(raw)
+
+
+@pytest.mark.parametrize("raw,ml", [("7.5 mL", "7.5"), ("5 mL twice daily", "5"), ("10 mL every 12 hours for 5 days", "10"), ("5 mL q8h", "5")])
+def test_dose_numbers_that_belong_to_frequency_or_duration(raw, ml):
+    assert str(parse_dose(raw).volume_ml) == ml

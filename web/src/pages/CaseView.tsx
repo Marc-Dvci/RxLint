@@ -101,7 +101,10 @@ function Viewer({ caseId, result, highlight, tone, selectedAsset, setAsset }: {
   caseId: string; result: CaseResult; highlight: { asset: string; bbox: number[] }[]; tone: "hot" | "warn";
   selectedAsset: string; setAsset: (a: string) => void;
 }) {
-  const images = result.assets.filter((a) => a.kind !== "audio");
+  // Tabs are named by what the reader found in the photo, so a bottle uploaded in the prescription slot is still "Medicine".
+  const kindOf = (a: { id: string; kind: string }) => result.extractions.find((e) => e.asset_id === a.id)?.kind ?? a.kind;
+  const images = result.assets.filter((a) => a.kind !== "audio")
+    .sort((a, b) => (kindOf(a) === "prescription" ? 0 : 1) - (kindOf(b) === "prescription" ? 0 : 1));
   const shown = selectedAsset === "both" ? images.map((a) => a.id) : [selectedAsset];
   const q = selectedAsset === "both" ? undefined : result.quality[selectedAsset];
   const ext = result.extractions.find((e) => e.asset_id === selectedAsset);
@@ -112,7 +115,7 @@ function Viewer({ caseId, result, highlight, tone, selectedAsset, setAsset }: {
           {images.length > 1 && <button className={selectedAsset === "both" ? "on" : ""} onClick={() => setAsset("both")}>Both</button>}
           {images.map((a) => (
             <button key={a.id} className={selectedAsset === a.id ? "on" : ""} onClick={() => setAsset(a.id)}>
-              {a.kind === "prescription" ? "Prescription" : "Medicine"}
+              {kindOf(a) === "prescription" ? "Prescription" : "Medicine"}
               {highlight.some((h) => h.asset === a.id) ? " •" : ""}
             </button>
           ))}
@@ -316,6 +319,22 @@ const FACT_TO_FIELDS: Record<string, string[]> = {
   "rx.product": ["rx.drug"], "patient.age_months": ["rx.patient_age"],
 };
 
+/** One-tap values for a reading: each candidate amount on its own ("2.5 7.5 mL" offers 2.5 mL and 7.5 mL).
+ *  A string holding more than one number is never offered whole, because it is not one value. */
+function candidates(obs?: { text: string; alternatives?: string[] | null }): string[] {
+  if (!obs) return [];
+  const out: string[] = [];
+  for (const s of [obs.text, ...(obs.alternatives ?? [])]) {
+    const nums = s.match(/\d+(?:[.,]\d+)?/g) ?? [];
+    if (nums.length === 1) out.push(s.trim());
+    else if (nums.length > 1 && s === obs.text) {
+      const unit = s.match(/\b(mL|ml|mg|g|tablets?)\b/)?.[0] ?? "";
+      if (s.split(/[\s/|]+/).filter((t) => /\d/.test(t)).length === nums.length) out.push(...nums.map((n) => `${n}${unit ? ` ${unit}` : ""}`));
+    }
+  }
+  return [...new Set(out)].slice(0, 3);
+}
+
 function ConfirmPanel({ caseId, result, onDone }: { caseId: string; result: CaseResult; onDone: (r: CaseResult) => void }) {
   const clar = result.clarification;
   const blocked = clar?.fields ?? [];
@@ -364,8 +383,7 @@ function ConfirmPanel({ caseId, result, onDone }: { caseId: string; result: Case
               </span>
             )}
             <div className="quick">
-              {it.obs && <button onClick={() => setVals((p) => ({ ...p, [it.field]: it.obs!.text }))}>use {it.obs.text}</button>}
-              {(it.obs?.alternatives ?? []).slice(0, 2).map((a) => <button key={a} onClick={() => setVals((p) => ({ ...p, [it.field]: a }))}>use {a}</button>)}
+              {candidates(it.obs).map((a) => <button key={a} onClick={() => setVals((p) => ({ ...p, [it.field]: a }))}>use {a}</button>)}
             </div>
           </div>
           <input className="input" style={{ width: 160 }} value={vals[it.field] ?? ""} placeholder="value as written"

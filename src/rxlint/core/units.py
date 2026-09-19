@@ -201,6 +201,13 @@ def parse_dose(raw: str) -> Dose:
     vols = re.findall(rf"({NUM})\s*(ml|cc)\b", text)
     masses = re.findall(rf"({NUM})\s*(mg|g|gm|mcg|µg|μg|ug)\b", text)
     units = re.findall(rf"({NUM})\s*(tablets?|tabs?|capsules?|caps?|sachets?|comprimés?|gélules?)\b", text)
+    # Every number must belong to an amount, a count or a duration: a stray one is a second candidate amount
+    # ("2.5 7.5 ml", an overwritten "2.57.5ml"), never something to drop.
+    rest = re.sub(rf"({NUM})\s*(ml|cc|mg|g|gm|mcg|µg|μg|ug|tablets?|tabs?|capsules?|caps?|sachets?|comprimés?|gélules?)\b", " ", text)
+    rest = re.sub(rf"\b({NUM})\s*(x|times?|fois|days?|jours?|hours?|hrs?|h|heures?)\b", " ", rest)
+    rest = re.sub(r"\bq\s*\d+\s*h\b", " ", rest)
+    if re.search(r"\d", rest):
+        raise Unparseable("dose", raw, "more than one possible amount")
     if len(vols) == 1 and not units:
         v = to_decimal(vols[0][0], "dose") * VOLUME_TO_ML[vols[0][1]]
         if v <= 0:

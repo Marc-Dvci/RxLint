@@ -131,7 +131,7 @@ export interface CaseResult {
   case_id: string;
   assets: Asset[];
   quality: Record<string, { checks: QualityCheck[]; ok: boolean; width: number; height: number }>;
-  extractions: { asset_id: string; model?: string; provider?: string; replayed?: boolean; latency_ms?: number; error?: string | null; untrusted_instructions_seen?: boolean; legibility?: string }[];
+  extractions: { asset_id: string; kind?: string; kind_corrected?: boolean; model?: string; provider?: string; replayed?: boolean; latency_ms?: number; error?: string | null; untrusted_instructions_seen?: boolean; legibility?: string }[];
   observations: Observation[];
   verification: Verification;
   clarification: Clarification | null;
