@@ -164,9 +164,12 @@ class Cassette:
         with self._lock:
             rec = {"key": key, **rec}
             self._items[key] = rec
-            self.path.parent.mkdir(parents=True, exist_ok=True)
-            with self.path.open("a", encoding="utf-8") as fh:
-                fh.write(json.dumps(rec, ensure_ascii=False) + "\n")
+            try:
+                self.path.parent.mkdir(parents=True, exist_ok=True)
+                with self.path.open("a", encoding="utf-8") as fh:
+                    fh.write(json.dumps(rec, ensure_ascii=False) + "\n")
+            except OSError:
+                pass  # a read-only deployment keeps the response in memory only
 
 
 class ModelClient:
