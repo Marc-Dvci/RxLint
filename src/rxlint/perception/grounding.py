@@ -20,7 +20,7 @@ import numpy as np
 NUMERIC_FIELDS = {"rx.strength", "rx.dose", "rx.duration", "rx.patient_weight", "dispensed.strength",
                   "dispensed.volume", "dispensed.lot", "dispensed.expiry", "rx.patient_age"}
 # Fields whose digits must be corroborated by an independent reader or confirmed by a person (policy P-PERC-02).
-CORROBORATION_REQUIRED = {"rx.strength", "rx.dose", "rx.patient_weight", "dispensed.strength"}
+CORROBORATION_REQUIRED = {"rx.strength", "rx.dose", "rx.patient_weight", "dispensed.strength", "dispensed.expiry", "dispensed.volume"}
 # Letters an OCR engine returns in place of handwritten digits. Used only to locate a field, never to read it.
 CONFUSABLE = str.maketrans({"s": "5", "S": "5", "z": "2", "Z": "2", "o": "0", "O": "0", "l": "1", "I": "1", "i": "1",
                             "g": "9", "b": "6", "B": "8", "a": "2", "q": "9", "t": "7", "T": "7"})
@@ -120,6 +120,7 @@ def ground(observations: list[dict[str, Any]], lines: list[OcrLine]) -> list[dic
     out = []
     for ob in observations:
         ob = dict(ob)
+        ob["model_bbox"] = ob.get("bbox")
         ratio, group, span = match(ob["text"], lines)
         ob["ocr_match"] = round(ratio, 3)
         ob["ocr_text"] = span or None
@@ -127,6 +128,7 @@ def ground(observations: list[dict[str, Any]], lines: list[OcrLine]) -> list[dic
             ob["bbox"] = _union([g.bbox for g in group])
             ob["grounding"] = "ocr"
             score = min(g.score for g in group)
+            ob["ocr_score"] = round(score, 4)
             if ob["field"] in NUMERIC_FIELDS:
                 n_model, n_ocr = numbers(ob["text"]), numbers(span)
                 if contains_sequence(n_model, n_ocr) and score >= OCR_TRUST and not _confusable_digits(span):
@@ -141,6 +143,22 @@ def ground(observations: list[dict[str, Any]], lines: list[OcrLine]) -> list[dic
         else:
             ob["grounding"] = "model" if ob.get("bbox") else None
             ob["corroboration"] = "unmatched"
-        ob["requires_confirmation"] = ob["field"] in CORROBORATION_REQUIRED and ob["corroboration"] != "corroborated"
+        ob["_group"] = tuple(id(g) for g in group) if ratio >= 0.72 and group else None
         out.append(ob)
+    # An OCR span that two different readings matched corroborates only the reading that explains it fully:
+    # a short reading ("5 mL") inside another field's text ("200 mg per 5 mL") gets no corroboration from it.
+    for ob in out:
+        if ob["corroboration"] != "corroborated" or ob["_group"] is None:
+            continue
+        mine = _locate_key(ob["text"])
+        for other in out:
+            if other is ob or other["_group"] != ob["_group"] or other["field"] == ob["field"]:
+                continue
+            theirs = _locate_key(other["text"])
+            if mine in theirs and len(theirs) > len(mine):
+                ob["corroboration"] = "unconfirmed"
+                ob["shared_span_with"] = other["field"]
+    for ob in out:
+        ob.pop("_group", None)
+        ob["requires_confirmation"] = ob["field"] in CORROBORATION_REQUIRED and ob["corroboration"] != "corroborated"
     return out

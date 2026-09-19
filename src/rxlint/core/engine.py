@@ -822,8 +822,10 @@ def verify(snap: Snapshot, pack: RulePack) -> Verification:
     clarification = None
     if cannots:
         first = sorted(cannots, key=lambda f: ("REQUEST_NEW_PHOTO" != f.action, f.rule_id))[0]
-        clarification = {"action": first.action, "fields": sorted({m for f in cannots for m in f.missing}),
-                         "reason": first.message, "source": "deterministic"}
+        fields = {m for f in cannots for m in f.missing}
+        # Ask for every unresolved reading at once, so one confirmation round unblocks the case.
+        fields |= {k for k, fct in snap.facts.items() if fct.status == "ambiguous" and (k in MANDATORY or k in ("rx.strength", "dispensed.volume_ml"))}
+        clarification = {"action": first.action, "fields": sorted(fields), "reason": first.message, "source": "deterministic"}
 
     snap_hash = snap.sha256()
     blob = json.dumps({"snapshot": snap_hash, "pack": pack.sha256, "engine": ENGINE_VERSION, "state": state,

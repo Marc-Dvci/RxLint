@@ -434,9 +434,11 @@ class SnapshotBuilder:
         return Fact()
 
     def _list_fact(self, key: str, resolver: Callable[[str], Any], empty_class: str | None) -> Fact:
-        items = self.obs.get(key, [])
-        if not items:
+        all_items = self.obs.get(key, [])
+        if not all_items:
             return Fact()
+        confirmed = [(ob, ev) for ob, ev in all_items if ob.method == "confirmation"]
+        items = confirmed or all_items
         entries: list[dict[str, Any]] = []
         for ob, ev_id in items:
             if not ob.legible:
@@ -455,7 +457,8 @@ class SnapshotBuilder:
         ev = self.graph.add(
             Evidence(id=f"ev_{key.replace('.', '_')}", kind=EvidenceKind.NORMALIZED_ENTITY, name=key, value=value,
                      raw=" | ".join(ob.raw for ob, _ in items), status="normalized", method="rxlint.normalize",
-                     parents=[ev for _, ev in items])
+                     parents=[ev for _, ev in all_items],
+                     notes=["confirmed by the pharmacist; other readings superseded"] if confirmed else [])
         )
         return Fact(status="present", value=value, evidence=ev.id, raw=" | ".join(ob.raw for ob, _ in items))
 

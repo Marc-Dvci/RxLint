@@ -338,9 +338,14 @@ def bench() -> dict[str, Any]:
 if WEB.exists():
     app.mount("/assets", StaticFiles(directory=WEB / "assets"), name="assets")
 
+    WEB_ROOT = WEB.resolve()
+
     @app.get("/{path:path}", include_in_schema=False)
     def spa(path: str):
-        target = WEB / path
-        if path and target.is_file():
+        if path.startswith("api/"):
+            raise HTTPException(404)
+        target = (WEB_ROOT / path).resolve()
+        # Serve only files inside the built web bundle; anything else gets the app shell.
+        if path and target.is_file() and target.is_relative_to(WEB_ROOT):
             return FileResponse(target)
-        return FileResponse(WEB / "index.html")
+        return FileResponse(WEB_ROOT / "index.html")
