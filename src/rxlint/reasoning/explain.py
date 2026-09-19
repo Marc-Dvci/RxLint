@@ -34,7 +34,7 @@ Say whether a value is above or below a range only as the finding states it.
 Reply with one JSON object: {{"text": "..."}}."""
 
 AUDIENCE = {
-    "professional": "The reader is a pharmacist. Be precise and brief: at most four sentences. Cite the rule tokens given.",
+    "professional": "The reader is a pharmacist. Be precise and brief: at most four sentences. Cite the rule tokens given. The action token {{action}} must appear exactly once, as the last sentence.",
     "caregiver": "The reader is a parent or caregiver. Use plain words, at most three short sentences. Do not mention rules. The action token {{action}} must appear exactly once, as the last sentence.",
 }
 
@@ -111,8 +111,13 @@ def value_table(verification: dict[str, Any], language: str) -> tuple[dict[str, 
         tokens[rule_tok] = f["rule_id"]
         entry = {"rule": "{{" + rule_tok + "}}", "finding": f["title"], "status": f["status"], "severity": f.get("severity"),
                  "claim": _claim(f), "values": {}}
+        if f["status"] == "cannot_evaluate" and f.get("missing"):
+            from .clarify import FIELD_WORDS
+
+            entry["blocked_by"] = [FIELD_WORDS.get(m, m.split(".")[-1].replace("_", " ")) for m in f["missing"]]
+            entry["reason"] = "could not be read with certainty" if "competing" in f.get("message", "") else "not stated"
         for k, v in _values(f, language).items():
-            if v in (None, "", "None", "None kg"):
+            if v is None or not str(v).strip() or str(v).startswith("None"):
                 continue
             n += 1
             tokens[f"v{n}"] = str(v)
@@ -260,7 +265,7 @@ def explain(client: ModelClient, verification: dict[str, Any], language: str = "
     except (ModelUnavailable, ValueError) as exc:
         return fallback({"model_error": str(exc)})
     meta = {"model": res.record.model, "provider": res.record.provider, "replayed": res.record.replayed}
-    problems = check_integrity(template, tokens, ["action"] if audience == "caregiver" else [])
+    problems = check_integrity(template, tokens, ["action"])
     if problems:
         return fallback({**meta, "model_rejected": {"text": template, "problems": problems}, "integrity": {"ok": False, "problems": problems}})
     text = render(template, tokens)
