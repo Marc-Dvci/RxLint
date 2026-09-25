@@ -92,3 +92,40 @@ def test_path_traversal_is_rejected(client):
     assert client.get("/api/demo-cases/A/..%2Fcase.json").status_code == 404
     assert client.get("/api/does-not-exist").status_code == 404
     assert client.get("/api/cases/..%2F..%2Fetc").status_code in (400, 404)
+
+
+def _png() -> bytes:
+    from io import BytesIO
+
+    from PIL import Image
+
+    buf = BytesIO()
+    Image.new("RGB", (64, 64), "white").save(buf, "PNG")
+    return buf.getvalue()
+
+
+def test_unknown_patient_field_is_a_400_not_a_failed_run(client):
+    r = client.post("/api/cases", files={"prescription": ("rx.png", _png(), "image/png")},
+                    data={"patient": '{"weight_kg": "9.5"}'})
+    assert r.status_code == 400 and "patient.weight" in r.json()["detail"]
+
+
+def test_declared_image_type_is_not_trusted(client):
+    r = client.post("/api/cases", files={"prescription": ("rx.jpg", _png(), "image/jpeg")}, data={"patient": "{}"})
+    assert r.status_code == 200
+    cid = r.json()["case_id"]
+    assets = client.get(f"/api/cases/{cid}").json()["input"]["assets"]
+    assert assets[0]["mime"] == "image/png"
+
+
+def test_non_image_upload_is_rejected(client):
+    r = client.post("/api/cases", files={"prescription": ("rx.jpg", b"not an image", "image/jpeg")}, data={"patient": "{}"})
+    assert r.status_code == 415
+
+
+def test_voice_note_needs_a_served_omni_model(client):
+    os.environ.pop("RXLINT_OMNI_BASE_URL", None)
+    assert client.get("/api/health").json()["voice"] is False
+    r = client.post("/api/cases", files={"prescription": ("rx.png", _png(), "image/png"), "audio": ("n.webm", b"x", "audio/webm")},
+                    data={"patient": "{}"})
+    assert r.status_code == 400

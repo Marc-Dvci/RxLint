@@ -17,7 +17,8 @@ function useRoute(): string {
   return hash.slice(1);
 }
 
-function providerLabel(p: string): string {
+function providerLabel(p: string | null): string {
+  if (!p) return "not served";
   if (p === "nebius-token-factory") return "Token Factory";
   if (p === "local-llama.cpp") return "local llama.cpp";
   return p;

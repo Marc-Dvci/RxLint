@@ -163,7 +163,7 @@ export interface LiveResult {
   as_of?: string | null;
   retrieved_at: string;
   notices: Notice[];
-  searches: { source: string; query?: string; ok: boolean; results?: number; error?: string; domains?: string[]; rejected_off_allowlist?: number }[];
+  searches: { source: string; query?: string; ok: boolean; results?: number; error?: string; domains?: string[]; rejected_off_allowlist?: number; exact_match?: boolean }[];
   errors?: string[];
   query_policy: string;
   target: { product: string | null; lot: string | null };
@@ -184,6 +184,7 @@ export interface Explanation {
   integrity?: { ok: boolean; checks?: string[]; problems?: string[] };
   model_rejected?: { text: string; problems: string[] };
   model_error?: string;
+  note?: string;
 }
 
 export interface CaseEnvelope {
@@ -216,7 +217,8 @@ export interface DemoCase {
 export interface Health {
   status: string;
   rulepack: { id: string; version: string; sha256: string; rules: number; title: string; effective_date: string };
-  models: Record<string, { model: string; provider: string; configured: boolean }>;
+  models: Record<string, { model: string; provider: string | null; configured: boolean; note?: string }>;
+  voice?: boolean;
   perception: { mode: "omni" | "two_stage"; readers: string[] };
   model_mode: string;
   tavily: { configured: boolean };

@@ -23,6 +23,7 @@ from .. import demo
 from ..config import load_env
 from ..core import build_snapshot, load_pack, verify
 from ..core.rulepack import verify_quotes
+from ..core.snapshot import FIELD_MAP
 from ..live.drift import drift_check
 from ..live.surveillance import live_check, policies
 from ..live.tavily import TavilyClient
@@ -75,16 +76,26 @@ def _load(case_id: str, name: str) -> Any:
 
 
 # ----------------------------------------------------------------------------- status
+def omni_served() -> bool:
+    """Nemotron 3 Nano Omni is not on Token Factory: it is used only where RXLINT_OMNI_BASE_URL points at a
+    server that hosts it (a Nebius AI Cloud endpoint or llama.cpp)."""
+    return bool(os.environ.get("RXLINT_OMNI_BASE_URL"))
+
+
 @app.get("/api/health")
 def health() -> dict[str, Any]:
     roles = {}
     for role in ("omni", "vision", "structure", "ultra"):
         cfg = role_config(role)
         roles[role] = {"model": cfg.model, "provider": cfg.provider, "configured": bool(cfg.api_key) or cfg.provider == "local-llama.cpp"}
+    if not omni_served():
+        roles["omni"] = {"model": role_config("omni").model, "provider": None, "configured": False,
+                         "note": "not served on Token Factory; set RXLINT_OMNI_BASE_URL to a Nebius AI Cloud endpoint or llama.cpp"}
     return {
         "status": "ok",
         "rulepack": PACK.summary_dict(),
         "models": roles,
+        "voice": omni_served(),
         "perception": {"mode": perception_mode(),
                        "readers": [role_config("omni").model] if perception_mode() == "omni"
                        else [role_config("vision").model, role_config("structure").model]},
@@ -145,6 +156,24 @@ def _start(inp: CaseInput, blobs: dict[str, bytes], meta: dict[str, Any]) -> Non
     threading.Thread(target=work, daemon=True).start()
 
 
+PATIENT_FIELDS = {k for k in FIELD_MAP if k.startswith("patient.")}
+IMAGE_MIME = {"JPEG": "image/jpeg", "PNG": "image/png", "WEBP": "image/webp"}
+
+
+def _image_mime(data: bytes) -> str:
+    """The media type of an uploaded photo, read from its bytes; the declared type is not trusted."""
+    from io import BytesIO
+
+    from PIL import Image, UnidentifiedImageError
+
+    try:
+        with Image.open(BytesIO(data)) as im:
+            fmt = (im.format or "").upper()
+    except (UnidentifiedImageError, OSError):
+        raise HTTPException(415, "unsupported image format: send a JPEG, PNG or WebP photo") from None
+    return IMAGE_MIME.get(fmt, "image/jpeg")
+
+
 @app.post("/api/cases")
 async def create_case(
     request: Request,
@@ -181,11 +210,22 @@ async def create_case(
             data = await up.read()
             if len(data) > 12 * 1024 * 1024:
                 raise HTTPException(413, "file too large")
+            mime = up.content_type or "application/octet-stream"
+            if kind == "audio" and not omni_served():
+                raise HTTPException(400, "voice notes need Nemotron 3 Nano Omni, which this deployment does not serve")
+            if kind != "audio":
+                mime = _image_mime(data)
             blobs[aid] = data
-            assets.append(Asset.from_bytes(aid, kind, data, up.content_type or "application/octet-stream", up.filename))
+            assets.append(Asset.from_bytes(aid, kind, data, mime, up.filename))
         if not any(a.kind in ("prescription", "medicine") for a in assets):
             raise HTTPException(400, "add at least one photo")
-        pat = json.loads(patient or "{}")
+        try:
+            pat = json.loads(patient or "{}")
+        except json.JSONDecodeError:
+            raise HTTPException(400, "patient must be a JSON object") from None
+    unknown = sorted(k for k in pat if k not in PATIENT_FIELDS)
+    if unknown:
+        raise HTTPException(400, f"unknown patient field(s) {unknown}; use {sorted(PATIENT_FIELDS)}")
     inp = CaseInput(case_id=case_id, assets=assets, patient={k: v for k, v in pat.items() if v}, country=country,
                     dispense_date=dispense_date)
     _start(inp, blobs, meta)

@@ -104,7 +104,12 @@ function NewCase() {
   const [country, setCountry] = useState("FR");
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
+  const [voiceOk, setVoiceOk] = useState(false);
   const set = (k: keyof typeof f) => (v: string) => setF((p) => ({ ...p, [k]: v }));
+
+  useEffect(() => {
+    api.health().then((h) => setVoiceOk(Boolean(h.voice))).catch(() => setVoiceOk(false));
+  }, []);
 
   const toggleRecord = async () => {
     if (recording) {
@@ -177,10 +182,18 @@ function NewCase() {
               </select>
             </label>
           </div>
-          <button className="btn small" onClick={toggleRecord} type="button">
-            <IMic /> {recording ? "Stop recording" : voice ? "Re-record voice note" : "Speak patient facts"}
-          </button>
-          {voice && <span className="chip">Voice note attached</span>}
+          {voiceOk ? (
+            <>
+              <button className="btn small" onClick={toggleRecord} type="button">
+                <IMic /> {recording ? "Stop recording" : voice ? "Re-record voice note" : "Speak patient facts"}
+              </button>
+              {voice && <span className="chip">Voice note attached</span>}
+            </>
+          ) : (
+            <span className="tiny muted" title="Token Factory serves no audio model">
+              <IMic /> Voice notes run where Nemotron 3 Nano Omni is served (a Nebius AI Cloud endpoint or llama.cpp).
+            </span>
+          )}
         </div>
       </div>
       {err && <div className="error">{err}</div>}

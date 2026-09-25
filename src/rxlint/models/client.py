@@ -103,13 +103,22 @@ def role_config(role: str) -> RoleConfig:
     )
 
 
+SENDABLE = {"JPEG": "image/jpeg", "PNG": "image/png", "WEBP": "image/webp"}
+
+
 def image_part(image_bytes: bytes, mime: str = "image/png", max_side: int = 1600) -> dict[str, Any]:
-    """Encode an image for a chat message, downscaling large photos to ``max_side``."""
+    """Encode an image for a chat message, downscaling large photos to ``max_side``.
+
+    The media type comes from the bytes, never from the upload's declared type: a PNG sent as
+    image/jpeg is rejected by the vision endpoint. Other formats are re-encoded as JPEG."""
     from PIL import Image
 
     img = Image.open(io.BytesIO(image_bytes))
     img.load()
-    if max(img.size) > max_side:
+    actual = SENDABLE.get((img.format or "").upper())
+    if actual:
+        mime = actual
+    if max(img.size) > max_side or not actual:
         img.thumbnail((max_side, max_side))
         buf = io.BytesIO()
         img.convert("RGB").save(buf, "JPEG", quality=92)
