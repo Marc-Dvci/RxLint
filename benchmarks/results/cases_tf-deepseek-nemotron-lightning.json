@@ -1,0 +1,5924 @@
+{
+ "rb0210": {
+  "oracle": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-DUR-AOM"
+   ]
+  }
+ },
+ "rb0211": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-AZM-PED-001",
+    "AWARE-AZM-PED-002"
+   ]
+  },
+  "omni_trust": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "rx.dose"
+   ],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "rx.dose"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "rx.dose"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "rx.dose"
+   ],
+   "fails": []
+  }
+ },
+ "rb0212": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-SXT-PED-001"
+   ]
+  },
+  "omni_trust": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength"
+   ],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength",
+    "patient.age",
+    "rx.dose"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength",
+    "patient.age",
+    "rx.dose"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "rx.dose"
+   ],
+   "fails": []
+  }
+ },
+ "rb0213": {
+  "oracle": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency",
+    "rx.strength"
+   ],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency",
+    "rx.strength"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency",
+    "rx.strength"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-DUR-UTI",
+    "RX-PRODUCT-006"
+   ]
+  }
+ },
+ "rb0214": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-001",
+    "RX-PRODUCT-003"
+   ]
+  },
+  "omni_trust": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-001",
+    "RX-PRODUCT-003"
+   ]
+  },
+  "rxlint_strict": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-001",
+    "RX-PRODUCT-003"
+   ]
+  },
+  "rxlint_head": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-001",
+    "RX-PRODUCT-003"
+   ]
+  },
+  "ocr_rules": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-001",
+    "RX-PRODUCT-003"
+   ]
+  }
+ },
+ "rb0215": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-003",
+    "RX-PRODUCT-002"
+   ]
+  },
+  "omni_trust": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-003",
+    "RX-PRODUCT-002"
+   ]
+  },
+  "rxlint_strict": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-003",
+    "RX-PRODUCT-002"
+   ]
+  },
+  "rxlint_head": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-003",
+    "RX-PRODUCT-002"
+   ]
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "dispensed.strength"
+   ],
+   "fails": []
+  }
+ },
+ "rb0216": {
+  "oracle": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  }
+ },
+ "rb0217": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "DDI-AZM-001"
+   ]
+  },
+  "omni_trust": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "DDI-AZM-001"
+   ]
+  },
+  "rxlint_strict": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "DDI-AZM-001"
+   ]
+  },
+  "rxlint_head": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "DDI-AZM-001"
+   ]
+  },
+  "ocr_rules": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "DDI-AZM-001"
+   ]
+  }
+ },
+ "rb0218": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-005"
+   ]
+  },
+  "omni_trust": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-005"
+   ]
+  },
+  "rxlint_strict": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-005"
+   ]
+  },
+  "rxlint_head": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-005"
+   ]
+  },
+  "ocr_rules": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-005"
+   ]
+  }
+ },
+ "rb0219": {
+  "oracle": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  }
+ },
+ "rb0220": {
+  "oracle": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [
+    "dispensed.expiry",
+    "dispensed.volume"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [
+    "dispensed.expiry",
+    "dispensed.volume"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-006"
+   ]
+  }
+ },
+ "rb0221": {
+  "oracle": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "rx.drug"
+   ],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [],
+   "fails": []
+  }
+ },
+ "rb0222": {
+  "oracle": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "rx.duration"
+   ],
+   "fails": []
+  }
+ },
+ "rb0223": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-SXT-PED-001",
+    "AWARE-SXT-PED-002",
+    "RX-PRODUCT-006"
+   ]
+  },
+  "omni_trust": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-SXT-PED-001",
+    "AWARE-SXT-PED-002",
+    "RX-PRODUCT-006"
+   ]
+  },
+  "rxlint_strict": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-SXT-PED-001",
+    "AWARE-SXT-PED-002",
+    "RX-PRODUCT-006"
+   ]
+  },
+  "rxlint_head": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-SXT-PED-001",
+    "AWARE-SXT-PED-002",
+    "RX-PRODUCT-006"
+   ]
+  },
+  "ocr_rules": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-SXT-PED-001",
+    "AWARE-SXT-PED-002",
+    "AWARE-DUR-UTI",
+    "RX-PRODUCT-006"
+   ]
+  }
+ },
+ "rb0224": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-AMC-PED-001",
+    "RX-PRODUCT-006"
+   ]
+  },
+  "omni_trust": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength"
+   ],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength",
+    "rx.dose"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength",
+    "rx.dose"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "rx.dose",
+    "rx.frequency"
+   ],
+   "fails": []
+  }
+ },
+ "rb0225": {
+  "oracle": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "dispensed.strength"
+   ],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "dispensed.strength",
+    "rx.dose"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "dispensed.strength",
+    "rx.dose"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "dispensed.strength",
+    "rx.dose"
+   ],
+   "fails": []
+  }
+ },
+ "rb0226": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-001",
+    "RX-PRODUCT-003"
+   ]
+  },
+  "omni_trust": {
+   "state": "OUT_OF_SCOPE",
+   "after": "OUT_OF_SCOPE",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "OUT_OF_SCOPE",
+   "after": "OUT_OF_SCOPE",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "OUT_OF_SCOPE",
+   "after": "OUT_OF_SCOPE",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "rx.drug",
+    "rx.strength"
+   ],
+   "fails": []
+  }
+ },
+ "rb0227": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-003",
+    "RX-PRODUCT-002"
+   ]
+  },
+  "omni_trust": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-003",
+    "RX-PRODUCT-002"
+   ]
+  },
+  "rxlint_strict": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-003",
+    "RX-PRODUCT-002"
+   ]
+  },
+  "rxlint_head": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-003",
+    "RX-PRODUCT-002"
+   ]
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "dispensed.strength"
+   ],
+   "fails": []
+  }
+ },
+ "rb0228": {
+  "oracle": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  }
+ },
+ "rb0229": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "DDI-AZM-001"
+   ]
+  },
+  "omni_trust": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "DDI-AZM-001"
+   ]
+  },
+  "rxlint_strict": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "DDI-AZM-001"
+   ]
+  },
+  "rxlint_head": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "DDI-AZM-001"
+   ]
+  },
+  "ocr_rules": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "DDI-AZM-001"
+   ]
+  }
+ },
+ "rb0230": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-005"
+   ]
+  },
+  "omni_trust": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-005"
+   ]
+  },
+  "rxlint_strict": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-005"
+   ]
+  },
+  "rxlint_head": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-005"
+   ]
+  },
+  "ocr_rules": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-005"
+   ]
+  }
+ },
+ "rb0231": {
+  "oracle": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength"
+   ],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  }
+ },
+ "rb0232": {
+  "oracle": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency"
+   ],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency"
+   ],
+   "fails": []
+  }
+ },
+ "rb0233": {
+  "oracle": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "patient.age",
+    "patient.weight"
+   ],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [],
+   "fails": []
+  }
+ },
+ "rb0234": {
+  "oracle": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency",
+    "rx.strength"
+   ],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency",
+    "rx.strength"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency",
+    "rx.strength"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  }
+ },
+ "rb0235": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-CLR-PED-001",
+    "AWARE-CLR-PED-002",
+    "RX-PRODUCT-006"
+   ]
+  },
+  "omni_trust": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-006"
+   ]
+  },
+  "rxlint_strict": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-006"
+   ]
+  },
+  "rxlint_head": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-006"
+   ]
+  },
+  "ocr_rules": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-CLR-PED-001",
+    "AWARE-CLR-PED-002",
+    "RX-PRODUCT-006"
+   ]
+  }
+ },
+ "rb0236": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-SXT-PED-001"
+   ]
+  },
+  "omni_trust": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-SXT-PED-001"
+   ]
+  },
+  "rxlint_strict": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-SXT-PED-001"
+   ]
+  },
+  "rxlint_head": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-SXT-PED-001"
+   ]
+  },
+  "ocr_rules": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-SXT-PED-001"
+   ]
+  }
+ },
+ "rb0237": {
+  "oracle": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength"
+   ],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength",
+    "rx.dose"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength"
+   ],
+   "fails": []
+  }
+ },
+ "rb0238": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-001",
+    "RX-PRODUCT-003"
+   ]
+  },
+  "omni_trust": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength"
+   ],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength",
+    "rx.dose"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength",
+    "rx.dose"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-003"
+   ]
+  }
+ },
+ "rb0239": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-003",
+    "RX-PRODUCT-002"
+   ]
+  },
+  "omni_trust": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-003",
+    "RX-PRODUCT-002"
+   ]
+  },
+  "rxlint_strict": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-003",
+    "RX-PRODUCT-002"
+   ]
+  },
+  "rxlint_head": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-003",
+    "RX-PRODUCT-002"
+   ]
+  },
+  "ocr_rules": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-DUR-AOM"
+   ]
+  }
+ },
+ "rb0240": {
+  "oracle": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "rx.dose"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "rx.dose"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-DUR-CAP"
+   ]
+  }
+ },
+ "rb0241": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "DDI-SXT-001"
+   ]
+  },
+  "omni_trust": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "DDI-SXT-001"
+   ]
+  },
+  "rxlint_strict": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "DDI-SXT-001"
+   ]
+  },
+  "rxlint_head": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "DDI-SXT-001"
+   ]
+  },
+  "ocr_rules": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "DDI-SXT-001"
+   ]
+  }
+ },
+ "rb0242": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-005"
+   ]
+  },
+  "omni_trust": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-005"
+   ]
+  },
+  "rxlint_strict": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-005"
+   ]
+  },
+  "rxlint_head": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-005"
+   ]
+  },
+  "ocr_rules": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-005"
+   ]
+  }
+ },
+ "rb0243": {
+  "oracle": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  }
+ },
+ "rb0244": {
+  "oracle": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [
+    "dispensed.expiry",
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency"
+   ],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [
+    "dispensed.expiry",
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [
+    "dispensed.expiry",
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [
+    "dispensed.expiry"
+   ],
+   "fails": []
+  }
+ },
+ "rb0245": {
+  "oracle": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  }
+ },
+ "rb0246": {
+  "oracle": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.strength"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.strength"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-DUR-UTI",
+    "RX-PRODUCT-006"
+   ]
+  }
+ },
+ "rb0247": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-AMX-PED-001",
+    "RX-PRODUCT-006"
+   ]
+  },
+  "omni_trust": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-AMX-PED-001",
+    "RX-PRODUCT-006"
+   ]
+  },
+  "rxlint_strict": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-AMX-PED-001",
+    "RX-PRODUCT-006"
+   ]
+  },
+  "rxlint_head": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-AMX-PED-001",
+    "RX-PRODUCT-006"
+   ]
+  },
+  "ocr_rules": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-AMX-PED-001",
+    "RX-PRODUCT-006"
+   ]
+  }
+ },
+ "rb0248": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-SXT-PED-001",
+    "AWARE-SXT-PED-002"
+   ]
+  },
+  "omni_trust": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-SXT-PED-002"
+   ]
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "patient.weight",
+    "rx.dose",
+    "rx.strength"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "patient.weight",
+    "rx.dose",
+    "rx.strength"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency"
+   ],
+   "fails": []
+  }
+ },
+ "rb0249": {
+  "oracle": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency",
+    "rx.strength"
+   ],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "dispensed.strength",
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency",
+    "rx.strength"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "dispensed.strength",
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency",
+    "rx.strength"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "dispensed.strength"
+   ],
+   "fails": []
+  }
+ },
+ "rb0250": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-001",
+    "RX-PRODUCT-003"
+   ]
+  },
+  "omni_trust": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-001",
+    "RX-PRODUCT-003"
+   ]
+  },
+  "rxlint_strict": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-001",
+    "RX-PRODUCT-003"
+   ]
+  },
+  "rxlint_head": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-001",
+    "RX-PRODUCT-003"
+   ]
+  },
+  "ocr_rules": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-001",
+    "RX-PRODUCT-003"
+   ]
+  }
+ },
+ "rb0251": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-003",
+    "RX-PRODUCT-002"
+   ]
+  },
+  "omni_trust": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-003",
+    "RX-PRODUCT-002"
+   ]
+  },
+  "rxlint_strict": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-003",
+    "RX-PRODUCT-002"
+   ]
+  },
+  "rxlint_head": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-003",
+    "RX-PRODUCT-002"
+   ]
+  },
+  "ocr_rules": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-DUR-AOM"
+   ]
+  }
+ },
+ "rb0252": {
+  "oracle": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  }
+ },
+ "rb0253": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "DDI-AMX-002"
+   ]
+  },
+  "omni_trust": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "DDI-AMX-002"
+   ]
+  },
+  "rxlint_strict": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "DDI-AMX-002"
+   ]
+  },
+  "rxlint_head": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "DDI-AMX-002"
+   ]
+  },
+  "ocr_rules": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "DDI-AMX-002"
+   ]
+  }
+ },
+ "rb0254": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-005"
+   ]
+  },
+  "omni_trust": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-005"
+   ]
+  },
+  "rxlint_strict": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-005"
+   ]
+  },
+  "rxlint_head": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-005"
+   ]
+  },
+  "ocr_rules": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-005"
+   ]
+  }
+ },
+ "rb0255": {
+  "oracle": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "rx.duration"
+   ],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "dispensed.expiry",
+    "dispensed.strength",
+    "dispensed.volume",
+    "rx.dose",
+    "rx.duration"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "dispensed.expiry",
+    "dispensed.strength",
+    "dispensed.volume",
+    "rx.dose",
+    "rx.duration"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength",
+    "rx.dose",
+    "rx.duration",
+    "rx.frequency"
+   ],
+   "fails": []
+  }
+ },
+ "rb0256": {
+  "oracle": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-001"
+   ]
+  },
+  "rxlint_strict": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-001"
+   ]
+  },
+  "rxlint_head": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-001"
+   ]
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength",
+    "rx.duration"
+   ],
+   "fails": []
+  }
+ },
+ "rb0257": {
+  "oracle": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength",
+    "patient.age",
+    "patient.weight"
+   ],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [],
+   "fails": []
+  }
+ },
+ "rb0258": {
+  "oracle": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "rx.dose"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "rx.dose"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-DUR-PHARYNGITIS"
+   ]
+  }
+ },
+ "rb0259": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-CLR-PED-001",
+    "AWARE-CLR-PED-002"
+   ]
+  },
+  "omni_trust": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency"
+   ],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.drug",
+    "rx.frequency"
+   ],
+   "fails": []
+  }
+ },
+ "rb0260": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-CLR-PED-001"
+   ]
+  },
+  "omni_trust": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-CLR-PED-001"
+   ]
+  },
+  "rxlint_strict": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-CLR-PED-001"
+   ]
+  },
+  "rxlint_head": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-CLR-PED-001"
+   ]
+  },
+  "ocr_rules": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-CLR-PED-001"
+   ]
+  }
+ },
+ "rb0261": {
+  "oracle": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  }
+ },
+ "rb0262": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-001",
+    "RX-PRODUCT-003"
+   ]
+  },
+  "omni_trust": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency"
+   ],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-001",
+    "RX-PRODUCT-003"
+   ]
+  }
+ },
+ "rb0263": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-003",
+    "RX-PRODUCT-002"
+   ]
+  },
+  "omni_trust": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength"
+   ],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "dispensed.strength",
+    "rx.duration"
+   ],
+   "fails": []
+  }
+ },
+ "rb0264": {
+  "oracle": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "dispensed.expiry",
+    "dispensed.volume"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "dispensed.expiry",
+    "dispensed.volume"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug"
+   ],
+   "fails": []
+  }
+ },
+ "rb0265": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "DDI-AMX-002"
+   ]
+  },
+  "omni_trust": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "DDI-AMX-002"
+   ]
+  },
+  "rxlint_strict": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "DDI-AMX-002"
+   ]
+  },
+  "rxlint_head": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "DDI-AMX-002"
+   ]
+  },
+  "ocr_rules": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "DDI-AMX-002"
+   ]
+  }
+ },
+ "rb0266": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-005"
+   ]
+  },
+  "omni_trust": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-005"
+   ]
+  },
+  "rxlint_strict": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-005"
+   ]
+  },
+  "rxlint_head": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-005"
+   ]
+  },
+  "ocr_rules": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-005"
+   ]
+  }
+ },
+ "rb0267": {
+  "oracle": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "dispensed.expiry"
+   ],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "dispensed.expiry",
+    "rx.dose"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "dispensed.expiry",
+    "rx.dose"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "dispensed.expiry"
+   ],
+   "fails": []
+  }
+ },
+ "rb0268": {
+  "oracle": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength",
+    "patient.weight"
+   ],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength",
+    "patient.weight",
+    "rx.dose"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength",
+    "patient.weight",
+    "rx.dose"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency"
+   ],
+   "fails": []
+  }
+ },
+ "rb0269": {
+  "oracle": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [],
+   "fails": []
+  }
+ },
+ "rb0270": {
+  "oracle": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "rx.dose"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "rx.dose"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  }
+ },
+ "rb0271": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-CLR-PED-001",
+    "AWARE-CLR-PED-002"
+   ]
+  },
+  "omni_trust": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency"
+   ],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-CLR-PED-001",
+    "AWARE-CLR-PED-002"
+   ]
+  }
+ },
+ "rb0272": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-CFX-PED-001",
+    "AWARE-CFX-PED-002",
+    "RX-PRODUCT-006"
+   ]
+  },
+  "omni_trust": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-CFX-PED-001",
+    "RX-PRODUCT-005",
+    "AWARE-CFX-PED-002",
+    "RX-PRODUCT-006"
+   ]
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "dispensed.expiry",
+    "dispensed.strength",
+    "dispensed.volume",
+    "rx.dose",
+    "rx.strength"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "dispensed.expiry",
+    "dispensed.strength",
+    "dispensed.volume",
+    "rx.dose",
+    "rx.strength"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency"
+   ],
+   "fails": []
+  }
+ },
+ "rb0273": {
+  "oracle": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  }
+ },
+ "rb0274": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-001",
+    "RX-PRODUCT-003"
+   ]
+  },
+  "omni_trust": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-001"
+   ]
+  },
+  "rxlint_strict": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-001"
+   ]
+  },
+  "rxlint_head": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-001"
+   ]
+  },
+  "ocr_rules": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-005"
+   ]
+  }
+ },
+ "rb0275": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-003",
+    "RX-PRODUCT-002"
+   ]
+  },
+  "omni_trust": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-003",
+    "RX-PRODUCT-002"
+   ]
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "dispensed.volume",
+    "patient.weight",
+    "rx.dose",
+    "rx.drug",
+    "rx.strength"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "dispensed.volume",
+    "patient.weight",
+    "rx.dose",
+    "rx.drug",
+    "rx.strength"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "dispensed.strength",
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency"
+   ],
+   "fails": []
+  }
+ },
+ "rb0276": {
+  "oracle": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "patient.weight"
+   ],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "patient.weight",
+    "rx.dose",
+    "rx.strength"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "patient.weight",
+    "rx.dose",
+    "rx.strength"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency",
+    "rx.strength"
+   ],
+   "fails": []
+  }
+ },
+ "rb0277": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "DDI-AZM-001"
+   ]
+  },
+  "omni_trust": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-001",
+    "RX-PRODUCT-003",
+    "DDI-AZM-001"
+   ]
+  },
+  "rxlint_strict": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-001",
+    "DDI-AZM-001"
+   ]
+  },
+  "rxlint_head": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-001",
+    "DDI-AZM-001"
+   ]
+  },
+  "ocr_rules": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "DDI-AZM-001"
+   ]
+  }
+ },
+ "rb0278": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-005"
+   ]
+  },
+  "omni_trust": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-005"
+   ]
+  },
+  "rxlint_strict": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-005"
+   ]
+  },
+  "rxlint_head": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-005"
+   ]
+  },
+  "ocr_rules": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-005"
+   ]
+  }
+ },
+ "rb0279": {
+  "oracle": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.drug",
+    "rx.frequency"
+   ],
+   "fails": []
+  }
+ },
+ "rb0280": {
+  "oracle": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength"
+   ],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength",
+    "rx.dose"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.strength"
+   ],
+   "fails": []
+  }
+ },
+ "rb0281": {
+  "oracle": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength",
+    "patient.weight"
+   ],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [],
+   "fails": []
+  }
+ },
+ "rb0282": {
+  "oracle": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.volume",
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency",
+    "rx.strength"
+   ],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength",
+    "dispensed.volume",
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency",
+    "rx.strength"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength",
+    "dispensed.volume",
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency",
+    "rx.strength"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength",
+    "rx.drug"
+   ],
+   "fails": []
+  }
+ },
+ "rb0283": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-CLR-PED-001",
+    "AWARE-CLR-PED-002"
+   ]
+  },
+  "omni_trust": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency"
+   ],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency"
+   ],
+   "fails": []
+  }
+ },
+ "rb0284": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-AZM-PED-001"
+   ]
+  },
+  "omni_trust": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency"
+   ],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.drug",
+    "rx.duration"
+   ],
+   "fails": []
+  }
+ },
+ "rb0285": {
+  "oracle": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  }
+ },
+ "rb0286": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-001",
+    "RX-PRODUCT-003"
+   ]
+  },
+  "omni_trust": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-001",
+    "RX-PRODUCT-003"
+   ]
+  },
+  "rxlint_strict": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-001",
+    "RX-PRODUCT-003"
+   ]
+  },
+  "rxlint_head": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-001",
+    "RX-PRODUCT-003"
+   ]
+  },
+  "ocr_rules": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-001",
+    "RX-PRODUCT-003",
+    "RX-PRODUCT-006"
+   ]
+  }
+ },
+ "rb0287": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-003",
+    "RX-PRODUCT-002"
+   ]
+  },
+  "omni_trust": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-003",
+    "RX-PRODUCT-002"
+   ]
+  },
+  "rxlint_strict": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-003",
+    "RX-PRODUCT-002"
+   ]
+  },
+  "rxlint_head": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-003",
+    "RX-PRODUCT-002"
+   ]
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "dispensed.strength"
+   ],
+   "fails": []
+  }
+ },
+ "rb0288": {
+  "oracle": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength"
+   ],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength",
+    "rx.dose"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength",
+    "rx.dose"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  }
+ },
+ "rb0289": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "DDI-AMX-002"
+   ]
+  },
+  "omni_trust": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "DDI-AMX-002"
+   ]
+  },
+  "rxlint_strict": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "DDI-AMX-002"
+   ]
+  },
+  "rxlint_head": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "DDI-AMX-002"
+   ]
+  },
+  "ocr_rules": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "DDI-AMX-002"
+   ]
+  }
+ },
+ "rb0290": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-005"
+   ]
+  },
+  "omni_trust": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-005"
+   ]
+  },
+  "rxlint_strict": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-005"
+   ]
+  },
+  "rxlint_head": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-005"
+   ]
+  },
+  "ocr_rules": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-005"
+   ]
+  }
+ },
+ "rb0291": {
+  "oracle": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength"
+   ],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength",
+    "rx.duration"
+   ],
+   "fails": []
+  }
+ },
+ "rb0292": {
+  "oracle": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [],
+   "fails": []
+  }
+ },
+ "rb0293": {
+  "oracle": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-SXT-PED-001"
+   ]
+  },
+  "rxlint_strict": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-SXT-PED-001"
+   ]
+  },
+  "rxlint_head": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-SXT-PED-001"
+   ]
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [],
+   "fails": []
+  }
+ },
+ "rb0294": {
+  "oracle": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency",
+    "rx.strength"
+   ],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency",
+    "rx.strength"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency",
+    "rx.strength"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.drug",
+    "rx.frequency"
+   ],
+   "fails": []
+  }
+ },
+ "rb0295": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-AMX-PED-001",
+    "RX-PRODUCT-006"
+   ]
+  },
+  "omni_trust": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength",
+    "rx.dose",
+    "rx.drug"
+   ],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength",
+    "rx.dose",
+    "rx.drug"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength",
+    "rx.dose",
+    "rx.drug"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.drug"
+   ],
+   "fails": []
+  }
+ },
+ "rb0296": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-AMC-PED-001"
+   ]
+  },
+  "omni_trust": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-001"
+   ]
+  },
+  "rxlint_strict": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-001"
+   ]
+  },
+  "rxlint_head": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-001"
+   ]
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength"
+   ],
+   "fails": []
+  }
+ },
+ "rb0297": {
+  "oracle": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "rx.dose"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "rx.dose"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  }
+ },
+ "rb0298": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-001",
+    "RX-PRODUCT-003"
+   ]
+  },
+  "omni_trust": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength",
+    "rx.dose",
+    "rx.duration",
+    "rx.frequency"
+   ],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength",
+    "rx.dose",
+    "rx.duration",
+    "rx.frequency"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength",
+    "rx.dose",
+    "rx.duration",
+    "rx.frequency"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength"
+   ],
+   "fails": []
+  }
+ },
+ "rb0299": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-003",
+    "RX-PRODUCT-002"
+   ]
+  },
+  "omni_trust": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-002"
+   ]
+  },
+  "rxlint_strict": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-002"
+   ]
+  },
+  "rxlint_head": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-002"
+   ]
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "dispensed.strength"
+   ],
+   "fails": []
+  }
+ },
+ "rb0300": {
+  "oracle": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.frequency"
+   ],
+   "fails": []
+  }
+ },
+ "rb0301": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "DDI-AZM-001"
+   ]
+  },
+  "omni_trust": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "DDI-AZM-001"
+   ]
+  },
+  "rxlint_strict": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "DDI-AZM-001"
+   ]
+  },
+  "rxlint_head": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "DDI-AZM-001"
+   ]
+  },
+  "ocr_rules": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "DDI-AZM-001"
+   ]
+  }
+ },
+ "rb0302": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-005"
+   ]
+  },
+  "omni_trust": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-005"
+   ]
+  },
+  "rxlint_strict": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-005"
+   ]
+  },
+  "rxlint_head": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-005"
+   ]
+  },
+  "ocr_rules": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-005"
+   ]
+  }
+ },
+ "rb0303": {
+  "oracle": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "rx.frequency"
+   ],
+   "fails": []
+  }
+ },
+ "rb0304": {
+  "oracle": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency"
+   ],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [
+    "dispensed.volume",
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.duration"
+   ],
+   "fails": []
+  }
+ },
+ "rb0305": {
+  "oracle": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-005"
+   ]
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [],
+   "fails": []
+  }
+ },
+ "rb0306": {
+  "oracle": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "rx.dose"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "rx.dose"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-DUR-UTI"
+   ]
+  }
+ },
+ "rb0307": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-AZM-PED-001",
+    "AWARE-AZM-PED-002"
+   ]
+  },
+  "omni_trust": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-AZM-PED-002"
+   ]
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "patient.age",
+    "patient.weight",
+    "rx.dose",
+    "rx.strength"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "patient.age",
+    "patient.weight",
+    "rx.dose",
+    "rx.strength"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency"
+   ],
+   "fails": []
+  }
+ },
+ "rb0308": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-AMC-PED-001"
+   ]
+  },
+  "omni_trust": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-AMC-PED-001"
+   ]
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "rx.dose"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "rx.dose"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-DUR-UTI"
+   ]
+  }
+ },
+ "rb0309": {
+  "oracle": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency",
+    "rx.strength"
+   ],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency",
+    "rx.strength"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency",
+    "rx.strength"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency",
+    "rx.strength"
+   ],
+   "fails": []
+  }
+ },
+ "rb0310": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-001",
+    "RX-PRODUCT-003"
+   ]
+  },
+  "omni_trust": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency"
+   ],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "dispensed.strength",
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "dispensed.strength",
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-001",
+    "RX-PRODUCT-003"
+   ]
+  }
+ },
+ "rb0311": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-003",
+    "RX-PRODUCT-002"
+   ]
+  },
+  "omni_trust": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-003",
+    "RX-PRODUCT-005",
+    "RX-PRODUCT-002"
+   ]
+  },
+  "rxlint_strict": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-002"
+   ]
+  },
+  "rxlint_head": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-002"
+   ]
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength"
+   ],
+   "fails": []
+  }
+ },
+ "rb0312": {
+  "oracle": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength",
+    "rx.dose",
+    "rx.drug",
+    "rx.strength"
+   ],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength",
+    "rx.dose",
+    "rx.drug",
+    "rx.strength"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength",
+    "rx.dose",
+    "rx.drug",
+    "rx.strength"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "dispensed.strength",
+    "rx.dose",
+    "rx.drug",
+    "rx.frequency",
+    "rx.strength"
+   ],
+   "fails": []
+  }
+ },
+ "rb0313": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "DDI-AZM-001"
+   ]
+  },
+  "omni_trust": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength"
+   ],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength",
+    "rx.dose",
+    "rx.frequency"
+   ],
+   "fails": []
+  }
+ },
+ "rb0314": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-005"
+   ]
+  },
+  "omni_trust": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-005"
+   ]
+  },
+  "rxlint_strict": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-005"
+   ]
+  },
+  "rxlint_head": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-005"
+   ]
+  },
+  "ocr_rules": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-005"
+   ]
+  }
+ },
+ "rb0315": {
+  "oracle": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency",
+    "rx.strength"
+   ],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency",
+    "rx.strength"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency",
+    "rx.strength"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  }
+ },
+ "rb0316": {
+  "oracle": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength"
+   ],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength"
+   ],
+   "fails": []
+  }
+ },
+ "rb0317": {
+  "oracle": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-CLR-PED-001"
+   ]
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-CLR-PED-001",
+    "AWARE-DUR-PHARYNGITIS",
+    "RX-PRODUCT-006"
+   ]
+  }
+ },
+ "rb0318": {
+  "oracle": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency",
+    "rx.strength"
+   ],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency",
+    "rx.strength"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency",
+    "rx.strength"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "rx.frequency"
+   ],
+   "fails": []
+  }
+ },
+ "rb0319": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-AMX-PED-001",
+    "RX-PRODUCT-006"
+   ]
+  },
+  "omni_trust": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-AMX-PED-001",
+    "RX-PRODUCT-006"
+   ]
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "rx.dose"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "rx.dose"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency"
+   ],
+   "fails": []
+  }
+ },
+ "rb0320": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-AZM-PED-001"
+   ]
+  },
+  "omni_trust": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength"
+   ],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength",
+    "rx.dose"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-AZM-PED-001"
+   ]
+  }
+ },
+ "rb0321": {
+  "oracle": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength"
+   ],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-DUR-CAP",
+    "RX-PRODUCT-006"
+   ]
+  }
+ },
+ "rb0322": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-001",
+    "RX-PRODUCT-003"
+   ]
+  },
+  "omni_trust": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-001",
+    "RX-PRODUCT-003"
+   ]
+  },
+  "rxlint_strict": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-001",
+    "RX-PRODUCT-003"
+   ]
+  },
+  "rxlint_head": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-001",
+    "RX-PRODUCT-003"
+   ]
+  },
+  "ocr_rules": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-001",
+    "RX-PRODUCT-003"
+   ]
+  }
+ },
+ "rb0323": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-003",
+    "RX-PRODUCT-002"
+   ]
+  },
+  "omni_trust": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-003",
+    "RX-PRODUCT-002"
+   ]
+  },
+  "rxlint_strict": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-003",
+    "RX-PRODUCT-002"
+   ]
+  },
+  "rxlint_head": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-003",
+    "RX-PRODUCT-002"
+   ]
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.strength"
+   ],
+   "fails": []
+  }
+ },
+ "rb0324": {
+  "oracle": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug"
+   ],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "PASS",
+   "asked": true,
+   "confirmed": [
+    "rx.dose",
+    "rx.frequency"
+   ],
+   "fails": []
+  }
+ },
+ "rb0325": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "DDI-AMX-002"
+   ]
+  },
+  "omni_trust": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "DDI-AMX-002"
+   ]
+  },
+  "rxlint_strict": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "DDI-AMX-002"
+   ]
+  },
+  "rxlint_head": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "DDI-AMX-002"
+   ]
+  },
+  "ocr_rules": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "DDI-AMX-002"
+   ]
+  }
+ },
+ "rb0326": {
+  "oracle": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-005"
+   ]
+  },
+  "omni_trust": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "RX-PRODUCT-005",
+    "AWARE-CFX-PED-002",
+    "AWARE-CFX-PED-003",
+    "RX-PRODUCT-006"
+   ]
+  },
+  "rxlint_strict": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-CFX-PED-003"
+   ]
+  },
+  "rxlint_head": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-CFX-PED-003"
+   ]
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "REVIEW",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "rx.dose",
+    "rx.drug",
+    "rx.duration",
+    "rx.frequency"
+   ],
+   "fails": []
+  }
+ },
+ "rb0327": {
+  "oracle": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "PASS",
+   "after": "PASS",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  }
+ },
+ "rb0328": {
+  "oracle": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength"
+   ],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength",
+    "rx.dose"
+   ],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [
+    "dispensed.drug",
+    "dispensed.expiry",
+    "dispensed.strength",
+    "rx.dose"
+   ],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "REVIEW",
+   "after": "REVIEW",
+   "asked": false,
+   "confirmed": [],
+   "fails": [
+    "AWARE-DUR-UTI"
+   ]
+  }
+ },
+ "rb0329": {
+  "oracle": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [],
+   "fails": []
+  },
+  "omni_trust": {
+   "state": "OUT_OF_SCOPE",
+   "after": "OUT_OF_SCOPE",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "rxlint_strict": {
+   "state": "OUT_OF_SCOPE",
+   "after": "OUT_OF_SCOPE",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "rxlint_head": {
+   "state": "OUT_OF_SCOPE",
+   "after": "OUT_OF_SCOPE",
+   "asked": false,
+   "confirmed": [],
+   "fails": []
+  },
+  "ocr_rules": {
+   "state": "CANNOT_VERIFY",
+   "after": "CANNOT_VERIFY",
+   "asked": true,
+   "confirmed": [],
+   "fails": []
+  }
+ }
+}
