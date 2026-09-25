@@ -1,7 +1,8 @@
 """The fixed demo library (spec section 24). Every case is a rendered photo pair plus typed patient
 facts; running one executes the real pipeline. Names, clinics and manufacturers are fictional.
 Case G carries the lot number of FDA recall D-0151-2026 on a synthetic label and is checked on a
-historical dispense date, when that recall was current."""
+historical dispense date, when that recall was current. Case I does the same with lot JA0287 from the
+ANSM recall of 18 January 2019, which only the Tavily search of ansm.sante.fr can find."""
 
 from __future__ import annotations
 
@@ -110,6 +111,20 @@ CASES = [
                         expiry="EXP 01/2026", manufacturer="", seed=18),
         patient={"patient.weight": "8 kg", "patient.age": "11 months", "patient.allergies": "none", "patient.medications": "none"},
         country="US", dispense_date="2025-11-20", tags=["live", "negative-control"],
+    ),
+    DemoCase(
+        id="I", title="ANSM lot recall, France", expect="PASS",
+        summary="The rules pass. Tavily finds the ANSM recall naming lot JA0287 on the regulator's own site; no structured feed exists.",
+        rx=RxSpec(seed=23, language="fr", clinic="Maison de santé du Parc", clinic_line="3 avenue des Tilleuls · Médecine générale",
+                  prescriber="Dr C. Lefèvre", patient="Enfant : N. Benali", age="2 ans", weight="12 kg", allergies="Aucune connue",
+                  date="2019-02-04", drug="Amoxicilline/acide clavulanique suspension buvable", strength="100 mg/12,5 mg par mL",
+                  dose="5 mL", frequency="2 fois par jour", duration="5 jours", indication="Otite moyenne aiguë"),
+        label=LabelSpec(generic="Amoxicilline", form="+ acide clavulanique · suspension buvable",
+                        strength="100 mg/12,5 mg par mL", volume="Flacon de 60 mL (après reconstitution)", lot="LOT JA0287",
+                        expiry="EXP 06/2021", manufacturer="", band="Bien agiter avant emploi · Conserver au réfrigérateur",
+                        accent=(0, 110, 120), seed=20),
+        patient={"patient.weight": "12 kg", "patient.age": "2 years", "patient.allergies": "none", "patient.medications": "none"},
+        country="FR", dispense_date="2019-02-04", tags=["live", "tavily"],
     ),
     DemoCase(
         id="H", title="Instruction printed on a label", expect="REVIEW",
