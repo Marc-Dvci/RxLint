@@ -48,13 +48,16 @@ def main() -> None:
     ap.add_argument("--workers", type=int, default=2)
     ap.add_argument("--split", default=None)
     ap.add_argument("--reader", choices=["omni", "two_stage"], default="omni")
+    # auto replays what the cassette already holds (for example the transcripts of a run that shared the
+    # vision model) and calls the model for the rest.
+    ap.add_argument("--mode", choices=["record", "auto"], default="record")
     args = ap.parse_args()
     load_env()
     reader = extract_image if args.reader == "omni" else extract_two_stage
     bench = Path(args.bench)
     out = bench / "extractions" / args.run
     out.mkdir(parents=True, exist_ok=True)
-    client = ModelClient(mode="record", cassette=bench / "extractions" / f"{args.run}.cassette.jsonl")
+    client = ModelClient(mode=args.mode, cassette=bench / "extractions" / f"{args.run}.cassette.jsonl")
     cases = [json.loads(l) for l in (bench / "cases.jsonl").read_text(encoding="utf-8").splitlines() if l.strip()]
     if args.split:
         cases = [c for c in cases if c["split"] == args.split]

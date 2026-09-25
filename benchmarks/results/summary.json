@@ -3,9 +3,9 @@
  "generated_at": "2026-09-19T13:21:46+00:00",
  "headline": [
   {
-   "label": "false-safe cases, RxLint (test fold)",
-   "value": "0/80",
-   "note": "error cases returned as PASS"
+   "label": "ambiguous handwritten entries held for confirmation",
+   "value": "8/10",
+   "note": "2/10 when readings are trusted as read"
   },
   {
    "label": "exact verdict after pharmacist confirmation",
@@ -13,14 +13,14 @@
    "note": "90.0% when readings are trusted as read"
   },
   {
-   "label": "ambiguous handwritten entries held for confirmation",
-   "value": "8/10",
-   "note": "2/10 when readings are trusted as read"
-  },
-  {
    "label": "wrong high-risk readings past the gate",
    "value": "2/566",
    "note": "5 with OCR corroboration alone"
+  },
+  {
+   "label": "false-safe cases, RxLint (test fold)",
+   "value": "0/80",
+   "note": "error cases returned as PASS; 0/80 when readings are trusted as read"
   }
  ],
  "tables": [

@@ -438,17 +438,20 @@ def write_summary(full: dict[str, Any], out: Path) -> None:
             for v, m in s.items()]
     best = s.get("rxlint_head") or s.get("rxlint_strict")
     trust = s["omni_trust"]
+    # What separates RxLint from trusting the reader comes first; the false-safe count, which the kernel
+    # keeps at zero for both, comes last with the baseline beside it.
     headline = [
-        {"label": f"false-safe cases, RxLint ({split} fold)", "value": best["false_safe"], "note": "error cases returned as PASS"},
-        {"label": "exact verdict after pharmacist confirmation", "value": f"{best['exact_verdict_after_confirmation'] * 100:.1f}%",
-         "note": f"{trust['exact_verdict_after_confirmation'] * 100:.1f}% when readings are trusted as read"},
         {"label": "ambiguous handwritten entries held for confirmation", "value": best["ambiguous_blocked"],
          "note": f"{trust['ambiguous_blocked']} when readings are trusted as read"},
+        {"label": "exact verdict after pharmacist confirmation", "value": f"{best['exact_verdict_after_confirmation'] * 100:.1f}%",
+         "note": f"{trust['exact_verdict_after_confirmation'] * 100:.1f}% when readings are trusted as read"},
     ]
     r = full.get("reliability_head")
     if r and f"{split}_head_false_accept" in r:
         headline.append({"label": "wrong high-risk readings past the gate", "value": f"{r[f'{split}_head_false_accept']}/{r[f'{split}_high_risk_readings']}",
                          "note": f"{r[f'{split}_strict_false_accept']} with OCR corroboration alone"})
+    headline.append({"label": f"false-safe cases, RxLint ({split} fold)", "value": best["false_safe"],
+                     "note": f"error cases returned as PASS; {trust['false_safe']} when readings are trusted as read"})
     tables = [{"title": f"End-to-end verdicts, {split} fold ({s['oracle']['cases']} cases)",
                "note": "unseen handwriting font, perturbations and product" if split == "test" else "", "columns": cols, "rows": rows}]
     pf = full["perception"].get(split) or full["perception"]["all"]
