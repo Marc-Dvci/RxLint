@@ -16,6 +16,7 @@ const MATCH: Record<string, string> = {
   other_lot: "Same product, other lots",
   not_applicable: "Does not name this product",
   after_check_date: "Published after the check date",
+  supply_notice: "Supply information",
 };
 
 export default function LivePanel({ caseId, initial, country, asOf }: { caseId: string; initial?: LiveResult; country: string | null; asOf: string | null }) {
@@ -90,7 +91,7 @@ export default function LivePanel({ caseId, initial, country, asOf }: { caseId: 
             <div className="searches">
               {live.searches.map((s, i) => (
                 <div key={i}>
-                  {s.ok ? "✓" : "✕"} {s.source}{s.query ? `: "${s.query}"` : ""}{s.results !== undefined ? ` · ${s.results} results` : ""}
+                  {s.ok ? "✓" : "✕"} {s.source}{s.query ? `: ${s.query}` : ""}{s.exact_match ? " · exact match" : ""}{s.results !== undefined ? ` · ${s.results} results` : ""}
                   {s.rejected_off_allowlist ? ` · ${s.rejected_off_allowlist} rejected off allowlist` : ""}{s.error ? ` · ${s.error}` : ""}
                 </div>
               ))}

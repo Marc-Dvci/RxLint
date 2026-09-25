@@ -54,13 +54,16 @@ class TavilyClient:
         return data
 
     def search(self, query: str, include_domains: list[str], max_results: int = 5, topic: str = "general",
-               search_depth: str = "basic", time_range: str | None = None) -> dict[str, Any]:
+               search_depth: str = "basic", time_range: str | None = None, exact_match: bool = False) -> dict[str, Any]:
         body: dict[str, Any] = {"query": query, "include_domains": include_domains, "max_results": max_results,
                                 "topic": topic, "search_depth": search_depth, "include_answer": False,
-                                "include_raw_content": False}
+                                "include_raw_content": False, "include_published_date": True}
         if time_range:
             body["time_range"] = time_range
+        if exact_match:
+            body["exact_match"] = True
         return self._post("search", body)
 
-    def extract(self, urls: list[str], extract_depth: str = "basic") -> dict[str, Any]:
-        return self._post("extract", {"urls": urls, "extract_depth": extract_depth, "format": "text", "include_images": False})
+    def extract(self, urls: list[str], extract_depth: str = "advanced") -> dict[str, Any]:
+        # Markdown keeps links apart from body text; advanced depth keeps the lot tables of recall notices.
+        return self._post("extract", {"urls": urls, "extract_depth": extract_depth, "format": "markdown", "include_images": False})

@@ -8,6 +8,7 @@ allowlist, a shortlist is extracted, and a deterministic matcher decides applica
 * ``product_recall``    the notice names this product and lists no lot codes
 * ``other_lot``         the notice names this product but lists other lots only (negative control)
 * ``safety_communication`` a safety notice about the ingredient
+* ``supply_notice``     a shortage or availability notice about the product
 * ``not_applicable``    the notice does not name this product
 
 Only ``lot_recall``, ``product_recall`` and ``safety_communication`` produce LIVE_REVIEW. The live
@@ -42,7 +43,7 @@ def policies() -> dict[str, Any]:
 
 def _fold(s: str) -> str:
     s = unicodedata.normalize("NFKD", s or "")
-    s = "".join(ch for ch in s if not unicodedata.combining(ch))
+    s = "".join(ch for ch in s if not unicodedata.combining(ch)).replace("’", "'").replace("ʼ", "'")
     return re.sub(r"\s+", " ", s.lower())
 
 
@@ -72,20 +73,50 @@ def lot_pattern(lot: str) -> re.Pattern[str]:
     return re.compile(r"(?<![A-Za-z0-9])" + re.escape(core) + r"(?![A-Za-z0-9])", re.I)
 
 
-LOT_LIST = re.compile(r"\b(?:lot|lots|batch|lot #|lot no\.?|lot number|numéro de lot|lots?\s*n°)\s*[#:]?\s*([A-Z0-9][A-Z0-9\-]{3,})", re.I)
+# A lot code is an upper-case token containing a digit: "lots concernés" or "two lots distributed" must
+# not read as lot codes, or a recall of this product would be filed as a recall of other lots only.
+_LOT_CODE = r"(?=[A-Z\-]*\d)[A-Z0-9][A-Z0-9\-]{3,}(?![A-Za-z0-9])"
+LOT_LIST = re.compile(
+    r"(?i:\b(?:lots?\s*(?:#|no\.?|numbers?|n°)?|batch(?:es)?|numéros?\s+de\s+lots?))\s*[#:]?\s*"
+    rf"({_LOT_CODE}(?:\s*(?:,|;|/|&|\band\b|\bet\b)\s*{_LOT_CODE})*)")
+_YEAR = re.compile(r"(?:19|20)\d\d")
 
 
-def _near(t: str, words: list[str], positions: list[int], window: int = 400) -> bool:
-    """True when one of ``words`` occurs within ``window`` characters of one of ``positions``."""
+def listed_lot_codes(text: str) -> list[str]:
+    codes = {c for m in LOT_LIST.finditer(text) for c in re.findall(_LOT_CODE, m.group(1))}
+    return sorted(c for c in codes if not _YEAR.fullmatch(c))
+
+
+# Markdown links are navigation and related-news lists: a recall linked from a product page is a notice
+# about the linked page, not about the page that links to it.
+_MD_LINK = re.compile(r"!?\[([^\]]*)\]\([^)]*\)")
+
+
+def strip_links(text: str) -> str:
+    return _MD_LINK.sub(" ", text or "")
+
+
+def _near(t: str, words: list[str], positions: list[int], window: int = 400, within: int | None = None) -> bool:
+    """True when one of ``words`` occurs within ``window`` characters of one of ``positions`` (and, with
+    ``within``, in the first ``within`` characters of ``t``)."""
     for w in words:
         for m in re.finditer(re.escape(_fold(w)), t):
+            if within is not None and m.start() > within:
+                break
             if any(abs(m.start() - p) <= window for p in positions):
                 return True
     return False
 
 
+# A notice announces itself in its title and opening paragraphs. Deep inside a long document (a product
+# register, a meeting report, the Orange Book), "withdrawn" near an ingredient name is not a notice about
+# this product, unless it sits next to this product's lot.
+LEAD_CHARS = 2500
+
+
 def match_notice(text: str, title: str, terms: dict[str, Any], lot: str | None, lang: str) -> dict[str, Any]:
     """Deterministic applicability of one regulator page to this product and lot."""
+    text = strip_links(text)
     t = _fold(title + "\n" + text)
     comp_hits = {c: any(_fold(a) in t for a in al) for c, al in terms["aliases"].items()}
     product_named = all(comp_hits.values())
@@ -97,13 +128,18 @@ def match_notice(text: str, title: str, terms: dict[str, Any], lot: str | None, 
         product_named = False
     words = policies()["recall_words"]["en"] + policies()["recall_words"].get(lang, [])
     safety = policies()["safety_words"]["en"] + policies()["safety_words"].get(lang, [])
-    # The recall or safety wording must sit close to the product name: a long report that mentions the
-    # ingredient on one page and a withdrawal on another is not a notice about this product.
+    supply = policies()["supply_words"]["en"] + policies()["supply_words"].get(lang, [])
+    # The recall or safety wording must sit close to the product name, in the notice's title or opening:
+    # a long report that mentions the ingredient on one page and a withdrawal on another is not a notice
+    # about this product.
     alias_at = [m.start() for al in terms["aliases"].values() for a in al for m in re.finditer(re.escape(_fold(a)), t)]
-    is_recall = _near(t, words, alias_at)
-    is_safety = _near(t, safety, alias_at)
+    lot_at = [m.start() for m in lot_pattern(lot).finditer(t)] if lot else []
+    is_recall = _near(t, words, alias_at, within=LEAD_CHARS) or _near(t, words, lot_at)
+    is_safety = _near(t, safety, alias_at, within=LEAD_CHARS)
+    lead = t[:1200]  # search titles are truncated, so the opening of the page counts as its title
+    is_supply = any(_fold(w) in lead for w in supply)
     lot_hit = bool(lot and lot_pattern(lot).search(title + " " + text))
-    listed_lots = sorted({m.group(1).upper() for m in LOT_LIST.finditer(title + " " + text)})
+    listed_lots = listed_lot_codes(title + " " + text)
     matched = [f"ingredient:{c}" for c, ok in comp_hits.items() if ok] + [f"other_product:{c}" for c in extra]
     if lot_hit:
         matched.append("lot")
@@ -111,8 +147,13 @@ def match_notice(text: str, title: str, terms: dict[str, Any], lot: str | None, 
         mtype = "not_applicable"
     elif is_recall and lot_hit:
         mtype = "lot_recall"
-    elif is_recall and listed_lots:
+    elif (is_recall or is_safety) and listed_lots:
+        # A notice that lists lot codes acts on those lots only; this lot is not among them.
         mtype = "other_lot"
+    elif is_supply:
+        # A shortage or supply notice is published in the regulator's safety section but says nothing
+        # about the quality of the bottle in hand.
+        mtype = "supply_notice"
     elif is_recall:
         mtype = "product_recall"
     elif is_safety:
@@ -171,17 +212,19 @@ def live_check(pack: RulePack, product: str | None, lot: str | None, country: st
         lang = auth.get("lang", "en")
         terms = product_terms(n, product, lang)
         tpl = policies()["templates"][lang]
-        queries = []
+        # The lot query quotes the lot code and asks Tavily for an exact match, so only pages that print
+        # this lot come back; the product and safety queries cast the wider net.
+        queries: list[tuple[str, bool]] = []
         if lot_core:
-            queries.append(tpl["recall_lot"].format(product=terms["display"], lot=lot_core))
-        queries.append(tpl["recall"].format(product=terms["display"]))
+            queries.append((tpl["recall_lot"].format(product=terms["display"], lot=lot_core), True))
+        queries.append((tpl["recall"].format(product=terms["display"]), False))
         if auth["authority"] != "WHO":
-            queries.append(tpl["safety"].format(ingredient=terms["ingredient"]))
-        for q in queries:
+            queries.append((tpl["safety"].format(ingredient=terms["ingredient"]), False))
+        for q, exact in queries:
             if auth.get("query_prefix"):
                 q = f"{auth['query_prefix']} {q}"
             try:
-                data = tavily.search(q, include_domains=auth["domains"], max_results=5)
+                data = tavily.search(q, include_domains=auth["domains"], max_results=5, exact_match=exact)
             except TavilyUnavailable as exc:
                 errors.append(str(exc))
                 searches.append({"source": f"Tavily search ({auth['authority']})", "query": q, "ok": False, "error": str(exc)})
@@ -194,16 +237,19 @@ def live_check(pack: RulePack, product: str | None, lot: str | None, country: st
                 kept += 1
                 c = candidates.setdefault(r["url"], {"url": r["url"], "title": r.get("title", ""), "content": r.get("content", ""),
                                                       "score": r.get("score", 0), "published_date": r.get("published_date"),
-                                                      "authority": auth["authority"], "lang": lang, "queries": []})
+                                                      "authority": auth["authority"], "lang": lang, "queries": [], "exact_lot": False})
                 c["queries"].append(q)
+                c["exact_lot"] = c["exact_lot"] or exact
             searches.append({"source": f"Tavily search ({auth['authority']})", "query": q, "domains": auth["domains"],
-                             "ok": True, "results": kept, "rejected_off_allowlist": rejected})
+                             "exact_match": exact, "ok": True, "results": kept, "rejected_off_allowlist": rejected})
 
-    # 3. Shortlist deterministically and extract the full pages.
+    # 3. Shortlist deterministically and extract the full pages. A page returned by the exact lot query
+    # prints the lot somewhere, even when the search snippet does not show it.
     def pre_score(c: dict[str, Any]) -> float:
         terms = product_terms(n, product, c["lang"])
         m = match_notice(c["content"], c["title"], terms, lot_core, c["lang"])
-        return (3 if "lot" in m["matched_fields"] else 0) + (2 if m["match_type"] != "not_applicable" else 0) + float(c["score"] or 0)
+        return ((3 if "lot" in m["matched_fields"] or c["exact_lot"] else 0) + (2 if m["match_type"] != "not_applicable" else 0)
+                + float(c["score"] or 0))
 
     shortlist = sorted(candidates.values(), key=pre_score, reverse=True)[:4]
     extracted: dict[str, str] = {}
@@ -222,7 +268,7 @@ def live_check(pack: RulePack, product: str | None, lot: str | None, country: st
         text = extracted.get(c["url"]) or c["content"]
         terms = product_terms(n, product, c["lang"])
         m = match_notice(text, c["title"], terms, lot_core, c["lang"])
-        published = iso_date(c.get("published_date")) or iso_date(_first_date(text))
+        published = iso_date(c.get("published_date")) or iso_date(_first_date(text, c["lang"]), c["lang"])
         if as_of and published and published > as_of:
             # A historical check cannot see notices published after its date.
             m = {**m, "match_type": "after_check_date"}
@@ -248,27 +294,52 @@ def live_check(pack: RulePack, product: str | None, lot: str | None, country: st
 
 MONTHS = {m: i for i, m in enumerate(["january", "february", "march", "april", "may", "june", "july", "august", "september",
                                         "october", "november", "december"], 1)}
+FR_MONTHS = {m: i for i, m in enumerate(["janvier", "fevrier", "mars", "avril", "mai", "juin", "juillet", "aout", "septembre",
+                                           "octobre", "novembre", "decembre"], 1)}
 
 
-def iso_date(s: str | None) -> str | None:
-    """'March 13, 2026', '13 March 2026', '2026-03-13' or an RFC 1123 date -> '2026-03-13'."""
+def iso_date(s: str | None, lang: str = "en") -> str | None:
+    """'March 13, 2026', '13 March 2026', '2026-03-13', an RFC 1123 date, '18 janvier 2019' or, on a French
+    page, '18/01/2019' -> ISO date. A numeric day/month date is read only where the page's language fixes
+    the order."""
     if not s:
         return None
-    t = s.strip()
-    m = re.search(r"(20\d\d)-(\d\d)-(\d\d)", t)
+    t = _fold(s.strip())
+    m = re.search(r"((?:19|20)\d\d)-(\d\d)-(\d\d)", t)
     if m:
         return m.group(0)
-    m = re.search(r"(\d{1,2})\s+([A-Za-z]+)\s+(20\d\d)", t) or re.search(r"([A-Za-z]+)\s+(\d{1,2}),?\s+(20\d\d)", t)
+    if lang == "fr":
+        m = re.search(r"\b(\d{1,2})[/.](\d{1,2})[/.]((?:19|20)\d\d)\b", t)
+        if m and 1 <= int(m.group(2)) <= 12:
+            return f"{m.group(3)}-{int(m.group(2)):02d}-{int(m.group(1)):02d}"
+        m = re.search(r"\b(\d{1,2})(?:er)?\s+([a-z]+)\s+((?:19|20)\d\d)", t)
+        if m and m.group(2) in FR_MONTHS:
+            return f"{m.group(3)}-{FR_MONTHS[m.group(2)]:02d}-{int(m.group(1)):02d}"
+    m = re.search(r"(\d{1,2})\s+([a-z]+)\s+((?:19|20)\d\d)", t) or re.search(r"([a-z]+)\s+(\d{1,2}),?\s+((?:19|20)\d\d)", t)
     if m:
         a, b, y = m.groups()
         day, mon = (a, b) if a.isdigit() else (b, a)
-        k = mon.lower()[:3]
+        k = mon[:3]
         num = next((v for name, v in MONTHS.items() if name.startswith(k)), None)
         if num:
             return f"{y}-{num:02d}-{int(day):02d}"
     return None
 
 
-def _first_date(text: str) -> str | None:
-    m = re.search(r"\b(20\d\d-\d\d-\d\d|\d{1,2} (?:January|February|March|April|May|June|July|August|September|October|November|December) 20\d\d|(?:January|February|March|April|May|June|July|August|September|October|November|December) \d{1,2}, 20\d\d)\b", text or "")
+_EN_DATE = (r"(?:19|20)\d\d-\d\d-\d\d|\d{1,2} (?:January|February|March|April|May|June|July|August|September|October|November|December) "
+            r"(?:19|20)\d\d|(?:January|February|March|April|May|June|July|August|September|October|November|December) \d{1,2}, (?:19|20)\d\d")
+
+
+def _first_date(text: str, lang: str = "en") -> str | None:
+    text = text or ""
+    if lang == "fr":
+        # ANSM pages print "Publié le 18/01/2019 - mis à jour le ..."; the publication date wins over
+        # later dates such as the update or the print date.
+        m = re.search(r"publi[ée]e?\s+le\s+(\d{1,2}[/.]\d{1,2}[/.](?:19|20)\d\d|\d{1,2}(?:er)?\s+\w+\s+(?:19|20)\d\d)", text, re.I)
+        if m:
+            return m.group(1)
+        m = re.search(r"\b(\d{1,2}[/.]\d{1,2}[/.](?:19|20)\d\d)\b", text)
+        if m:
+            return m.group(1)
+    m = re.search(rf"\b({_EN_DATE})\b", text)
     return m.group(1) if m else None
