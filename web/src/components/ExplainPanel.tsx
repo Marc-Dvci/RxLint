@@ -54,7 +54,7 @@ export default function ExplainPanel({ caseId, resultHash }: { caseId: string; r
                 <>
                   <span className="badge t-note">deterministic template</span>
                   <span>
-                    {ex.model_rejected ? `Model text rejected: ${ex.model_rejected.problems.join("; ")}.` : "Phrase table in four languages; the verdict and the action are fixed text."}
+                    {ex.model_rejected ? `Model text rejected: ${ex.model_rejected.problems.join("; ")}.` : ex.note ?? "Phrase table in four languages; the verdict and the action are fixed text."}
                   </span>
                 </>
               )}

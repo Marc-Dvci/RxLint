@@ -1,0 +1,37 @@
+{
+ "auditor": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+ "results": {
+  "en": {
+   "tokens: correct passes": true,
+   "tokens: 'match' caught": true,
+   "tokens: 'above' caught": true,
+   "rendered: correct passes": true,
+   "rendered: 'match' caught": true,
+   "rendered: 'above' caught": true
+  },
+  "fr": {
+   "tokens: correct passes": true,
+   "tokens: 'match' caught": true,
+   "tokens: 'above' caught": true,
+   "rendered: correct passes": true,
+   "rendered: 'match' caught": true,
+   "rendered: 'above' caught": true
+  },
+  "ar": {
+   "tokens: correct passes": true,
+   "tokens: 'match' caught": true,
+   "tokens: 'above' caught": true,
+   "rendered: correct passes": true,
+   "rendered: 'match' caught": true,
+   "rendered: 'above' caught": true
+  },
+  "sw": {
+   "tokens: correct passes": true,
+   "tokens: 'match' caught": true,
+   "tokens: 'above' caught": false,
+   "rendered: correct passes": true,
+   "rendered: 'match' caught": true,
+   "rendered: 'above' caught": false
+  }
+ }
+}

@@ -240,6 +240,12 @@ def deterministic(verification: dict[str, Any], language: str, audience: str) ->
     return " ".join(parts)
 
 
+# Languages in which the audit rejected every planted error and passed every correct text
+# (tools/audit_canary.py, benchmarks/results/audit_canary.json). In Swahili, Nemotron 3 Nano did not catch
+# a dose said to be "above" the range when it was below, so Swahili readers get the reviewed phrase table.
+AUDITED_LANGUAGES = {"en", "fr", "ar"}
+
+
 def explain(client: ModelClient, verification: dict[str, Any], language: str = "en", audience: str = "caregiver",
             use_model: bool = True) -> dict[str, Any]:
     tokens, items = value_table(verification, language)
@@ -247,6 +253,8 @@ def explain(client: ModelClient, verification: dict[str, Any], language: str = "
             "state": verification["state"], "state_label": tokens["state"], "action": tokens["action"],
             "result_sha256": verification["result_sha256"]}
     fallback = lambda extra: {**base, "text": deterministic(verification, language, audience), "source": "deterministic", **extra}
+    if language not in AUDITED_LANGUAGES:
+        return fallback({"note": "The explanation audit did not catch every planted error in this language, so the reviewed phrase table is shown."})
     if not (use_model and client.available("ultra")):
         return fallback({})
     payload: dict[str, Any] = {"action_token": "{{action}}", "findings": items}

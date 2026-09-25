@@ -97,3 +97,12 @@ def test_deterministic_weight_template_uses_the_weight(pack):
     v = verify(build_snapshot({**HERO, "rx.dose": "10 mL", "dispensed.volume": "150 mL"}, pack, dispense_date="2026-09-19"), pack).model_dump()
     text = deterministic(v, "en", "caregiver")
     assert "9.5 kg" in text and "168.42" in text
+
+
+def test_unaudited_language_gets_the_phrase_table(pack):
+    from rxlint.reasoning.explain import AUDITED_LANGUAGES
+
+    assert "sw" not in AUDITED_LANGUAGES
+    never = Scripted([])  # any model call would fail: none is made
+    out = explain(never, mismatch(pack).model_dump(), "sw", "caregiver")
+    assert out["source"] == "deterministic" and "note" in out
