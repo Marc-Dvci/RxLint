@@ -20,7 +20,8 @@ export default function Bench() {
           <h1>RxLintBench</h1>
           <p>
             Synthetic prescription and bottle photos with exact ground truth, one injected error per case, held out by handwriting font,
-            photo perturbation and product. The headline metric is the false-safe rate: cases with a real error that come back PASS.
+            photo perturbation and product. Each system is compared with trusting the reader's output as read: how many overwritten
+            doses it holds for confirmation, how often it reaches the exact verdict, and how many cases with a real error come back PASS.
           </p>
         </div>
       </div>

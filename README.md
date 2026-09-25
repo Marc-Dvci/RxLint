@@ -225,8 +225,9 @@ python -m rxlint.bench.evaluate --bench bench_out/v1 --run <run-name> --train-he
 
 The evaluator scores five systems on the same cases: the kernel on gold facts, the reader's output
 trusted as read, RxLint with OCR corroboration, RxLint with the reliability head, and OCR plus regex
-plus the same kernel. The headline metric is the false-safe rate: cases containing an error that
-come back `PASS`. Results are written to `benchmarks/results/summary.json` and shown on the
+plus the same kernel. Each is compared with trusting the reader as read: overwritten doses held for
+confirmation, exact verdicts after confirmation, and the false-safe rate (cases containing an error
+that come back `PASS`). Results are written to `benchmarks/results/summary.json` and shown on the
 Benchmark page.
 
 Results on the held-out test fold (120 cases: 40 clean, 60 with a rule violation, 20 with a missing
