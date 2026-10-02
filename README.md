@@ -37,6 +37,16 @@ RxLint treats the check like a compiler treats code. It parses messy evidence in
 applies deterministic rules, points at the exact location of each violation, and refuses to
 declare success when a fact is missing or unreadable.
 
+## Where it fits
+
+RxLint is for whoever makes the last check before a medicine crosses the counter, in a city
+pharmacy, a hospital outpatient pharmacy or a clinic dispensary, and for the caregiver who gives the
+dose at home. It sits after the bottle is picked and labelled and before it is handed over. It needs
+a phone camera and a browser, and nothing changes in the pharmacy's own system. The verdict, every
+pharmacist confirmation and the photo hashes go into an HTML report with a sign-off block and a JSON
+evidence bundle, which can be filed with the dispensing record. Rules are versioned YAML data with
+their sources, so a formulary update ships as a new hashed rule pack.
+
 ## How it works
 
 ![RxLint architecture](docs/img/architecture.png)
@@ -89,7 +99,8 @@ a number in an explanation.
 The NVIDIA models on Token Factory are text models, so the hosted product pairs a Token Factory
 vision model for transcription with Nemotron for everything that interprets, reasons or checks. The
 transcriber never sees the field list and Nemotron never sees the image. Nemotron 3 Nano Omni runs
-the whole perception step where it is served; the benchmark measures both readers.
+the whole perception step where it is served; [Other readers](#other-readers) compares both on the
+held-out test cases.
 
 Routing follows the track brief: Nemotron 3 Nano handles every case, Ultra runs only when a case is
 blocked or an explanation is requested, and the kernel costs nothing per check. Each role has its own
@@ -146,6 +157,8 @@ In the US, the openFDA enforcement feed runs next to Tavily. Elsewhere there is 
 feed, and Tavily is the only way to reach the regulator: demo case I finds the ANSM recall of
 18 January 2019 that names lot JA0287, and the same product with lot JA0290 stays clear.
 
+![Case I: Tavily's exact-match lot search on ansm.sante.fr returns the ANSM recall naming lot JA0287](docs/img/case_I_live.png)
+
 Rule-source drift uses the same allowlist. For the WHO AWaRe source, Tavily Extract reads the
 publication page and Tavily Search looks for newer WHO guidance on each monitored topic. A newer
 document on a monitored topic becomes a review item for the rules that topic lists; for example,
@@ -169,6 +182,8 @@ rule stays unchanged until the next reviewed pack release.
 
 `python tools/run_demo.py` runs all ten through the full pipeline and compares each verdict
 with the expected one.
+
+![Case D: CANNOT VERIFY, one tap on 7.5 mL, and the kernel re-runs to PASS without another model call](docs/img/confirm.gif)
 
 ## Quick start
 

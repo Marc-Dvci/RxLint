@@ -25,7 +25,8 @@ Observations from building RxLint, each tied to what was measured.
 ## GGUF and llama.cpp
 
 * The widely distributed `mmproj` files for Nemotron 3 Nano Omni carry the vision tower only, so
-  audio input is not available through llama.cpp with them; speech goes through Token Factory.
+  audio input is not available through llama.cpp with them. RxLint offers voice notes only where
+  an Omni endpoint serves audio.
 * `llama-server` build b11047 replaced `--no-mmap` with `--load-mode none`.
 * With 12 GB of VRAM, `-ngl 99 --n-cpu-moe 30` fits the 30B-A3B model with a 32k context;
   the model plus projector need about 21 GB of system RAM on top.
@@ -34,6 +35,15 @@ Observations from building RxLint, each tied to what was measured.
 
 * The OpenAI-compatible API let one client serve both Token Factory and a local llama.cpp server,
   switching per role with a base URL.
+* `response_format: json_schema` gave schema-valid output from Nemotron 3 Nano and Ultra, which made
+  strict Pydantic validation practical. `GET /v1/models?verbose=true` lists each model's modality,
+  prices, rate limits and regions, which is how RxLint picks its models.
+* Under a JSON schema with a 600-token cap, Nemotron 3 Ultra and Super spent the budget reasoning
+  until `chat_template_kwargs: {enable_thinking: false}` was set. A documented top-level thinking
+  switch per model would make this discoverable.
+* Nemotron 3 Nano is served in eu-north1, Nemotron 3 Ultra in us-central1 and DeepSeek V4.1 Flash in
+  us-north1. EU placement for Ultra and a vision model, or a region pin per request, matters for
+  health data.
 
 ## Nebius Token Factory catalog
 
