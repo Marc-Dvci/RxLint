@@ -20,7 +20,7 @@ voice notes directly.
 ![Case A: concentration mismatch](docs/img/case_A.png)
 
 > Research prototype for the Nebius x NVIDIA Global AI Hackathon, Best Apps and Agents track.
-> Not approved for clinical use. See [DISCLAIMER.md](DISCLAIMER.md).
+> Not approved for clinical use.
 
 ## The problem
 
