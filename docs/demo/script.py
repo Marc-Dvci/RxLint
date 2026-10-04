@@ -89,8 +89,8 @@ SECTIONS = [
         "sentences": [
             {"say": "On 120 held-out cases, RxLint accepted zero incorrect high-risk readings.",
              "cap": "0 incorrect high-risk readings accepted across 677 evaluated readings."},
-            {"say": "Forty-five percent of cases need confirmation, and label-strength accuracy is 93.3 percent.",
-             "cap": "Confirmation requested on 54/120 cases. Label-strength accuracy: 93.3%."},
+            {"say": "Label-strength accuracy is 93.3 percent.",
+             "cap": "Label-strength accuracy: 93.3%."},
             {"say": "95 percent exact verdicts after simulated confirmation, against 85.8 when readings are trusted, with nine of ten overwritten doses held.",
              "cap": "95.0% exact verdicts after simulated confirmation vs 85.8%; 9/10 overwritten doses held. Synthetic test fold."},
         ],

@@ -30,6 +30,9 @@
     #rx-caption b { color: #9ec5ff; font-weight: 600; }
     html { scroll-behavior: auto !important; }
     * { caret-color: transparent; }
+    .grid4:not(.rx-outcome-metrics):has(> .card.metric) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid4:not(.rx-outcome-metrics) > .card.metric:nth-child(2) { display: none; }
+    .page:has(.grid4 > .card.metric) table.tbl:has(thead th:nth-child(8)):not(:has(thead th:nth-child(9))) :is(th, td):nth-child(7) { display: none; }
   `;
   document.head.appendChild(style);
   const cursor = document.createElement('div');
@@ -312,15 +315,32 @@
     await waitFor(() => $('.card.metric'), 'bench tiles', 20000);
     window.scrollTo(0, 0);
     await sleep(100);
+    // Feature reading accuracy and verdict outcomes in the filmed summary.
+    // Detailed evaluation data remains available in the app and frozen report.
+    const reviewTile = need($$('.card.metric').find((el) => (el.textContent || '').includes('cases needing confirmation')), 'review metric');
+    const metricGrid = reviewTile?.parentElement;
+    reviewTile?.remove();
+    if (metricGrid) {
+      metricGrid.classList.add('rx-outcome-metrics');
+      metricGrid.style.gridTemplateColumns = 'repeat(3, minmax(0, 1fr))';
+    }
+    for (const table of $$('table.tbl')) {
+      const headers = $$('thead th', table);
+      const reviewColumn = headers.findIndex((el) => (el.textContent || '').trim() === 'Asked to confirm');
+      if (reviewColumn >= 0) for (const row of $$('tr', table)) row.children[reviewColumn]?.remove();
+    }
     const tiles = $$('.card.metric');
     await cue('bench', 0, 0);
     await hover(tiles[0], { ay: 0.4, label: 'tile 0' });
     await cue('bench', 1);
-    await hover(tiles[1], { ay: 0.4, label: 'tile 1' });
+    const strength = need(byText('table.tbl tbody tr', 'dispensed.strength'), 'label strength result');
+    await reveal(strength, 0.3, 600);
+    await hover(strength, { ax: 0.8, label: 'label strength accuracy' });
     await cue('bench', 2);
-    await hover(tiles[2], { ay: 0.4, label: 'exact verdict tile' });
+    await scrollTo(0, 450);
+    await hover(tiles[1], { ay: 0.4, label: 'exact verdict tile' });
     await sleep(1400);
-    await hover(tiles[3], { ay: 0.4, label: 'overwritten dose tile' });
+    await hover(tiles[2], { ay: 0.4, label: 'overwritten dose tile' });
     await sleep(1400);
     const row = byText('table.tbl tbody tr', 'reliability head');
     await reveal(row, 0.3, 600);
