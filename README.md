@@ -116,7 +116,7 @@ the whole perception step where it is served. The published benchmark evaluates 
 transcription-plus-Nano pipeline.
 
 Routing follows the track brief: Nemotron 3 Nano handles every case, Ultra runs only when a case is
-blocked or an explanation is requested, and the kernel costs nothing per check. Each role has its own
+blocked or an explanation is requested, and the kernel needs no model inference. Each role has its own
 base URL, key and model id (the client speaks the OpenAI-compatible API everywhere). Every call is
 logged with model, provider, latency and token counts, shown on the case page and in the report.
 

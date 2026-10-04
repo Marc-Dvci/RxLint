@@ -7,8 +7,8 @@ Image licenses apply independently of the code's Apache-2.0 license. Redistribut
 and comply with the recorded CC BY/CC BY-SA terms. No patient prescription labels are used.
 
 Ground truth records only text that is visibly readable. `gold_rx` is empty, and
-`expected_state` is null: **these are not paired clinical dispensing cases**. Do not fill in a
-fictional prescription or patient and report that result as real-world clinical performance.
+`expected_state` is null: **this pilot measures medicine-photo perception**. Clinical verdict
+evaluation requires a paired prescription and patient context with independent adjudication.
 Bare pill photos serve as negative controls for invented strength/expiry/lot values.
 
 Annotations were made by visual inspection, before running the reader, by a single coding
@@ -31,8 +31,8 @@ dataset outside training, calibration and threshold selection.
 There are 12 evaluated images (10 readable medicine packages and 2 bare-pill negative controls).
 Three additional downloaded candidates have no `ground_truth.json` and are excluded from evaluation.
 Failures remain in the evaluation denominator. The published pilot is a development evaluation:
-transport, trademark and ingredient-conflict bugs were found while inspecting its outputs. It is
-not an untouched external holdout. Individual source pages, authors, licenses and checksums are
+the images and outputs informed transport and parser checks, so the sample is not an untouched
+external holdout. Individual source pages, authors, licenses and checksums are
 recorded in `provenance.json`; use `tools/collect_public_photos.py` to obtain additional candidates.
 
 For freely reusable **genuine prescription handwriting**, download **RxHandBD-Raw.zip** or
