@@ -1,0 +1,13 @@
+{
+  "video": "rxlint-demo.mp4",
+  "sha256": "fdc0e320c792ebead8d3629f40431dd2bbd04b24d4ccd82d7b40b658c7564878",
+  "duration_seconds": 174.0,
+  "frames": 5220,
+  "resolution": "1920x1080",
+  "frames_per_second": 30,
+  "captions": "rxlint-demo.srt",
+  "captions_sha256": "a04533e658381cccfdbb75dd375d72c961adbb127dc4d9fbde7cc0977bf3965a",
+  "caption_cues": 30,
+  "tour_complete": true,
+  "failed_controls": 0
+}

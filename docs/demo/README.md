@@ -20,3 +20,4 @@ python docs/demo/record.py --stills
 working app on a virtual clock, renders 1920×1080 H.264/AAC at 30 fps, and fails if the tour
 cannot find an expected control. `timing.json` records the measured timings for the published
 version. Speech-service output can vary; the attached MP4 and SRT are the final artifacts.
+Their hashes, duration, frame count and tour checks are recorded in [artifacts.json](artifacts.json).
