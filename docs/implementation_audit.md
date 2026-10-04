@@ -125,7 +125,14 @@ I rechecked successfully. All ten default photographed demo cases also match the
 verdicts with the final head and refreshed recording. The frozen model bytes are preserved
 across Windows/Linux checkouts while retaining the repository's existing line-ending rules.
 
-All changes are local. The hosted service, GitHub repository and Devpost submission have not
-been published by this task. The existing demo video and old screenshots describe the prior
-version; the benchmark figure and submission text are updated locally. A new recording should
-show FHIR preview, grouped confirmation, the improved gate metrics and the public-photo limits.
+The implementation, frozen reports, submission story and refreshed gallery are published on
+GitHub. Cloud Run revision `rxlint-00012-khw` serves the tested `e50fa0a` image at the existing
+public app URL; its synthetic and public-photo reports match the repository exactly, and FHIR
+preview was verified after deployment. All ten demo verdicts also match in the Linux release
+container under the service's two-CPU, 2 GiB limits.
+
+The updated 175.8-second video and synchronized captions are available in the
+[submission release](https://github.com/Marc-Dvci/RxLint/releases/tag/submission-review-v4).
+The walkthrough completes without failed UI lookups, and the confirmation animation reflects
+the current interface. Devpost text is ready in `docs/submission.md` and the local fields file;
+the owner still needs to paste it and replace the YouTube embed with the new recording.

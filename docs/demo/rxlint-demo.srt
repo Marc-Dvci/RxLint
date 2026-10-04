@@ -1,0 +1,119 @@
+1
+00:00:00,850 --> 00:00:07,770
+A prescription says amoxicillin clavulanate, 400 milligrams per 5 millilitres, 5 millilitres twice a day.
+
+2
+00:00:07,800 --> 00:00:14,237
+The bottle says 250: same drug, wrong concentration, and the child's dose falls below the WHO range.
+
+3
+00:00:14,267 --> 00:00:17,759
+WHO puts medication errors at 42 billion dollars a year.
+
+4
+00:00:17,789 --> 00:00:23,504
+RxLint checks the medicine being handed over against the prescription, the way a compiler checks code.
+
+5
+00:00:24,158 --> 00:00:27,708
+Two photos, or a FHIR prescription and a bottle photo.
+
+6
+00:00:27,738 --> 00:00:38,328
+On Nebius Token Factory, a vision model transcribes each photo, and NVIDIA Nemotron 3 Nano turns the transcript into typed facts, each citing the line it was copied from.
+
+7
+00:00:38,358 --> 00:00:43,850
+PP-OCRv6 checks high-risk numbers, with a calibrated second gate.
+
+8
+00:00:43,880 --> 00:00:48,002
+Then a deterministic kernel applies 59 rules from the WHO AWaRe book.
+
+9
+00:00:48,032 --> 00:00:52,030
+Click any fact, and RxLint shows the pixels it was read from.
+
+10
+00:00:52,698 --> 00:00:54,075
+The verdict is REVIEW.
+
+11
+00:00:54,105 --> 00:01:00,140
+The critical finding shows what was read: 400 per 5 prescribed, 250 per 5 dispensed.
+
+12
+00:01:00,170 --> 00:01:04,966
+The calculation is right there: 80 milligrams per millilitre against 50.
+
+13
+00:01:04,996 --> 00:01:10,624
+The rule source is quoted verbatim: every finding links the pixels, the arithmetic, and the rule.
+
+14
+00:01:11,278 --> 00:01:17,155
+Nemotron 3 Ultra explains the result to the caregiver, in English, French or Arabic.
+
+15
+00:01:17,185 --> 00:01:20,448
+It writes around locked values, so it can never invent a number.
+
+16
+00:01:20,478 --> 00:01:26,248
+And Nemotron 3 Nano audits every sentence against the verified result before it is shown.
+
+17
+00:01:26,906 --> 00:01:33,619
+When the handwriting is overwritten, 2.5 or 7.5 millilitres, RxLint does not guess.
+
+18
+00:01:33,649 --> 00:01:39,489
+It returns CANNOT VERIFY, and Nemotron 3 Ultra picks the single smallest question to ask.
+
+19
+00:01:39,519 --> 00:01:43,859
+Reviewed values are confirmed together, with explicit choices for ambiguity.
+
+20
+00:01:43,889 --> 00:01:47,843
+The rules re-run without another model call, and the case passes.
+
+21
+00:01:48,510 --> 00:01:55,430
+The rule pack is frozen and hashed, so a separate live plane asks: has a regulator published anything since?
+
+22
+00:01:55,460 --> 00:02:01,430
+For this French dispensing check, Tavily searches ANSM for pages naming the exact lot.
+
+23
+00:02:01,460 --> 00:02:07,832
+For this bottle, dispensed in February 2019, ANSM had recalled lot JA0287.
+
+24
+00:02:07,862 --> 00:02:11,556
+The live state sits next to the verdict; it never changes it.
+
+25
+00:02:12,202 --> 00:02:18,046
+On the same 120 held-out cases, the revised gate accepted zero incorrect high-risk readings.
+
+26
+00:02:18,076 --> 00:02:26,057
+Confirmation requests fell from 61 to 54, and label-strength accuracy rose from 80 to 93.3 percent.
+
+27
+00:02:26,087 --> 00:02:35,193
+95 percent exact verdicts after simulated confirmation, against 85.8 when readings are trusted, with nine of ten overwritten doses held.
+
+28
+00:02:35,846 --> 00:02:40,777
+A model may transcribe, report a competing reading, and write around locked values.
+
+29
+00:02:40,807 --> 00:02:44,375
+It may not compute a dose, decide the verdict, or write a number.
+
+30
+00:02:44,405 --> 00:02:53,403
+RxLint: Nemotron on Nebius Token Factory reads and explains, a deterministic kernel decides, and Tavily watches the regulators.

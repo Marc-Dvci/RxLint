@@ -1,0 +1,374 @@
+{
+ "retrieved_at": "2026-09-25T18:00:15+00:00",
+ "as_of": "2019-02-04",
+ "query_policy": "fr-us-gb-ke-ng-int-v2",
+ "country": "FR",
+ "target": {
+  "product": "amoxicillin+clavulanic_acid",
+  "lot": "LOT JA0287",
+  "manufacturer": null
+ },
+ "clinical_rule_changed": false,
+ "status": "LIVE_REVIEW",
+ "notices": [
+  {
+   "source": "Tavily",
+   "authority": "ANSM",
+   "url": "https://ansm.sante.fr/actualites/impression/134",
+   "title": "Rappel de lots de spécialités amoxicilline/acide ...",
+   "published_at": "2019-01-18",
+   "retrieved_at": "2026-09-25T18:00:15+00:00",
+   "extracted": true,
+   "match_type": "lot_recall",
+   "matched_fields": [
+    "ingredient:amoxicillin",
+    "ingredient:clavulanic_acid",
+    "lot"
+   ],
+   "listed_lots": [
+    "HP6041"
+   ],
+   "is_recall": true,
+   "is_safety": false,
+   "snippet": "que Sandoz poudre pour suspension buvable dosage nourrissons et dosage enfants en raison d’une incohérence dans la notice SURVEILLANCE - RETRAITS DE LOTS HP6041 (péremption : 30.11.2020) HP6043 (péremption : 30.11.2020) JA0287 (péremption : 30.06.2021) HZ6881 (péremption : 30.06.2021) ANSM - Page 1 sur 2 - 25.09.2026 19:16 Le traitement est en cours Le traitement n’a pas encore commencé Ces spécialités sont indiquées dans : Amoxicilline Acide"
+  },
+  {
+   "source": "Tavily",
+   "authority": "ANSM",
+   "url": "https://ansm.sante.fr/actualites/rappel-de-lots-de-specialites-amoxicilline-acide-clavulanique-sandoz-poudre-pour-suspension-buvable-dosage-nourrissons-et-dosage-enfants-en-raison-dune-incoherence-dans-la-notice",
+   "title": "Rappel de lots de spécialités amoxicilline/acide ...",
+   "published_at": null,
+   "retrieved_at": "2026-09-25T18:00:15+00:00",
+   "extracted": true,
+   "match_type": "product_recall",
+   "matched_fields": [
+    "ingredient:amoxicillin",
+    "ingredient:clavulanic_acid"
+   ],
+   "listed_lots": [],
+   "is_recall": true,
+   "is_safety": false,
+   "snippet": "Rappel de lots de spécialités amoxicilline/acide ...\n \n \n \n\n# Rappel de lots de spécialités amoxicilline/acide clavulanique Sandoz poudre pour suspension buvable dosage nourrissons et dosage enfants en raison d’une incohérence dans la notice\n\n \n \n \n \n\n##### Deux lots de la spécialité amoxicilline acide clavulanique Sandoz 100 mg/12,5 mg par ml nour"
+  },
+  {
+   "source": "Tavily",
+   "authority": "ANSM",
+   "url": "https://ansm.sante.fr/informations-de-securite/amoxicilline-acide-clavulanique-sandoz-100-mg-12-5-mg-par-ml-nourrissons-poudre-pour-suspension-buvable-en-flacon-amoxicilline-acide-clavulanique-sandoz-100-mg-12-5-mg-par-ml-enfants-poudre-pour-suspension-buvable-en-flacon-laboratoire-sandoz",
+   "title": "Amoxicilline Acide Clavulanique Sandoz 100 mg/12,5 ...",
+   "published_at": "2019-01-18",
+   "retrieved_at": "2026-09-25T18:00:15+00:00",
+   "extracted": true,
+   "match_type": "lot_recall",
+   "matched_fields": [
+    "ingredient:amoxicillin",
+    "ingredient:clavulanic_acid",
+    "lot"
+   ],
+   "listed_lots": [],
+   "is_recall": true,
+   "is_safety": false,
+   "snippet": "- HP6041 péremption 11.2020  \n- HP6043 péremption 11.2020 \n\n**AMOXICILLINE ACIDE CLAVULANIQUE SANDOZ 100 mg/12,5 mg par ml ENFANTS, poudre pour suspension buvable en flacon (flacon 60 mL)**   \nCIP : 34009 359 491 65  \n- JA0287 péremption 06.2021  \n- HZ6881 péremption 06.2021\n\nCe rappel fait suite à la découverte d’une incohérence sur les notices concernant le mode d’utilisation du produit après reconstitution initiale, susceptible d’entrainer"
+  },
+  {
+   "source": "Tavily",
+   "authority": "ANSM",
+   "url": "https://ansm.sante.fr/informations-de-securite/amoxicilline-acide-clavulanique-sandoz-100-mg-12-5-mg-par-ml-nourrissons-poudre-pour-suspension-buvable-en-flacon-amoxicilline-acide-clavulanique-mylan-100-mg-12-5-mg-par-ml-nourrissons-poudre-pour-suspension-buvable-en-flacon-sandoz-et-mylan",
+   "title": "Information de sécurité - Amoxicilline Acide Clavulanique Sando",
+   "published_at": null,
+   "retrieved_at": "2026-09-25T18:00:15+00:00",
+   "extracted": true,
+   "match_type": "other_lot",
+   "matched_fields": [
+    "ingredient:amoxicillin",
+    "ingredient:clavulanic_acid"
+   ],
+   "listed_lots": [
+    "GN6042",
+    "Y1477",
+    "Y1482"
+   ],
+   "is_recall": false,
+   "is_safety": true,
+   "snippet": "Information de sécurité - Amoxicilline Acide Clavulanique Sando\n \n \n\n# Amoxicilline Acide Clavulanique Sandoz 100 mg/12,5 mg par ml Nourrissons, poudre pour suspension buvable en flacon/Amoxicilline Acide Clavulanique Mylan 100 mg/12,5 mg par ml Nourrissons, poudre pour suspension buvable en flacon- Sandoz et Mylan (MED18/A010/B011)\n\n \n \n \n \n\nL"
+  }
+ ],
+ "applicable": 3,
+ "searches": [
+  {
+   "source": "Tavily search (ANSM)",
+   "query": "amoxicilline acide clavulanique lot \"JA0287\" rappel",
+   "domains": [
+    "ansm.sante.fr"
+   ],
+   "exact_match": true,
+   "ok": true,
+   "results": 3,
+   "rejected_off_allowlist": 0
+  },
+  {
+   "source": "Tavily search (ANSM)",
+   "query": "amoxicilline acide clavulanique suspension buvable rappel de lot",
+   "domains": [
+    "ansm.sante.fr"
+   ],
+   "exact_match": false,
+   "ok": true,
+   "results": 0,
+   "rejected_off_allowlist": 5
+  },
+  {
+   "source": "Tavily search (ANSM)",
+   "query": "Amoxicillin information de sécurité",
+   "domains": [
+    "ansm.sante.fr"
+   ],
+   "exact_match": false,
+   "ok": true,
+   "results": 5,
+   "rejected_off_allowlist": 0
+  },
+  {
+   "source": "Tavily search (EMA)",
+   "query": "amoxicillin and clavulanic acid \"JA0287\" recall",
+   "domains": [
+    "ema.europa.eu"
+   ],
+   "exact_match": true,
+   "ok": true,
+   "results": 0,
+   "rejected_off_allowlist": 0
+  },
+  {
+   "source": "Tavily search (EMA)",
+   "query": "amoxicillin and clavulanic acid oral suspension recall",
+   "domains": [
+    "ema.europa.eu"
+   ],
+   "exact_match": false,
+   "ok": true,
+   "results": 5,
+   "rejected_off_allowlist": 0
+  },
+  {
+   "source": "Tavily search (EMA)",
+   "query": "Amoxicillin safety communication",
+   "domains": [
+    "ema.europa.eu"
+   ],
+   "exact_match": false,
+   "ok": true,
+   "results": 5,
+   "rejected_off_allowlist": 0
+  },
+  {
+   "source": "Tavily search (WHO)",
+   "query": "amoxicillin and clavulanic acid \"JA0287\" recall",
+   "domains": [
+    "who.int"
+   ],
+   "exact_match": true,
+   "ok": true,
+   "results": 0,
+   "rejected_off_allowlist": 0
+  },
+  {
+   "source": "Tavily search (WHO)",
+   "query": "amoxicillin and clavulanic acid oral suspension recall",
+   "domains": [
+    "who.int"
+   ],
+   "exact_match": false,
+   "ok": true,
+   "results": 5,
+   "rejected_off_allowlist": 0
+  },
+  {
+   "source": "Tavily extract",
+   "ok": true,
+   "results": 4,
+   "urls": [
+    "https://ansm.sante.fr/actualites/impression/134",
+    "https://ansm.sante.fr/actualites/rappel-de-lots-de-specialites-amoxicilline-acide-clavulanique-sandoz-poudre-pour-suspension-buvable-dosage-nourrissons-et-dosage-enfants-en-raison-dune-incoherence-dans-la-notice",
+    "https://ansm.sante.fr/informations-de-securite/amoxicilline-acide-clavulanique-sandoz-100-mg-12-5-mg-par-ml-nourrissons-poudre-pour-suspension-buvable-en-flacon-amoxicilline-acide-clavulanique-sandoz-100-mg-12-5-mg-par-ml-enfants-poudre-pour-suspension-buvable-en-flacon-laboratoire-sandoz",
+    "https://ansm.sante.fr/informations-de-securite/amoxicilline-acide-clavulanique-sandoz-100-mg-12-5-mg-par-ml-nourrissons-poudre-pour-suspension-buvable-en-flacon-amoxicilline-acide-clavulanique-mylan-100-mg-12-5-mg-par-ml-nourrissons-poudre-pour-suspension-buvable-en-flacon-sandoz-et-mylan"
+   ]
+  }
+ ],
+ "errors": [],
+ "tavily_calls": [
+  {
+   "endpoint": "search",
+   "request": {
+    "query": "amoxicilline acide clavulanique lot \"JA0287\" rappel",
+    "include_domains": [
+     "ansm.sante.fr"
+    ],
+    "max_results": 5,
+    "topic": "general",
+    "search_depth": "basic",
+    "include_answer": false,
+    "include_raw_content": false,
+    "include_published_date": true,
+    "exact_match": true
+   },
+   "ok": true,
+   "latency_ms": 2466,
+   "results": 3,
+   "error": null
+  },
+  {
+   "endpoint": "search",
+   "request": {
+    "query": "amoxicilline acide clavulanique suspension buvable rappel de lot",
+    "include_domains": [
+     "ansm.sante.fr"
+    ],
+    "max_results": 5,
+    "topic": "general",
+    "search_depth": "basic",
+    "include_answer": false,
+    "include_raw_content": false,
+    "include_published_date": true
+   },
+   "ok": true,
+   "latency_ms": 330,
+   "results": 5,
+   "error": null
+  },
+  {
+   "endpoint": "search",
+   "request": {
+    "query": "Amoxicillin information de sécurité",
+    "include_domains": [
+     "ansm.sante.fr"
+    ],
+    "max_results": 5,
+    "topic": "general",
+    "search_depth": "basic",
+    "include_answer": false,
+    "include_raw_content": false,
+    "include_published_date": true
+   },
+   "ok": true,
+   "latency_ms": 365,
+   "results": 5,
+   "error": null
+  },
+  {
+   "endpoint": "search",
+   "request": {
+    "query": "amoxicillin and clavulanic acid \"JA0287\" recall",
+    "include_domains": [
+     "ema.europa.eu"
+    ],
+    "max_results": 5,
+    "topic": "general",
+    "search_depth": "basic",
+    "include_answer": false,
+    "include_raw_content": false,
+    "include_published_date": true,
+    "exact_match": true
+   },
+   "ok": true,
+   "latency_ms": 3004,
+   "results": 0,
+   "error": null
+  },
+  {
+   "endpoint": "search",
+   "request": {
+    "query": "amoxicillin and clavulanic acid oral suspension recall",
+    "include_domains": [
+     "ema.europa.eu"
+    ],
+    "max_results": 5,
+    "topic": "general",
+    "search_depth": "basic",
+    "include_answer": false,
+    "include_raw_content": false,
+    "include_published_date": true
+   },
+   "ok": true,
+   "latency_ms": 511,
+   "results": 5,
+   "error": null
+  },
+  {
+   "endpoint": "search",
+   "request": {
+    "query": "Amoxicillin safety communication",
+    "include_domains": [
+     "ema.europa.eu"
+    ],
+    "max_results": 5,
+    "topic": "general",
+    "search_depth": "basic",
+    "include_answer": false,
+    "include_raw_content": false,
+    "include_published_date": true
+   },
+   "ok": true,
+   "latency_ms": 567,
+   "results": 5,
+   "error": null
+  },
+  {
+   "endpoint": "search",
+   "request": {
+    "query": "amoxicillin and clavulanic acid \"JA0287\" recall",
+    "include_domains": [
+     "who.int"
+    ],
+    "max_results": 5,
+    "topic": "general",
+    "search_depth": "basic",
+    "include_answer": false,
+    "include_raw_content": false,
+    "include_published_date": true,
+    "exact_match": true
+   },
+   "ok": true,
+   "latency_ms": 2501,
+   "results": 0,
+   "error": null
+  },
+  {
+   "endpoint": "search",
+   "request": {
+    "query": "amoxicillin and clavulanic acid oral suspension recall",
+    "include_domains": [
+     "who.int"
+    ],
+    "max_results": 5,
+    "topic": "general",
+    "search_depth": "basic",
+    "include_answer": false,
+    "include_raw_content": false,
+    "include_published_date": true
+   },
+   "ok": true,
+   "latency_ms": 376,
+   "results": 5,
+   "error": null
+  },
+  {
+   "endpoint": "extract",
+   "request": {
+    "urls": [
+     "https://ansm.sante.fr/actualites/impression/134",
+     "https://ansm.sante.fr/actualites/rappel-de-lots-de-specialites-amoxicilline-acide-clavulanique-sandoz-poudre-pour-suspension-buvable-dosage-nourrissons-et-dosage-enfants-en-raison-dune-incoherence-dans-la-notice",
+     "https://ansm.sante.fr/informations-de-securite/amoxicilline-acide-clavulanique-sandoz-100-mg-12-5-mg-par-ml-nourrissons-poudre-pour-suspension-buvable-en-flacon-amoxicilline-acide-clavulanique-sandoz-100-mg-12-5-mg-par-ml-enfants-poudre-pour-suspension-buvable-en-flacon-laboratoire-sandoz",
+     "https://ansm.sante.fr/informations-de-securite/amoxicilline-acide-clavulanique-sandoz-100-mg-12-5-mg-par-ml-nourrissons-poudre-pour-suspension-buvable-en-flacon-amoxicilline-acide-clavulanique-mylan-100-mg-12-5-mg-par-ml-nourrissons-poudre-pour-suspension-buvable-en-flacon-sandoz-et-mylan"
+    ],
+    "extract_depth": "advanced",
+    "format": "markdown",
+    "include_images": false
+   },
+   "ok": true,
+   "latency_ms": 773,
+   "results": 4,
+   "error": null
+  }
+ ],
+ "statement": null
+}

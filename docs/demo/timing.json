@@ -1,0 +1,253 @@
+{
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+15%",
+ "lead_ms": 800,
+ "tail_ms": 1800,
+ "total_ms": 175816,
+ "sections": [
+  {
+   "id": "home",
+   "file": "1.wav",
+   "start_ms": 800,
+   "duration_ms": 23308,
+   "sentences": [
+    {
+     "start_ms": 850.0,
+     "end_ms": 7800.0001,
+     "say": "A prescription says amoxicillin clavulanate, 400 milligrams per 5 millilitres, 5 millilitres twice a day.",
+     "cap": "Prescribed: amoxicillin/clavulanate 400 mg per 5 mL, 5 mL twice daily."
+    },
+    {
+     "start_ms": 7800.0001,
+     "end_ms": 14267.3915,
+     "say": "The bottle says 250: same drug, wrong concentration, and the child's dose falls below the WHO range.",
+     "cap": "Dispensed: 250 mg per 5 mL. A 9.5 kg child receives 52.6 mg/kg/day instead of 80 to 90."
+    },
+    {
+     "start_ms": 14267.3915,
+     "end_ms": 17789.1307,
+     "say": "WHO puts medication errors at 42 billion dollars a year.",
+     "cap": "WHO: medication errors cost US$42 billion a year."
+    },
+    {
+     "start_ms": 17789.1307,
+     "end_ms": 23354.3482,
+     "say": "RxLint checks the medicine being handed over against the prescription, the way a compiler checks code.",
+     "cap": "RxLint: static analysis for medication dispensing."
+    }
+   ]
+  },
+  {
+   "id": "read",
+   "file": "2.wav",
+   "start_ms": 24108,
+   "duration_ms": 28540,
+   "sentences": [
+    {
+     "start_ms": 24158.0,
+     "end_ms": 27738.4348,
+     "say": "Two photos, or a FHIR prescription and a bottle photo.",
+     "cap": "Photograph the prescription, or import a FHIR R4 order; verify the actual bottle."
+    },
+    {
+     "start_ms": 27738.4348,
+     "end_ms": 38358.0002,
+     "say": "On Nebius Token Factory, a vision model transcribes each photo, and NVIDIA Nemotron 3 Nano turns the transcript into typed facts, each citing the line it was copied from.",
+     "cap": "Nemotron 3 Nano structures the transcript. Every value cites the line it was copied from."
+    },
+    {
+     "start_ms": 38358.0002,
+     "end_ms": 43879.7394,
+     "say": "PP-OCRv6 checks high-risk numbers, with a calibrated second gate.",
+     "cap": "PP-OCRv6 corroboration + a validation-calibrated reliability head."
+    },
+    {
+     "start_ms": 43879.739499999996,
+     "end_ms": 48031.913400000005,
+     "say": "Then a deterministic kernel applies 59 rules from the WHO AWaRe book.",
+     "cap": "59 rules from the WHO AWaRe antibiotic book. Deterministic arithmetic, no model call."
+    },
+    {
+     "start_ms": 48031.913499999995,
+     "end_ms": 51879.7396,
+     "say": "Click any fact, and RxLint shows the pixels it was read from.",
+     "cap": "Click a fact: RxLint points at the pixels it was read from."
+    }
+   ]
+  },
+  {
+   "id": "finding",
+   "file": "3.wav",
+   "start_ms": 52648,
+   "duration_ms": 18580,
+   "sentences": [
+    {
+     "start_ms": 52698.0,
+     "end_ms": 54104.5217,
+     "say": "The verdict is REVIEW.",
+     "cap": "REVIEW: at least one deterministic rule failed."
+    },
+    {
+     "start_ms": 54104.5217,
+     "end_ms": 60169.739199999996,
+     "say": "The critical finding shows what was read: 400 per 5 prescribed, 250 per 5 dispensed.",
+     "cap": "Observed: 400 mg / 57 mg per 5 mL prescribed, 250 mg / 62.5 mg per 5 mL dispensed."
+    },
+    {
+     "start_ms": 60169.739199999996,
+     "end_ms": 64995.826199999996,
+     "say": "The calculation is right there: 80 milligrams per millilitre against 50.",
+     "cap": "Calculation: 400 / 5 = 80 mg/mL prescribed, 250 / 5 = 50 mg/mL dispensed."
+    },
+    {
+     "start_ms": 64995.8263,
+     "end_ms": 70474.08720000001,
+     "say": "The rule source is quoted verbatim: every finding links the pixels, the arithmetic, and the rule.",
+     "cap": "Every finding links the pixels, the arithmetic and the rule it rests on."
+    }
+   ]
+  },
+  {
+   "id": "explain",
+   "file": "4.wav",
+   "start_ms": 71228,
+   "duration_ms": 15628,
+   "sentences": [
+    {
+     "start_ms": 71278.0,
+     "end_ms": 77184.5218,
+     "say": "Nemotron 3 Ultra explains the result to the caregiver, in English, French or Arabic.",
+     "cap": "Nemotron 3 Ultra explains the verified result in English, French and Arabic."
+    },
+    {
+     "start_ms": 77184.5218,
+     "end_ms": 80478.0001,
+     "say": "It writes around locked values, so it can never invent a number.",
+     "cap": "Values are locked tokens: the model writes the sentences, never a number."
+    },
+    {
+     "start_ms": 80478.0001,
+     "end_ms": 86097.56539999999,
+     "say": "And Nemotron 3 Nano audits every sentence against the verified result before it is shown.",
+     "cap": "Nemotron 3 Nano audits each explanation against the verified result."
+    }
+   ]
+  },
+  {
+   "id": "handwriting",
+   "file": "5.wav",
+   "start_ms": 86856,
+   "duration_ms": 21604,
+   "sentences": [
+    {
+     "start_ms": 86906.0,
+     "end_ms": 93649.47839999999,
+     "say": "When the handwriting is overwritten, 2.5 or 7.5 millilitres, RxLint does not guess.",
+     "cap": "Case D: the dose is overwritten. 2.5 or 7.5 mL?"
+    },
+    {
+     "start_ms": 93649.47839999999,
+     "end_ms": 99519.0437,
+     "say": "It returns CANNOT VERIFY, and Nemotron 3 Ultra picks the single smallest question to ask.",
+     "cap": "CANNOT VERIFY. Nemotron 3 Ultra picks the smallest clarification from a closed list."
+    },
+    {
+     "start_ms": 99519.0437,
+     "end_ms": 103888.609,
+     "say": "Reviewed values are confirmed together, with explicit choices for ambiguity.",
+     "cap": "Batch confirmation: review all unresolved values together; choose ambiguous readings explicitly."
+    },
+    {
+     "start_ms": 103888.609,
+     "end_ms": 107692.9569,
+     "say": "The rules re-run without another model call, and the case passes.",
+     "cap": "The kernel re-runs on the confirmed value. No new model call."
+    }
+   ]
+  },
+  {
+   "id": "live",
+   "file": "6.wav",
+   "start_ms": 108460,
+   "duration_ms": 23692,
+   "sentences": [
+    {
+     "start_ms": 108510.0,
+     "end_ms": 115460.0001,
+     "say": "The rule pack is frozen and hashed, so a separate live plane asks: has a regulator published anything since?",
+     "cap": "Plane B: has a regulator published anything since the rule pack was frozen?"
+    },
+    {
+     "start_ms": 115460.0001,
+     "end_ms": 121460.0002,
+     "say": "For this French dispensing check, Tavily searches ANSM for pages naming the exact lot.",
+     "cap": "Tavily Search on ansm.sante.fr only, exact match on the lot code, then Tavily Extract."
+    },
+    {
+     "start_ms": 121460.0002,
+     "end_ms": 127862.17420000001,
+     "say": "For this bottle, dispensed in February 2019, ANSM had recalled lot JA0287.",
+     "cap": "LIVE REVIEW: the ANSM recall of 18 January 2019 names lot JA0287."
+    },
+    {
+     "start_ms": 127862.1743,
+     "end_ms": 131405.6526,
+     "say": "The live state sits next to the verdict; it never changes it.",
+     "cap": "The live state never edits the deterministic verdict."
+    }
+   ]
+  },
+  {
+   "id": "bench",
+   "file": "7.wav",
+   "start_ms": 132152,
+   "duration_ms": 23644,
+   "sentences": [
+    {
+     "start_ms": 132202.0,
+     "end_ms": 138075.9131,
+     "say": "On the same 120 held-out cases, the revised gate accepted zero incorrect high-risk readings.",
+     "cap": "0 incorrect high-risk readings accepted across 677 evaluated readings."
+    },
+    {
+     "start_ms": 138075.9131,
+     "end_ms": 146086.7828,
+     "say": "Confirmation requests fell from 61 to 54, and label-strength accuracy rose from 80 to 93.3 percent.",
+     "cap": "61 to 54 confirmation requests. Label-strength accuracy: 80.0% to 93.3%."
+    },
+    {
+     "start_ms": 146086.7828,
+     "end_ms": 155043.3047,
+     "say": "95 percent exact verdicts after simulated confirmation, against 85.8 when readings are trusted, with nine of ten overwritten doses held.",
+     "cap": "95.0% exact verdicts after simulated confirmation vs 85.8%; 9/10 overwritten doses held. Synthetic test fold."
+    }
+   ]
+  },
+  {
+   "id": "close",
+   "file": "8.wav",
+   "start_ms": 155796,
+   "duration_ms": 18220,
+   "sentences": [
+    {
+     "start_ms": 155846.0,
+     "end_ms": 160806.8696,
+     "say": "A model may transcribe, report a competing reading, and write around locked values.",
+     "cap": "A model may transcribe, report competing readings, choose a clarification, write around locked values."
+    },
+    {
+     "start_ms": 160806.8696,
+     "end_ms": 164404.6957,
+     "say": "It may not compute a dose, decide the verdict, or write a number.",
+     "cap": "It may not convert a unit, compute a dose, decide PASS or REVIEW, or write a number."
+    },
+    {
+     "start_ms": 164404.6958,
+     "end_ms": 173252.522,
+     "say": "RxLint: Nemotron on Nebius Token Factory reads and explains, a deterministic kernel decides, and Tavily watches the regulators.",
+     "cap": "RxLint. Nemotron reads and explains. The kernel decides. Tavily watches the regulators."
+    }
+   ]
+  }
+ ]
+}

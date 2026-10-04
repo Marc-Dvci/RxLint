@@ -18,6 +18,7 @@ batch confirmation resolves reviewed fields together, and FHIR R4 import supplie
 prescriptions directly with source evidence.
 
 [Try the app](https://rxlint-284853036406.europe-west1.run.app) ·
+[Updated demo and captions](https://github.com/Marc-Dvci/RxLint/releases/tag/submission-review-v4) ·
 [Submission story](docs/submission.md) · [Results and reproduction](#benchmark)
 
 On Nebius Token Factory, a vision model transcribes each photo line by line and NVIDIA Nemotron 3
@@ -196,7 +197,7 @@ rule stays unchanged until the next reviewed pack release.
 `python tools/run_demo.py` runs all ten through the full pipeline and compares each verdict
 with the expected one.
 
-![Case D: CANNOT VERIFY, one tap on 7.5 mL, and the kernel re-runs to PASS without another model call](docs/img/confirm.gif)
+![Case D: explicitly choose the overwritten dose, confirm reviewed values, and re-run to PASS without another model call](docs/img/confirm.gif)
 
 ## Quick start
 

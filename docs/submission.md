@@ -17,7 +17,7 @@
 - **Watches the regulators** with **Tavily** in the United States, France, the United Kingdom, Kenya and Nigeria: an exact-match lot search on ansm.sante.fr finds the ANSM recall that names the lot on the bottle.
 - **Measured** on 120 held-out cases: **95.0% exact verdicts after simulated confirmation**, **9/10 overwritten doses held for review**, and **0/80 false-safe verdicts**, both before and after confirmation.
 
-**Try it:** [live app](https://rxlint-284853036406.europe-west1.run.app) · [code](https://github.com/Marc-Dvci/RxLint) (Apache-2.0)
+**Try it:** [live app](https://rxlint-284853036406.europe-west1.run.app) · [updated demo](https://github.com/Marc-Dvci/RxLint/releases/tag/submission-review-v4) · [code](https://github.com/Marc-Dvci/RxLint) (Apache-2.0)
 
 ![RxLint flags the wrong concentration on case A: the verdict, the boxed strengths on both photos, and the calculation](https://raw.githubusercontent.com/Marc-Dvci/RxLint/main/docs/img/case_A.png)
 
@@ -38,7 +38,7 @@ The person dispensing (a pharmacist, a pharmacy technician or a nurse) photograp
 - **CANNOT VERIFY**: a required fact is missing, unreadable or contradictory, and RxLint asks for the smallest clarification that unblocks it.
 - **OUT OF SCOPE**: the medicine, route or patient is outside the installed rule pack.
 
-![Case D: an overwritten dose returns CANNOT VERIFY, Nemotron 3 Ultra asks one question, a single tap confirms 7.5 mL, and the kernel re-runs to PASS without another model call](https://raw.githubusercontent.com/Marc-Dvci/RxLint/main/docs/img/confirm.gif)
+![Case D: an overwritten dose requires an explicit choice; confirm reviewed values and the kernel re-runs to PASS without another model call](https://raw.githubusercontent.com/Marc-Dvci/RxLint/main/docs/img/confirm.gif)
 
 Every finding opens into what was observed, the calculation, the rule with its verbatim source quote and page, and the required action. Clicking a fact highlights the pixels it was read from. Nemotron 3 Ultra explains the result to the person dispensing or to the caregiver in **English, French and Arabic**, and a reviewed phrase table covers **Swahili**. A separate **live regulator plane** asks whether the FDA, ANSM, EMA, MHRA, Kenya's PPB, NAFDAC or WHO has published anything about this product and this lot since the rule pack was frozen. Every case exports as an HTML report with a pharmacist sign-off block and a JSON evidence bundle with the hashes of the photos, the rule pack and the result.
 
@@ -147,6 +147,10 @@ nvidia-nemotron, nemotron-3-ultra, nemotron-3-nano, nemotron-3-nano-omni, nebius
 ## Video demo link
 
 https://youtu.be/mMPHi_g1NuI
+
+Submission handoff: the link above is the previous upload. Upload the [updated 175.8-second
+MP4 and captions](https://github.com/Marc-Dvci/RxLint/releases/tag/submission-review-v4), then
+replace the video field with its new YouTube URL and paste the updated project text.
 
 ## Which track are you submitting your project into?
 

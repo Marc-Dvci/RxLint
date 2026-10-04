@@ -9,3 +9,7 @@ web/dist/
 data/
 bench_out/
 *.log
+docs/demo/speech/
+docs/demo/frames/
+docs/demo/*.mp4
+docs/demo/narration.wav
