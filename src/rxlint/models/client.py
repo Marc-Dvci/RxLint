@@ -29,6 +29,7 @@ from typing import Any
 import httpx
 
 TOKEN_FACTORY_URL = "https://api.tokenfactory.nebius.com/v1"
+TRANSPORT_VERSION = "nebius-effort-v1"
 
 DEFAULT_MODELS = {
     "omni": "nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning",
@@ -131,7 +132,8 @@ def audio_part(audio_bytes: bytes, fmt: str = "wav") -> dict[str, Any]:
     return {"type": "input_audio", "input_audio": {"data": base64.b64encode(audio_bytes).decode(), "format": fmt}}
 
 
-def _request_key(role: str, model: str, messages: list[dict], schema: dict | None, purpose: str) -> str:
+def _request_key(role: str, model: str, messages: list[dict], schema: dict | None, purpose: str, *, legacy: bool = False,
+                 settings: dict | None = None) -> str:
     def strip(o: Any) -> Any:
         if isinstance(o, dict):
             if o.get("type") == "image_url":
@@ -144,7 +146,13 @@ def _request_key(role: str, model: str, messages: list[dict], schema: dict | Non
             return [strip(x) for x in o]
         return o
 
-    blob = json.dumps({"role": role, "model_role": role, "messages": strip(messages), "schema": schema, "purpose": purpose},
+    request = {"role": role, "model_role": role, "messages": strip(messages), "schema": schema, "purpose": purpose}
+    if not legacy:
+        request["model"] = model
+        request["transport_version"] = TRANSPORT_VERSION
+        if settings is not None:
+            request["settings"] = settings
+    blob = json.dumps(request,
                       sort_keys=True, ensure_ascii=False)
     return hashlib.sha256(blob.encode()).hexdigest()
 
@@ -206,10 +214,22 @@ class ModelClient:
     def chat(self, role: str, messages: list[dict], *, schema: dict | None = None, purpose: str = "",
              max_tokens: int = 2048, temperature: float = 0.0) -> ChatResult:
         cfg = role_config(role)
-        key = _request_key(role, cfg.model, messages, schema, purpose)
+        settings = {"base_url": cfg.base_url, "provider": cfg.provider, "thinking": cfg.thinking,
+                    "json_schema": cfg.json_schema, "max_tokens": max_tokens, "temperature": temperature,
+                    "reasoning_effort": _env(f"RXLINT_{role.upper()}_REASONING_EFFORT", "medium" if cfg.thinking else "none")
+                    if cfg.provider == "nebius-token-factory" else None}
+        key = _request_key(role, cfg.model, messages, schema, purpose, settings=settings)
+        live_configured = bool(cfg.api_key) or cfg.provider == "local-llama.cpp"
         if self.mode in ("replay", "auto"):
             hit = self.cassette.get(key)
-            if hit is not None:
+            if hit is None and (self.mode == "replay" or not live_configured):
+                hit = self.cassette.get(_request_key(role, cfg.model, messages, schema, purpose))
+            if hit is None and (self.mode == "replay" or not live_configured):
+                hit = self.cassette.get(_request_key(role, cfg.model, messages, schema, purpose, legacy=True))
+            # Historical cassette keys did not include the model. Never replay a different reader
+            # as the configured model during comparisons; preserve compatible historical replay.
+            if hit is not None and (self.mode == "replay" or not live_configured or
+                    (hit.get("model") == cfg.model and hit.get("transport_version") == TRANSPORT_VERSION)):
                 rec = CallRecord(role=role, model=hit["model"], provider=hit["provider"], purpose=purpose,
                                  latency_ms=hit.get("latency_ms", 0), prompt_tokens=hit.get("prompt_tokens"),
                                  completion_tokens=hit.get("completion_tokens"), ok=True, replayed=True,
@@ -230,6 +250,10 @@ class ModelClient:
             raise ModelUnavailable(f"{role}: NEBIUS_API_KEY is not configured")
         body: dict[str, Any] = {"model": cfg.model, "messages": messages, "max_tokens": max_tokens, "temperature": temperature}
         body["chat_template_kwargs"] = {"enable_thinking": cfg.thinking}
+        if cfg.provider == "nebius-token-factory":
+            # Token Factory's documented top-level switch; template kwargs alone did not
+            # disable DeepSeek reasoning and could exhaust the transcription token budget.
+            body["reasoning_effort"] = settings["reasoning_effort"]
         if schema is not None and cfg.json_schema:
             body["response_format"] = {"type": "json_schema", "json_schema": {"name": purpose or "result", "schema": schema, "strict": True}}
         headers = {"Content-Type": "application/json"}
@@ -265,6 +289,8 @@ class ModelClient:
         self.log.append(rec)
         if self.mode in ("record", "auto"):
             self.cassette.put(key, {"role": role, "model": rec.model, "provider": rec.provider, "purpose": purpose, "content": content,
+                                    "transport_version": TRANSPORT_VERSION,
+                                    "request_settings": settings,
                                     "reasoning": reasoning, "latency_ms": latency, "prompt_tokens": rec.prompt_tokens,
                                     "completion_tokens": rec.completion_tokens, "recorded_at": rec.recorded_at})
         return ChatResult(content, reasoning, rec, data)

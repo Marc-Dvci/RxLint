@@ -335,17 +335,24 @@ _MONTHS = {
 def parse_expiry(raw: str) -> date:
     """Parse an expiry. Month-only expiries resolve to the last day of that month."""
     text = clean(raw)
-    text = re.sub(r"^(exp(iry|iration)?\.?|use by|pér\.?|per\.?|exp date)\s*[:.]?\s*", "", text)
-    iso = re.search(r"(20\d\d)[-/.](\d{1,2})(?:[-/.](\d{1,2}))?", text)
+    text = re.sub(r"^(exp(?:iry|iration)?(?:\s*date)?\.?|use by|pér(?:emption)?\.?|per\.?)\s*[:.]?\s*", "", text)
+    iso = re.fullmatch(r"(20\d\d)[-/.](\d{1,2})(?:[-/.](\d{1,2}))?", text)
     if iso:
         y, mth, d = int(iso.group(1)), int(iso.group(2)), iso.group(3)
         return _mk_date(raw, y, mth, int(d) if d else None)
-    my = re.search(r"\b(\d{1,2})[-/.](20\d\d|\d\d)\b", text)
+    full = re.fullmatch(r"(\d{1,2})[-/.](\d{1,2})[-/.](20\d\d)", text)
+    if full:
+        a, b, y = (int(x) for x in full.groups())
+        if a <= 12 and b <= 12 and a != b:
+            raise Unparseable("expiry", raw, "ambiguous day/month order; use YYYY-MM-DD")
+        mth, day = (a, b) if b > 12 else (b, a)
+        return _mk_date(raw, y, mth, day)
+    my = re.fullmatch(r"(\d{1,2})(?:[-/.]|\s+)(20\d\d|\d\d)", text)
     if my:
         y = int(my.group(2))
         y = y + 2000 if y < 100 else y
         return _mk_date(raw, y, int(my.group(1)), None)
-    named = re.search(r"\b([a-zéû]{3,9})\.?\s*(20\d\d)\b", text)
+    named = re.fullmatch(r"([a-zéû]{3,12})\.?\s*(20\d\d)", text)
     if named:
         word = named.group(1)
         for key in (word[:4], word[:3]):

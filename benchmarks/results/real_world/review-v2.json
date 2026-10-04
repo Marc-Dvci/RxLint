@@ -1,0 +1,39 @@
+{
+  "evaluation_scope": "external_real_photograph_perception_only",
+  "run": "review-v2",
+  "images": 12,
+  "expected_images": 12,
+  "field_results": {
+    "dispensed.drug": {
+      "exact": 5,
+      "total": 10,
+      "autonomous": 7,
+      "wrong_autonomous": 2,
+      "exact_rate": 0.5
+    },
+    "dispensed.strength": {
+      "exact": 2,
+      "total": 9,
+      "autonomous": 2,
+      "wrong_autonomous": 0,
+      "exact_rate": 0.2222222222222222
+    },
+    "dispensed.volume": {
+      "exact": 4,
+      "total": 6,
+      "autonomous": 4,
+      "wrong_autonomous": 0,
+      "exact_rate": 0.6666666666666666
+    }
+  },
+  "absent_field_hallucinations": 0,
+  "errors": [],
+  "generated_at": "2026-10-04T13:26:28.635167+00:00",
+  "limitations": [
+    "Convenience sample of public medicine photographs; no paired prescriptions or patient facts",
+    "Single visual annotator; no pharmacist adjudication",
+    "Includes tablets and non-English packaging",
+    "Multiple images by the same photographers; not statistically independent",
+    "No clinical safety/verdict claims"
+  ]
+}

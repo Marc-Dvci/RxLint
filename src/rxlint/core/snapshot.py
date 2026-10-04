@@ -79,6 +79,7 @@ class Observation(BaseModel):
     legible: bool = True
     alternatives: list[str] = Field(default_factory=list)
     requires_confirmation: bool = False  # policy P-PERC-02: no independent reader agreed
+    source_path: str | None = None
 
 
 class Fact(BaseModel):
@@ -179,7 +180,7 @@ class SnapshotBuilder:
                 raw=ob.raw,
                 value=ob.raw,
                 status=status,
-                source=SourceRef(asset_id=ob.asset_id, bbox=ob.bbox, grounding=ob.grounding),
+                source=SourceRef(asset_id=ob.asset_id, bbox=ob.bbox, grounding=ob.grounding, span=ob.source_path),
                 method=ob.method,
                 confidence=ob.confidence,
                 notes=[f"alternative reading: {a}" for a in ob.alternatives],
@@ -237,7 +238,12 @@ class SnapshotBuilder:
             if conflicting:
                 problems.append(f"{ob.field} has competing readings: {', '.join([ob.raw, *conflicting])}")
                 continue
-            if ob.requires_confirmation and not corroborated(ob, value):
+            # A gate veto is not waived by a duplicate machine reader (including an ensemble).
+            # A supplied human/structured fact can establish the same canonical value.
+            supplied_agreement = any(o is not ob and err is None
+                and o.kind in (EvidenceKind.USER_ENTERED_FACT, EvidenceKind.STRUCTURED_PRESCRIPTION)
+                and key_of(v) == key_of(value) for o, _, v, err in readings)
+            if ob.requires_confirmation and not supplied_agreement:
                 problems.append(f"{ob.field} '{ob.raw}' was not corroborated by an independent reader (P-PERC-02); confirm the value")
                 continue
             if (

@@ -17,13 +17,13 @@
   h1 { font-size: 26px; font-weight: 650; letter-spacing: -.2px; }
   .sub { color: var(--ink2); margin-top: 4px; font-size: 16px; }
   .lane { margin-top: 26px; border: 1.5px solid var(--line); border-radius: 18px; padding: 18px 20px 20px; position: relative; }
-  .lane .tag { font: 600 12.5px/1 Inter; letter-spacing: .9px; text-transform: uppercase; padding: 6px 10px; border-radius: 999px; display: inline-block; }
+  .lane .tag { font: 600 12.5px/1 Inter, system-ui, sans-serif; letter-spacing: .9px; text-transform: uppercase; padding: 6px 10px; border-radius: 999px; display: inline-block; }
   .lane.a .tag { background: var(--det-bg); color: var(--det); }
   .lane.b { border-color: var(--live-line); background: #fcfaff; }
   .lane.b .tag { background: var(--live-bg); color: var(--live); }
   .row { display: flex; align-items: stretch; gap: 0; margin-top: 16px; }
   .node { flex: 1; border-radius: 14px; padding: 14px 16px 15px; border: 1.5px solid; min-width: 0; }
-  .node .k { font: 600 11.5px/1 Inter; letter-spacing: .9px; text-transform: uppercase; }
+  .node .k { font: 600 11.5px/1 Inter, system-ui, sans-serif; letter-spacing: .9px; text-transform: uppercase; }
   .node .t { font-weight: 650; font-size: 17px; margin-top: 7px; }
   .node .d { color: var(--ink2); font-size: 13.5px; margin-top: 6px; }
   .node.in { background: #f6f7f9; border-color: var(--line); flex: .8; }
@@ -37,13 +37,13 @@
   .arrow { width: 38px; flex: none; display: flex; align-items: center; justify-content: center; }
   .arrow svg { width: 30px; height: 16px; }
   .verdicts { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 9px; }
-  .v { font: 600 11.5px/1 Inter; letter-spacing: .5px; padding: 6px 8px; border-radius: 7px; }
+  .v { font: 600 11.5px/1 Inter, system-ui, sans-serif; letter-spacing: .5px; padding: 6px 8px; border-radius: 7px; }
   .v.pass { background: #e3f4e8; color: #1c7a3c; }
   .v.review { background: #fde8e8; color: #b42323; }
   .v.cannot { background: #fdf1dc; color: var(--warn); }
   .v.oos { background: #eceef1; color: #4a5260; }
   .v.l { background: #fff; border: 1px solid var(--live-line); color: var(--live); }
-  .under { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 14px; }
+  .under { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-top: 14px; }
   .mono { font-family: 'Roboto Mono', monospace; font-size: 12.5px; background: rgba(255,255,255,.7); padding: 1px 5px; border-radius: 4px; }
   .legend { display: flex; gap: 22px; margin-top: 18px; color: var(--ink2); font-size: 13.5px; }
   .legend span::before { content: ""; display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 7px; vertical-align: -1px; border: 1.5px solid; }
@@ -55,19 +55,19 @@
 </head>
 <body>
   <h1>RxLint: the model reads, code decides</h1>
-  <div class="sub">Every model call runs on Nebius Token Factory. Every verdict comes from a deterministic kernel with a hashed rule pack.</div>
+  <div class="sub">Hosted model calls run on Nebius Token Factory. Every verdict comes from a deterministic kernel with a hashed rule pack.</div>
 
   <div class="lane a">
     <span class="tag">Plane A · verified rules</span>
     <div class="row">
-      <div class="node in"><div class="k">Input</div><div class="t">Two photos + patient facts</div>
-        <div class="d">Prescription, the bottle being handed over, weight, age, allergies, current medicines</div></div>
+      <div class="node in"><div class="k">Input</div><div class="t">Prescription + bottle + patient</div>
+        <div class="d">Two photos, or a FHIR R4 order and bottle photo; weight, age, allergies, current medicines</div></div>
       <div class="arrow"><svg viewBox="0 0 30 16"><path d="M1 8h24M19 2l7 6-7 6" fill="none" stroke="#8a929e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       <div class="node nv"><div class="k">Reads</div><div class="t">Nemotron 3 Nano</div>
-        <div class="d">A vision model transcribes each photo line by line; Nemotron 3 Nano turns the transcript into typed fields, each a verbatim copy of the line it cites</div></div>
+        <div class="d">Vision transcription, bounded crop recovery and cited field extraction. Structured prescription facts bypass photo reading.</div></div>
       <div class="arrow"><svg viewBox="0 0 30 16"><path d="M1 8h24M19 2l7 6-7 6" fill="none" stroke="#8a929e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      <div class="node det"><div class="k">Corroborates</div><div class="t">Independent OCR + reliability head</div>
-        <div class="d">Every high-risk number needs a second reader that agrees; a calibrated LightGBM head can still send it to the pharmacist</div></div>
+      <div class="node det"><div class="k">Corroborates</div><div class="t">PP-OCRv6 + reliability head</div>
+        <div class="d">Independent OCR checks high-risk photo values; a validation-calibrated LightGBM head adds a second gate. Conflicts remain explicit choices.</div></div>
       <div class="arrow"><svg viewBox="0 0 30 16"><path d="M1 8h24M19 2l7 6-7 6" fill="none" stroke="#8a929e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       <div class="node det"><div class="k">Proves</div><div class="t">Deterministic kernel</div>
         <div class="d">Exact decimal unit grammar, then 59 rules from the WHO AWaRe book and FDA labels, each with its verbatim source quote</div></div>
@@ -77,10 +77,12 @@
         <div class="d">Same snapshot, same rule pack, same result hash</div></div>
     </div>
     <div class="under">
-      <div class="node nv"><div class="k">Clarifies · only when blocked</div><div class="t">Nemotron 3 Ultra</div>
-        <div class="d">Picks the smallest action from a closed list, such as "confirm the dose: 2.5 or 7.5 mL". The pharmacist answers with one tap and the kernel re-runs with no new model call.</div></div>
+      <div class="node det"><div class="k">Structured input</div><div class="t">FHIR R4 MedicationRequest</div>
+        <div class="d">Fixed quantities and schedules enter as supplied facts with JSON-path evidence. Unsupported conditional orders are rejected; the bottle is still verified.</div></div>
+      <div class="node nv"><div class="k">Clarifies · only when blocked</div><div class="t">Ultra + batch confirmation</div>
+        <div class="d">Ultra chooses a question from a closed list. All unresolved fields can be reviewed in one card; confirmation re-runs the kernel with no further inference call.</div></div>
       <div class="node nv"><div class="k">Explains · on request</div><div class="t">Nemotron 3 Ultra, audited by Nemotron 3 Nano</div>
-        <div class="d">Writes for the caregiver or pharmacist in English, French, Arabic or Swahili around locked tokens like <span class="mono">{{v1}}</span>. Any free digit, or a claim the Nano audit finds contradicting the result, falls back to a template.</div></div>
+        <div class="d">English, French and Arabic prose uses locked values such as <span class="mono">{{v1}}</span> and a Nano audit against verified findings. Swahili uses reviewed phrases.</div></div>
     </div>
   </div>
 

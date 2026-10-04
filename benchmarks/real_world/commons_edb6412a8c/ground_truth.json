@@ -1,0 +1,25 @@
+{
+  "case_id": "commons_edb6412a8c",
+  "split": "external",
+  "evaluation_scope": "perception_only",
+  "expected_state": null,
+  "gold_rx": [],
+  "gold_label": [
+    {
+      "field": "dispensed.drug",
+      "raw": "Amoxiclav Mylan oral suspension"
+    },
+    {
+      "field": "dispensed.strength",
+      "raw": "250 mg/62.5 mg per 5 ml"
+    },
+    {
+      "field": "dispensed.volume",
+      "raw": "100 ml"
+    }
+  ],
+  "patient": {},
+  "absent_fields": [],
+  "annotation_method": "manual visual inspection before reader evaluation; single coding agent, not pharmacist adjudicated",
+  "notes": "Missing prescription and patient facts are intentionally not invented. Solid strengths include the dose form visibly printed elsewhere on the same package."
+}

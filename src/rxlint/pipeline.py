@@ -19,9 +19,11 @@ from .core import EvidenceKind, Normalizer, Observation, SnapshotBuilder, load_p
 from .core.engine import Verification
 from .core.rulepack import RulePack
 from .models.client import ModelClient
-from .perception import grounding, quality, reliability
+from .fhir import import_prescription
+from .perception import grounding, quality, reliability, refine
 from .perception.extraction import Extraction, SpeechExtraction, extract_image, extract_speech
 from .perception.transcribe import extract_two_stage
+from .perception.ensemble import extract_ensemble
 from .reasoning.clarify import clarify
 
 Emit = Callable[[str, dict[str, Any]], None]
@@ -47,6 +49,7 @@ class CaseInput(BaseModel):
     confirmations: dict[str, str] = Field(default_factory=dict)  # pharmacist-confirmed readings, e.g. {"rx.dose": "5 mL"}
     country: str | None = None
     dispense_date: str | None = None
+    prescription_fhir: dict[str, Any] | None = None
 
 
 class CaseResult(BaseModel):
@@ -64,16 +67,28 @@ class CaseResult(BaseModel):
 
 
 def _obs_from_extraction(ex: Extraction, lines: list[grounding.OcrLine] | None, image: bytes | None = None,
-                         pack: RulePack | None = None) -> list[dict[str, Any]]:
+                         pack: RulePack | None = None, client: ModelClient | None = None) -> list[dict[str, Any]]:
     raw = [o.model_dump() for o in ex.observations]
     if lines is not None:
-        raw = grounding.ground(raw, lines, image)
+        raw = grounding.ground(refine.recover(raw, lines, ex.kind), lines, image)
+        if image is not None and client is not None:
+            raw = refine.resolve(raw, image, client)
+        raw = refine.validate(raw)
         if image is not None and pack is not None:
             doc = {"legibility": ex.legibility, "ocr_mean": sum(l.score for l in lines) / len(lines) if lines else 0.0}
             raw = reliability.apply(raw, ex.kind, doc, image, Normalizer(pack))
+    else:
+        # OCR errors must fail closed too; absence of the engine is not permission to trust a VLM.
+        for r in raw:
+            if r["field"] in grounding.CORROBORATION_REQUIRED:
+                r["requires_confirmation"] = True
+                r["corroboration"] = "unavailable"
+    raw = refine.validate_products(raw, ex.transcript, ex.kind)
     for r in raw:
+        if ex.reader_agreement:
+            r["reader_agreement"] = ex.reader_agreement.get(r["field"], "single_reader")
         r["asset_id"] = ex.asset_id
-        r["method"] = f"{ex.model or 'model'} via {ex.provider or '?'}" + (" (replay)" if ex.replayed else "")
+        r.setdefault("method", f"{ex.model or 'model'} via {ex.provider or '?'}" + (" (replay)" if ex.replayed else ""))
     # The OCR engine is a second reader for medicine names: its text is parsed by the same normaliser.
     extra = []
     for r in raw:
@@ -101,10 +116,12 @@ def run_case(inp: CaseInput, blobs: dict[str, bytes], client: ModelClient, pack:
     t = time.perf_counter()
     mode = perception_mode()
     readers = [client.config("omni").model] if mode == "omni" else [client.config("vision").model, client.config("structure").model]
+    if mode == "ensemble":
+        readers.append(client.config("omni").model)
     emit("extract.start", {"assets": [a.id for a in images], "mode": mode, "models": readers,
                            "provider": client.config("omni" if mode == "omni" else "structure").provider})
     with ThreadPoolExecutor(max_workers=4) as pool:
-        reader = extract_image if perception_mode() == "omni" else extract_two_stage
+        reader = {"omni": extract_image, "two_stage": extract_two_stage, "ensemble": extract_ensemble}[mode]
         ex_f = {a.id: pool.submit(reader, client, blobs[a.id], a.kind, a.id, a.mime) for a in images}
         ocr_f = {a.id: pool.submit(_safe_ocr, blobs[a.id]) for a in images}
         sp_f = {a.id: pool.submit(extract_speech, client, *to_wav(blobs[a.id], a.mime), a.id) for a in audios}
@@ -118,11 +135,13 @@ def run_case(inp: CaseInput, blobs: dict[str, bytes], client: ModelClient, pack:
                               "latency_ms": ex.latency_ms, "replayed": ex.replayed})
 
     all_obs: list[dict[str, Any]] = []
+    if inp.prescription_fhir is not None:
+        all_obs.extend(import_prescription(inp.prescription_fhir))
     flagged = False
     for a in images:
         ex = extractions[a.id]
         flagged |= ex.untrusted_instructions_seen
-        all_obs.extend(_obs_from_extraction(ex, ocr[a.id], blobs[a.id], pack))
+        all_obs.extend(_obs_from_extraction(ex, ocr[a.id], blobs[a.id], pack, client))
     for a in audios:
         sp = speech[a.id]
         for f in sp.facts:
@@ -157,7 +176,7 @@ def assess(inp: CaseInput, perception: dict[str, Any], client: ModelClient | Non
                                 bbox=ob.get("bbox"), grounding=ob.get("grounding"), method=ob.get("method"),
                                 confidence=ob.get("confidence"), legible=ob.get("legible", True),
                                 alternatives=ob.get("alternatives", []),
-                                requires_confirmation=ob.get("requires_confirmation", False)))
+                                requires_confirmation=ob.get("requires_confirmation", False), source_path=ob.get("source_path")))
     for field_name, raw in inp.patient.items():
         if raw is None or str(raw).strip() == "":
             continue
@@ -206,7 +225,7 @@ def perception_mode() -> str:
     import os
 
     mode = os.environ.get("RXLINT_PERCEPTION")
-    if mode in ("omni", "two_stage"):
+    if mode in ("omni", "two_stage", "ensemble"):
         return mode
     return "omni" if os.environ.get("RXLINT_OMNI_BASE_URL") else "two_stage"
 

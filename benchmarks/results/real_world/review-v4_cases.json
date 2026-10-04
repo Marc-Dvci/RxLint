@@ -1,0 +1,3072 @@
+[
+  {
+    "case_id": "commons_64a80d8e71",
+    "source": {
+      "case_id": "commons_64a80d8e71",
+      "source_type": "real_medicine_photograph",
+      "evaluation_scope": "perception_only",
+      "file_title": "File:Augmentin Amoxicilline-acide clavulanique 875mg-125mg.JPG",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Augmentin_Amoxicilline-acide_clavulanique_875mg-125mg.JPG",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/a/a3/Augmentin_Amoxicilline-acide_clavulanique_875mg-125mg.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/a/a3/Augmentin_Amoxicilline-acide_clavulanique_875mg-125mg.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Bree",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "attribution": "",
+      "sha256": "e3e9517826efd6e2ba2fd20efde009abd0f886f3778f617b8c486e2165e8b7de",
+      "retrieved_at": "2026-10-04T13:16:13.250326+00:00",
+      "annotation_status": "single_annotator_visual_review",
+      "notes": "1600px source thumbnail; no synthetic transformations"
+    },
+    "fields": [
+      {
+        "field": "dispensed.drug",
+        "exact": true,
+        "autonomous": true,
+        "accepted_exact": true,
+        "expected": "Augmentin Amoxicilline/acide clavulanique",
+        "readings": [
+          "Augmentin® 875 mg/125 mg comprimés pelliculés"
+        ]
+      },
+      {
+        "field": "dispensed.strength",
+        "exact": false,
+        "autonomous": false,
+        "accepted_exact": false,
+        "expected": "875 mg/125 mg comprimés",
+        "readings": [
+          "875 mg/125 mg"
+        ]
+      }
+    ],
+    "invented_absent_fields": [],
+    "observations": [
+      {
+        "field": "dispensed.drug",
+        "text": "Augmentin® 875 mg/125 mg comprimés pelliculés",
+        "legible": true,
+        "confidence": null,
+        "bbox": [
+          0.10571808367967606,
+          0.20816531777381897,
+          0.717420220375061,
+          0.28830644488334656
+        ],
+        "alternatives": [],
+        "model_bbox": null,
+        "ocr_match": 0.986,
+        "ocr_text": "Augmentin° 875 mg/125. mg comprimés pelliculés",
+        "grounding": "ocr",
+        "ocr_score": 0.9151,
+        "corroboration": "located",
+        "requires_confirmation": false,
+        "p_correct": 0.7778,
+        "asset_id": "commons_64a80d8e71",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.strength",
+        "text": "875 mg/125 mg",
+        "legible": true,
+        "confidence": null,
+        "bbox": [
+          0.24135637283325195,
+          0.7167338132858276,
+          0.44946807622909546,
+          0.7479838132858276
+        ],
+        "alternatives": [],
+        "model_bbox": null,
+        "ocr_match": 1.0,
+        "ocr_text": "875mg/125mg",
+        "grounding": "ocr",
+        "ocr_score": 0.9999,
+        "corroboration": "corroborated",
+        "requires_confirmation": true,
+        "p_correct": 0.0571,
+        "gate": "P-PERC-03",
+        "asset_id": "commons_64a80d8e71",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.volume",
+        "text": "20 comprimés pelliculés",
+        "legible": true,
+        "confidence": null,
+        "bbox": [
+          0.12367021292448044,
+          0.40423384308815,
+          0.4853723347187042,
+          0.4506048262119293
+        ],
+        "alternatives": [],
+        "model_bbox": null,
+        "ocr_match": 1.0,
+        "ocr_text": "20 comprimés pelliculés",
+        "grounding": "ocr",
+        "ocr_score": 0.9987,
+        "corroboration": "corroborated",
+        "requires_confirmation": true,
+        "p_correct": 0.0571,
+        "gate": "P-PERC-03",
+        "asset_id": "commons_64a80d8e71",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.lot",
+        "text": "Lot: 506761",
+        "legible": true,
+        "confidence": null,
+        "bbox": [
+          0.8178191781044006,
+          0.7676411271095276,
+          0.9793882966041565,
+          0.8155242204666138
+        ],
+        "alternatives": [],
+        "model_bbox": null,
+        "ocr_match": 1.0,
+        "ocr_text": "Lot:506761",
+        "grounding": "ocr",
+        "ocr_score": 0.9998,
+        "corroboration": "corroborated",
+        "requires_confirmation": false,
+        "p_correct": 0.9841,
+        "asset_id": "commons_64a80d8e71",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.expiry",
+        "text": "EXP: 11 2012",
+        "legible": true,
+        "confidence": null,
+        "bbox": [
+          0.6828457713127136,
+          0.5871975421905518,
+          0.8450797200202942,
+          0.640625
+        ],
+        "alternatives": [
+          "EXP:112012"
+        ],
+        "model_bbox": null,
+        "ocr_match": 1.0,
+        "ocr_text": "EXP:112012",
+        "grounding": "ocr",
+        "ocr_score": 0.9976,
+        "corroboration": "contradicted",
+        "requires_confirmation": true,
+        "crop_read": {
+          "text": "mithKline  a.n\nLot: 50676 1\nEXP: 11 2012",
+          "model": "deepseek-ai/DeepSeek-V4.1-Flash",
+          "replayed": true
+        },
+        "p_correct": 0.5385,
+        "gate": "P-PERC-03",
+        "asset_id": "commons_64a80d8e71",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.manufacturer",
+        "text": "gsk GlaxoSmithKline",
+        "legible": true,
+        "confidence": null,
+        "bbox": [
+          0.5930851101875305,
+          0.5524193048477173,
+          0.7579786777496338,
+          0.6159273982048035
+        ],
+        "alternatives": [],
+        "model_bbox": null,
+        "ocr_match": 0.909,
+        "ocr_text": "GlaxoSmithKline",
+        "grounding": "ocr",
+        "ocr_score": 0.9995,
+        "corroboration": "located",
+        "requires_confirmation": false,
+        "p_correct": 0.9408,
+        "asset_id": "commons_64a80d8e71",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.drug",
+        "text": "Augmentin° 875 mg/125. mg comprimés pelliculés",
+        "asset_id": "commons_64a80d8e71",
+        "bbox": [
+          0.10571808367967606,
+          0.20816531777381897,
+          0.717420220375061,
+          0.28830644488334656
+        ],
+        "grounding": "ocr",
+        "method": "rapidocr (second reader)",
+        "kind": "VISUAL_OBSERVATION"
+      }
+    ],
+    "extraction": {
+      "asset_id": "commons_64a80d8e71",
+      "kind": "medicine",
+      "document_type": "medicine_label",
+      "legibility": "good",
+      "observations": [
+        {
+          "field": "dispensed.drug",
+          "text": "Augmentin® 875 mg/125 mg comprimés pelliculés",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        },
+        {
+          "field": "dispensed.strength",
+          "text": "875 mg/125 mg",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        },
+        {
+          "field": "dispensed.volume",
+          "text": "20 comprimés pelliculés",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        },
+        {
+          "field": "dispensed.lot",
+          "text": "Lot: 506761",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        },
+        {
+          "field": "dispensed.expiry",
+          "text": "EXP: 11 2012",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        },
+        {
+          "field": "dispensed.manufacturer",
+          "text": "gsk GlaxoSmithKline",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        }
+      ],
+      "untrusted_instructions_seen": false,
+      "model": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+      "provider": "nebius-token-factory",
+      "replayed": true,
+      "latency_ms": 6161,
+      "error": null,
+      "rejected": [
+        {
+          "item": {
+            "field": "dispensed.gtin",
+            "text": "Not present",
+            "lines": []
+          },
+          "reason": "placeholder for an absent field"
+        }
+      ],
+      "transcript": [
+        "Augmentin® 875 mg/125 mg",
+        "comprimés pelliculés",
+        "Amoxicilline/acide clavulanique",
+        "20 comprimés pelliculés",
+        "gsk GlaxoSmithKline",
+        "Augmentin®",
+        "875 mg/125 mg",
+        "comprimés pelliculés",
+        "Amoxicilline/acide clavulanique",
+        "gsk GlaxoSmithKline s.a./n.v.",
+        "Lot: 506761",
+        "EXP: 11 2012",
+        "Augmentin®",
+        "125 mg",
+        "filmomhulde tabletten",
+        "Amoxicilline/clav. 'aanzuur",
+        "gsk GlaxoSmithKline s.a./n.v.",
+        "Lot: 506761",
+        "EXP: 11 2012",
+        "Augmentin®",
+        "875 mg/125 mg",
+        "comprimés pelliculés",
+        "Amoxicilline/acide",
+        "clavulanique",
+        "gsk GlaxoSmithKline s.a./n.v.",
+        "Lot: 506761",
+        "EXP: 11 2012",
+        "Augmentin®",
+        "875 mg/125 mg",
+        "filmomhulde tabletten",
+        "Amoxicilline/clavulaanzuur",
+        "gsk GlaxoSmithKline s.a./n.v.",
+        "Lot: 506761",
+        "EXP: 11 2012"
+      ],
+      "kind_corrected": false,
+      "reader_agreement": {}
+    }
+  },
+  {
+    "case_id": "commons_74afbad588",
+    "source": {
+      "case_id": "commons_74afbad588",
+      "source_type": "real_medicine_photograph",
+      "evaluation_scope": "perception_only",
+      "file_title": "File:Nomoxil.jpg",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Nomoxil.jpg",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/8/8a/Nomoxil.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/8/8a/Nomoxil.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Abdsomod",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "attribution": "",
+      "sha256": "4498c125935982e80305e757a0c1f0c2bfc4571c87d1e665f6bbf237f0896437",
+      "retrieved_at": "2026-10-04T13:17:45.827724+00:00",
+      "annotation_status": "single_annotator_visual_review",
+      "notes": "1600px source thumbnail; no synthetic transformations"
+    },
+    "fields": [
+      {
+        "field": "dispensed.drug",
+        "exact": true,
+        "autonomous": true,
+        "accepted_exact": true,
+        "expected": "Amoxicillin Oral Suspension",
+        "readings": [
+          "Amoxicillin Oral Suspension"
+        ]
+      },
+      {
+        "field": "dispensed.strength",
+        "exact": true,
+        "autonomous": false,
+        "accepted_exact": false,
+        "expected": "125mg/5ml",
+        "readings": [
+          "125mg/5ml"
+        ]
+      },
+      {
+        "field": "dispensed.volume",
+        "exact": true,
+        "autonomous": true,
+        "accepted_exact": true,
+        "expected": "60ml",
+        "readings": [
+          "60ml"
+        ]
+      }
+    ],
+    "invented_absent_fields": [],
+    "observations": [
+      {
+        "field": "dispensed.volume",
+        "text": "60ml",
+        "legible": true,
+        "confidence": null,
+        "bbox": [
+          0.1713344305753708,
+          0.2518518567085266,
+          0.27182865142822266,
+          0.28703704476356506
+        ],
+        "alternatives": [],
+        "model_bbox": null,
+        "ocr_match": 1.0,
+        "ocr_text": "60ml",
+        "grounding": "ocr",
+        "ocr_score": 0.9999,
+        "corroboration": "corroborated",
+        "requires_confirmation": false,
+        "p_correct": 0.9275,
+        "gate": "P-PERC-03",
+        "asset_id": "commons_74afbad588",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.lot",
+        "text": "B.P. 125mg/5ml",
+        "legible": true,
+        "confidence": null,
+        "bbox": [
+          0.27347612380981445,
+          0.539814829826355,
+          0.4398682117462158,
+          0.5592592358589172
+        ],
+        "alternatives": [
+          "B.P.125 mg/5ml"
+        ],
+        "model_bbox": null,
+        "ocr_match": 1.0,
+        "ocr_text": "B.P.125 mg/5ml",
+        "grounding": "ocr",
+        "ocr_score": 0.9528,
+        "corroboration": "contradicted",
+        "requires_confirmation": false,
+        "p_correct": 0.0248,
+        "asset_id": "commons_74afbad588",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.expiry",
+        "text": "CISCO",
+        "legible": true,
+        "confidence": null,
+        "bbox": [
+          0.42668864130973816,
+          0.7166666388511658,
+          0.5535420179367065,
+          0.739814817905426
+        ],
+        "alternatives": [],
+        "model_bbox": null,
+        "ocr_match": 1.0,
+        "ocr_text": "CISCO",
+        "grounding": "ocr",
+        "ocr_score": 0.7428,
+        "corroboration": "unconfirmed",
+        "requires_confirmation": true,
+        "crop_read": {
+          "text": "HUMANX FIT 200\nCISCO\n...",
+          "legible": false,
+          "alternatives": [
+            "HUMANX FIT 200",
+            "CISCO"
+          ]
+        },
+        "p_correct": 0.0522,
+        "gate": "P-PERC-03",
+        "asset_id": "commons_74afbad588",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.manufacturer",
+        "text": "Linksys E1200",
+        "legible": true,
+        "confidence": null,
+        "bbox": null,
+        "alternatives": [],
+        "model_bbox": null,
+        "ocr_match": 0.667,
+        "ocr_text": "Lnheks 20o",
+        "grounding": null,
+        "corroboration": "unmatched",
+        "requires_confirmation": false,
+        "p_correct": 0.3333,
+        "asset_id": "commons_74afbad588",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.gtin",
+        "text": "60ml",
+        "legible": true,
+        "confidence": null,
+        "bbox": [
+          0.31466227769851685,
+          0.5601851940155029,
+          0.3756178021430969,
+          0.5768518447875977
+        ],
+        "alternatives": [],
+        "model_bbox": null,
+        "ocr_match": 1.0,
+        "ocr_text": "60ml",
+        "grounding": "ocr",
+        "ocr_score": 0.9997,
+        "corroboration": "located",
+        "requires_confirmation": false,
+        "p_correct": 0.5385,
+        "asset_id": "commons_74afbad588",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.drug",
+        "text": "Amoxicillin Oral Suspension",
+        "legible": true,
+        "confidence": null,
+        "bbox": [
+          0.2174629271030426,
+          0.5212963223457336,
+          0.48929160833358765,
+          0.5444444417953491
+        ],
+        "alternatives": [],
+        "model_bbox": null,
+        "ocr_match": 1.0,
+        "ocr_text": "Amoxicillin Oral Suspension",
+        "grounding": "ocr",
+        "ocr_score": 0.9845,
+        "corroboration": "located",
+        "requires_confirmation": false,
+        "p_correct": 0.9624,
+        "asset_id": "commons_74afbad588",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.strength",
+        "text": "125mg/5ml",
+        "legible": true,
+        "confidence": null,
+        "bbox": [
+          0.27347612380981445,
+          0.539814829826355,
+          0.4398682117462158,
+          0.5592592358589172
+        ],
+        "alternatives": [
+          "B.P.125 mg/5ml"
+        ],
+        "model_bbox": null,
+        "ocr_match": 0.917,
+        "ocr_text": "B.P.125 mg/5ml",
+        "grounding": "ocr",
+        "ocr_score": 0.9528,
+        "corroboration": "contradicted",
+        "requires_confirmation": true,
+        "crop_read": {
+          "text": "moxicillin Oral Suspensi B.P. 125mg/5ml 60ml",
+          "legible": true,
+          "alternatives": [
+            "Amoxicillin Oral Suspension B.P. 125mg/5ml 60ml"
+          ]
+        },
+        "p_correct": 0.5385,
+        "gate": "P-PERC-03",
+        "asset_id": "commons_74afbad588",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.drug",
+        "text": "Amoxicillin Oral Suspension",
+        "asset_id": "commons_74afbad588",
+        "bbox": [
+          0.2174629271030426,
+          0.5212963223457336,
+          0.48929160833358765,
+          0.5444444417953491
+        ],
+        "grounding": "ocr",
+        "method": "rapidocr (second reader)",
+        "kind": "VISUAL_OBSERVATION"
+      }
+    ],
+    "extraction": {
+      "asset_id": "commons_74afbad588",
+      "kind": "medicine",
+      "document_type": "medicine_label",
+      "legibility": "good",
+      "observations": [
+        {
+          "field": "dispensed.volume",
+          "text": "60ml",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        },
+        {
+          "field": "dispensed.lot",
+          "text": "B.P. 125mg/5ml",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        },
+        {
+          "field": "dispensed.expiry",
+          "text": "CISCO",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        },
+        {
+          "field": "dispensed.manufacturer",
+          "text": "Linksys E1200",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        },
+        {
+          "field": "dispensed.gtin",
+          "text": "60ml",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        },
+        {
+          "field": "dispensed.drug",
+          "text": "Amoxicillin Oral Suspension",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        },
+        {
+          "field": "dispensed.strength",
+          "text": "125mg/5ml",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        }
+      ],
+      "untrusted_instructions_seen": false,
+      "model": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+      "provider": "nebius-token-factory",
+      "replayed": true,
+      "latency_ms": 4494,
+      "error": null,
+      "rejected": [],
+      "transcript": [
+        "60ml",
+        "Nemoxil",
+        "Amoxicillin Oral Suspension",
+        "B.P. 125mg/5ml",
+        "60ml",
+        "Nemoxil",
+        "Amoxicillin Oral Suspension",
+        "B.P. 125mg/5ml",
+        "60ml",
+        "CISCO",
+        "Linksys E1200"
+      ],
+      "kind_corrected": false,
+      "reader_agreement": {}
+    }
+  },
+  {
+    "case_id": "commons_7a2a988bd8",
+    "source": {
+      "case_id": "commons_7a2a988bd8",
+      "source_type": "real_medicine_photograph",
+      "evaluation_scope": "perception_only",
+      "file_title": "File:Amoxicilline Mylan 1g.jpg",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Amoxicilline_Mylan_1g.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0f/Amoxicilline_Mylan_1g.jpg/1920px-Amoxicilline_Mylan_1g.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/0/0f/Amoxicilline_Mylan_1g.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Torfanomazine",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "attribution": "",
+      "sha256": "dc5b6efdf2524e00496c06eb78d5fa8fd9179e85a43cc9dd991d803871d6babb",
+      "retrieved_at": "2026-10-04T13:16:11.812877+00:00",
+      "annotation_status": "single_annotator_visual_review",
+      "notes": "1600px source thumbnail; no synthetic transformations"
+    },
+    "fields": [
+      {
+        "field": "dispensed.drug",
+        "exact": true,
+        "autonomous": true,
+        "accepted_exact": true,
+        "expected": "Amoxicilline Mylan Pharma",
+        "readings": [
+          "Amoxicilline"
+        ]
+      },
+      {
+        "field": "dispensed.strength",
+        "exact": false,
+        "autonomous": false,
+        "accepted_exact": false,
+        "expected": "1 g comprimés",
+        "readings": [
+          "1 g"
+        ]
+      }
+    ],
+    "invented_absent_fields": [],
+    "observations": [
+      {
+        "field": "dispensed.drug",
+        "text": "Amoxicilline",
+        "legible": true,
+        "confidence": null,
+        "bbox": [
+          0.06197916716337204,
+          0.1597222238779068,
+          0.6578124761581421,
+          0.32152777910232544
+        ],
+        "alternatives": [],
+        "model_bbox": null,
+        "ocr_match": 1.0,
+        "ocr_text": "Amoxicilline",
+        "grounding": "ocr",
+        "ocr_score": 1.0,
+        "corroboration": "located",
+        "requires_confirmation": false,
+        "p_correct": 0.9548,
+        "asset_id": "commons_7a2a988bd8",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.strength",
+        "text": "1 g",
+        "legible": true,
+        "confidence": null,
+        "bbox": null,
+        "alternatives": [],
+        "model_bbox": null,
+        "ocr_match": 0.5,
+        "ocr_text": "1g",
+        "grounding": null,
+        "corroboration": "unmatched",
+        "requires_confirmation": true,
+        "p_correct": 0.0571,
+        "gate": "P-PERC-03",
+        "asset_id": "commons_7a2a988bd8",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.volume",
+        "text": "14 comprimés dispersibles",
+        "legible": true,
+        "confidence": null,
+        "bbox": [
+          0.4151041805744171,
+          0.7576388716697693,
+          0.8895833492279053,
+          0.8590278029441833
+        ],
+        "alternatives": [],
+        "model_bbox": null,
+        "ocr_match": 1.0,
+        "ocr_text": "14 comprimés dispersibles",
+        "grounding": "ocr",
+        "ocr_score": 0.9845,
+        "corroboration": "corroborated",
+        "requires_confirmation": true,
+        "p_correct": 0.0571,
+        "gate": "P-PERC-03",
+        "asset_id": "commons_7a2a988bd8",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.manufacturer",
+        "text": "Mylan Pharma",
+        "legible": true,
+        "confidence": null,
+        "bbox": [
+          0.06666667014360428,
+          0.2777777910232544,
+          0.5619791746139526,
+          0.4131944477558136
+        ],
+        "alternatives": [],
+        "model_bbox": null,
+        "ocr_match": 1.0,
+        "ocr_text": "Mylan Pharma",
+        "grounding": "ocr",
+        "ocr_score": 0.9997,
+        "corroboration": "located",
+        "requires_confirmation": false,
+        "p_correct": 0.9629,
+        "asset_id": "commons_7a2a988bd8",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.gtin",
+        "text": "GOÛT FRUITE",
+        "legible": true,
+        "confidence": null,
+        "bbox": null,
+        "alternatives": [],
+        "model_bbox": null,
+        "ocr_match": 0.333,
+        "ocr_text": "Voie orale",
+        "grounding": null,
+        "corroboration": "unmatched",
+        "requires_confirmation": false,
+        "p_correct": 0.025,
+        "asset_id": "commons_7a2a988bd8",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.drug",
+        "text": "Amoxicilline",
+        "asset_id": "commons_7a2a988bd8",
+        "bbox": [
+          0.06197916716337204,
+          0.1597222238779068,
+          0.6578124761581421,
+          0.32152777910232544
+        ],
+        "grounding": "ocr",
+        "method": "rapidocr (second reader)",
+        "kind": "VISUAL_OBSERVATION"
+      }
+    ],
+    "extraction": {
+      "asset_id": "commons_7a2a988bd8",
+      "kind": "medicine",
+      "document_type": "medicine_label",
+      "legibility": "good",
+      "observations": [
+        {
+          "field": "dispensed.drug",
+          "text": "Amoxicilline",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        },
+        {
+          "field": "dispensed.strength",
+          "text": "1 g",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        },
+        {
+          "field": "dispensed.volume",
+          "text": "14 comprimés dispersibles",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        },
+        {
+          "field": "dispensed.manufacturer",
+          "text": "Mylan Pharma",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        },
+        {
+          "field": "dispensed.gtin",
+          "text": "GOÛT FRUITE",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        }
+      ],
+      "untrusted_instructions_seen": false,
+      "model": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+      "provider": "nebius-token-factory",
+      "replayed": true,
+      "latency_ms": 4561,
+      "error": null,
+      "rejected": [
+        {
+          "item": {
+            "field": "dispensed.lot",
+            "text": "LOT",
+            "lines": []
+          },
+          "reason": "a form label, not a value"
+        },
+        {
+          "item": {
+            "field": "dispensed.expiry",
+            "text": "EXP",
+            "lines": []
+          },
+          "reason": "a form label, not a value"
+        }
+      ],
+      "transcript": [
+        "Amoxicilline",
+        "Mylan Pharma",
+        "GOÛT",
+        "FRUITE",
+        "1 g",
+        "Voie orale",
+        "Mylan",
+        "14 comprimés dispersibles"
+      ],
+      "kind_corrected": false,
+      "reader_agreement": {}
+    }
+  },
+  {
+    "case_id": "commons_8d7e8f3635",
+    "source": {
+      "case_id": "commons_8d7e8f3635",
+      "source_type": "real_medicine_photograph",
+      "evaluation_scope": "perception_only",
+      "file_title": "File:Co-amoxiclav powder for oral suspension.jpg",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Co-amoxiclav_powder_for_oral_suspension.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e5/Co-amoxiclav_powder_for_oral_suspension.jpg/1920px-Co-amoxiclav_powder_for_oral_suspension.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/e/e5/Co-amoxiclav_powder_for_oral_suspension.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Whispyhistory",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "attribution": "",
+      "sha256": "4e92074240ba5a5487abd030a9044a577193054bdc5d8f911f4c513b317cd03d",
+      "retrieved_at": "2026-10-04T13:16:07.306518+00:00",
+      "annotation_status": "single_annotator_visual_review",
+      "notes": "1600px source thumbnail; no synthetic transformations"
+    },
+    "fields": [
+      {
+        "field": "dispensed.drug",
+        "exact": true,
+        "autonomous": true,
+        "accepted_exact": true,
+        "expected": "Co-amoxiclav powder for oral suspension",
+        "readings": [
+          "Co-amoxiclav"
+        ]
+      },
+      {
+        "field": "dispensed.strength",
+        "exact": true,
+        "autonomous": true,
+        "accepted_exact": true,
+        "expected": "250/62.5mg/5ml",
+        "readings": [
+          "250/62.5mg/5ml"
+        ]
+      },
+      {
+        "field": "dispensed.volume",
+        "exact": true,
+        "autonomous": true,
+        "accepted_exact": true,
+        "expected": "100 ml",
+        "readings": [
+          "100 ml when dispensed"
+        ]
+      }
+    ],
+    "invented_absent_fields": [],
+    "observations": [
+      {
+        "field": "dispensed.drug",
+        "text": "Co-amoxiclav",
+        "legible": true,
+        "confidence": null,
+        "bbox": [
+          0.1801861673593521,
+          0.21522176265716553,
+          0.35571807622909546,
+          0.2933467626571655
+        ],
+        "alternatives": [],
+        "model_bbox": null,
+        "ocr_match": 1.0,
+        "ocr_text": "Co-amoxiclav",
+        "grounding": "ocr",
+        "ocr_score": 0.959,
+        "corroboration": "located",
+        "requires_confirmation": false,
+        "p_correct": 0.9247,
+        "asset_id": "commons_8d7e8f3635",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.strength",
+        "text": "250/62.5mg/5ml",
+        "legible": true,
+        "confidence": null,
+        "bbox": [
+          0.1768617033958435,
+          0.2646169066429138,
+          0.3922872245311737,
+          0.3598790168762207
+        ],
+        "alternatives": [],
+        "model_bbox": null,
+        "ocr_match": 1.0,
+        "ocr_text": "250/62.5mg/5ml",
+        "grounding": "ocr",
+        "ocr_score": 0.9954,
+        "corroboration": "corroborated",
+        "requires_confirmation": false,
+        "p_correct": 0.9981,
+        "gate": "P-PERC-03",
+        "asset_id": "commons_8d7e8f3635",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.volume",
+        "text": "100 ml when dispensed",
+        "legible": true,
+        "confidence": null,
+        "bbox": [
+          0.42885637283325195,
+          0.706149160861969,
+          0.6848403811454773,
+          0.7787297964096069
+        ],
+        "alternatives": [],
+        "model_bbox": null,
+        "ocr_match": 1.0,
+        "ocr_text": "100 ml when dispensed",
+        "grounding": "ocr",
+        "ocr_score": 0.9993,
+        "corroboration": "corroborated",
+        "requires_confirmation": false,
+        "p_correct": 0.9945,
+        "gate": "P-PERC-03",
+        "asset_id": "commons_8d7e8f3635",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.manufacturer",
+        "text": "SANDOZ",
+        "legible": true,
+        "confidence": null,
+        "bbox": [
+          0.45345744490623474,
+          0.8870967626571655,
+          0.5777925252914429,
+          0.9359878301620483
+        ],
+        "alternatives": [],
+        "model_bbox": null,
+        "ocr_match": 1.0,
+        "ocr_text": "SANDOZ",
+        "grounding": "ocr",
+        "ocr_score": 0.9999,
+        "corroboration": "located",
+        "requires_confirmation": false,
+        "p_correct": 0.5385,
+        "asset_id": "commons_8d7e8f3635",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.gtin",
+        "text": "SAND",
+        "legible": true,
+        "confidence": null,
+        "bbox": [
+          0.708776593208313,
+          0.7368951439857483,
+          0.779920220375061,
+          0.765625
+        ],
+        "alternatives": [],
+        "model_bbox": null,
+        "ocr_match": 0.98,
+        "ocr_text": "SANDO",
+        "grounding": "ocr",
+        "ocr_score": 0.9998,
+        "corroboration": "located",
+        "requires_confirmation": false,
+        "p_correct": 0.0093,
+        "asset_id": "commons_8d7e8f3635",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.drug",
+        "text": "Co-amoxiclav",
+        "asset_id": "commons_8d7e8f3635",
+        "bbox": [
+          0.1801861673593521,
+          0.21522176265716553,
+          0.35571807622909546,
+          0.2933467626571655
+        ],
+        "grounding": "ocr",
+        "method": "rapidocr (second reader)",
+        "kind": "VISUAL_OBSERVATION"
+      }
+    ],
+    "extraction": {
+      "asset_id": "commons_8d7e8f3635",
+      "kind": "medicine",
+      "document_type": "medicine_label",
+      "legibility": "good",
+      "observations": [
+        {
+          "field": "dispensed.drug",
+          "text": "Co-amoxiclav",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        },
+        {
+          "field": "dispensed.strength",
+          "text": "250/62.5mg/5ml",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        },
+        {
+          "field": "dispensed.volume",
+          "text": "100 ml when dispensed",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        },
+        {
+          "field": "dispensed.manufacturer",
+          "text": "SANDOZ",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        },
+        {
+          "field": "dispensed.gtin",
+          "text": "SAND",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        }
+      ],
+      "untrusted_instructions_seen": false,
+      "model": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+      "provider": "nebius-token-factory",
+      "replayed": true,
+      "latency_ms": 9031,
+      "error": null,
+      "rejected": [
+        {
+          "item": {
+            "field": "dispensed.lot",
+            "text": "LOT",
+            "lines": [
+              4,
+              13,
+              22
+            ]
+          },
+          "reason": "a form label, not a value"
+        },
+        {
+          "item": {
+            "field": "dispensed.expiry",
+            "text": "EXP",
+            "lines": [
+              5,
+              14,
+              23
+            ]
+          },
+          "reason": "a form label, not a value"
+        }
+      ],
+      "transcript": [
+        "Co-amoxiclav",
+        "250/62.5mg/5ml",
+        "Powder for Oral",
+        "Suspension",
+        "Sugar Free",
+        "CONTAINS PENICILLIN",
+        "100 ml when dispensed",
+        "SANDOZ",
+        "a Novartis company",
+        "Co-amoxiclav",
+        "250/62.5mg/5ml",
+        "Powder for Oral",
+        "Suspension",
+        "Sugar Free",
+        "CONTAINS PENICILLIN",
+        "100 ml when dispensed",
+        "SANDOZ",
+        "a Novartis company",
+        "Co-amoxiclav",
+        "250/62.5mg/5ml",
+        "Powder for Oral",
+        "Suspension",
+        "SANDOZ",
+        "SANDOZ",
+        "SAND"
+      ],
+      "kind_corrected": false,
+      "reader_agreement": {}
+    }
+  },
+  {
+    "case_id": "commons_9f18489d9e",
+    "source": {
+      "case_id": "commons_9f18489d9e",
+      "source_type": "real_medicine_photograph",
+      "evaluation_scope": "perception_only",
+      "file_title": "File:Amoxicillin drug.jpg",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Amoxicillin_drug.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/25/Amoxicillin_drug.jpg/1920px-Amoxicillin_drug.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/2/25/Amoxicillin_drug.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Bamjos",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "attribution": "",
+      "sha256": "acdbf80885f7d85067c4a0e78b6c2007662aeafe3a7b1b7ef2102d096c0a1023",
+      "retrieved_at": "2026-10-04T13:17:44.776434+00:00",
+      "annotation_status": "single_annotator_visual_review",
+      "notes": "1600px source thumbnail; no synthetic transformations"
+    },
+    "fields": [
+      {
+        "field": "dispensed.drug",
+        "exact": true,
+        "autonomous": true,
+        "accepted_exact": true,
+        "expected": "Amoxicillin USP",
+        "readings": [
+          "AMOXICILLIN SUSPENSION"
+        ]
+      },
+      {
+        "field": "dispensed.volume",
+        "exact": true,
+        "autonomous": true,
+        "accepted_exact": true,
+        "expected": "100 ml",
+        "readings": [
+          "100ml"
+        ]
+      }
+    ],
+    "invented_absent_fields": [],
+    "observations": [
+      {
+        "field": "dispensed.drug",
+        "text": "AMOXICILLIN SUSPENSION",
+        "legible": true,
+        "confidence": null,
+        "bbox": null,
+        "alternatives": [],
+        "model_bbox": null,
+        "ocr_match": 0.7,
+        "ocr_text": "Amoxicillin USP 125 mg",
+        "grounding": null,
+        "corroboration": "unmatched",
+        "requires_confirmation": false,
+        "p_correct": 0.9,
+        "asset_id": "commons_9f18489d9e",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.strength",
+        "text": "125 mg",
+        "legible": true,
+        "confidence": null,
+        "bbox": [
+          0.4290569638304743,
+          0.279954377450049,
+          0.48813729015144847,
+          0.511110636293888
+        ],
+        "alternatives": [],
+        "model_bbox": null,
+        "ocr_match": 0.926,
+        "ocr_text": "Amoxicillin USP 125 mg",
+        "grounding": "ocr",
+        "ocr_score": 0.9674,
+        "corroboration": "corroborated",
+        "requires_confirmation": true,
+        "p_correct": 0.0571,
+        "gate": "P-PERC-03",
+        "asset_id": "commons_9f18489d9e",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.volume",
+        "text": "100ml",
+        "legible": true,
+        "confidence": null,
+        "bbox": [
+          0.5891646230161982,
+          0.1341481311656535,
+          0.6429277126779789,
+          0.20571765655279173
+        ],
+        "alternatives": [],
+        "model_bbox": null,
+        "ocr_match": 1.0,
+        "ocr_text": "100ml",
+        "grounding": "ocr",
+        "ocr_score": 0.9999,
+        "corroboration": "corroborated",
+        "requires_confirmation": false,
+        "p_correct": 0.9504,
+        "gate": "P-PERC-03",
+        "asset_id": "commons_9f18489d9e",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.manufacturer",
+        "text": "TUYIL PHARM. IND. LIMITED",
+        "legible": true,
+        "confidence": null,
+        "bbox": [
+          0.5696681133961139,
+          0.46754655247926735,
+          0.6293392371778095,
+          0.6129082891419528
+        ],
+        "alternatives": [],
+        "model_bbox": null,
+        "ocr_match": 1.0,
+        "ocr_text": "TUYIL PHARM. IND. LIMITED",
+        "grounding": "ocr",
+        "ocr_score": 0.9706,
+        "corroboration": "located",
+        "requires_confirmation": false,
+        "p_correct": 0.9,
+        "asset_id": "commons_9f18489d9e",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      }
+    ],
+    "extraction": {
+      "asset_id": "commons_9f18489d9e",
+      "kind": "medicine",
+      "document_type": "medicine_label",
+      "legibility": "good",
+      "observations": [
+        {
+          "field": "dispensed.drug",
+          "text": "AMOXICILLIN SUSPENSION",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        },
+        {
+          "field": "dispensed.strength",
+          "text": "125 mg",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        },
+        {
+          "field": "dispensed.volume",
+          "text": "100ml",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        },
+        {
+          "field": "dispensed.manufacturer",
+          "text": "TUYIL PHARM. IND. LIMITED",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        }
+      ],
+      "untrusted_instructions_seen": false,
+      "model": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+      "provider": "nebius-token-factory",
+      "replayed": true,
+      "latency_ms": 9984,
+      "error": null,
+      "rejected": [
+        {
+          "item": {
+            "field": "dispensed.lot",
+            "text": "LOT",
+            "lines": [
+              11
+            ]
+          },
+          "reason": "a form label, not a value"
+        },
+        {
+          "item": {
+            "field": "dispensed.expiry",
+            "text": "EXP",
+            "lines": [
+              12
+            ]
+          },
+          "reason": "a form label, not a value"
+        },
+        {
+          "item": {
+            "field": "dispensed.gtin",
+            "text": "0",
+            "lines": [
+              13
+            ]
+          },
+          "reason": "value is not copied verbatim from its cited lines"
+        }
+      ],
+      "transcript": [
+        "AMOXICILLIN",
+        "Amoxicillin USP 125 mg",
+        "AMOXICILLIN SUSPENSION",
+        "100ml",
+        "POWDER FOR ORAL",
+        "SUSPENSION",
+        "MANUFACTURED BY:",
+        "TUYIL PHARM. IND. LIMITED",
+        "22, New Yidi Road, Ilorin,",
+        "Nigeria.",
+        "[illegible text]",
+        "[illegible text]",
+        "["
+      ],
+      "kind_corrected": false,
+      "reader_agreement": {}
+    }
+  },
+  {
+    "case_id": "commons_b88e2e19d4",
+    "source": {
+      "case_id": "commons_b88e2e19d4",
+      "source_type": "real_medicine_photograph",
+      "evaluation_scope": "perception_only",
+      "file_title": "File:Amoxicillin.JPG",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Amoxicillin.JPG",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/1/1e/Amoxicillin.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/1/1e/Amoxicillin.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Smile a While",
+      "license": "CC BY 3.0",
+      "license_url": "https://creativecommons.org/licenses/by/3.0",
+      "attribution": "",
+      "sha256": "a50009a1f02dfb1e598c66eb334f6506476370fa5caa10247fdc756b4fea7b19",
+      "retrieved_at": "2026-10-04T13:16:09.677291+00:00",
+      "annotation_status": "single_annotator_visual_review",
+      "notes": "1600px source thumbnail; no synthetic transformations"
+    },
+    "fields": [
+      {
+        "field": "dispensed.drug",
+        "exact": true,
+        "autonomous": true,
+        "accepted_exact": true,
+        "expected": "Amoxicillin Capsules BP",
+        "readings": [
+          "Amoxicillin Capsules BP"
+        ]
+      },
+      {
+        "field": "dispensed.strength",
+        "exact": false,
+        "autonomous": false,
+        "accepted_exact": false,
+        "expected": "500 mg capsules",
+        "readings": [
+          "500 mg"
+        ]
+      }
+    ],
+    "invented_absent_fields": [],
+    "observations": [
+      {
+        "field": "dispensed.drug",
+        "text": "Amoxicillin Capsules BP",
+        "legible": true,
+        "confidence": null,
+        "bbox": null,
+        "alternatives": [],
+        "model_bbox": null,
+        "ocr_match": 0.688,
+        "ocr_text": "Amoxicillin",
+        "grounding": null,
+        "corroboration": "unmatched",
+        "requires_confirmation": false,
+        "p_correct": 0.7778,
+        "asset_id": "commons_b88e2e19d4",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.strength",
+        "text": "500 mg",
+        "legible": true,
+        "confidence": null,
+        "bbox": [
+          0.653124988079071,
+          0.2742547971534539,
+          0.7599999904632568,
+          0.36077527741104953
+        ],
+        "alternatives": [],
+        "model_bbox": null,
+        "ocr_match": 0.75,
+        "ocr_text": "500",
+        "grounding": "ocr",
+        "ocr_score": 1.0,
+        "corroboration": "corroborated",
+        "requires_confirmation": true,
+        "p_correct": 0.0571,
+        "gate": "P-PERC-03",
+        "asset_id": "commons_b88e2e19d4",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      }
+    ],
+    "extraction": {
+      "asset_id": "commons_b88e2e19d4",
+      "kind": "medicine",
+      "document_type": "medicine_label",
+      "legibility": "good",
+      "observations": [
+        {
+          "field": "dispensed.drug",
+          "text": "Amoxicillin Capsules BP",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        },
+        {
+          "field": "dispensed.strength",
+          "text": "500 mg",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        }
+      ],
+      "untrusted_instructions_seen": false,
+      "model": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+      "provider": "nebius-token-factory",
+      "replayed": true,
+      "latency_ms": 3290,
+      "error": null,
+      "rejected": [
+        {
+          "item": {
+            "field": "dispensed.lot",
+            "text": "LOT BRISTOL",
+            "lines": [
+              7,
+              8
+            ]
+          },
+          "reason": "value is not copied verbatim from its cited lines"
+        }
+      ],
+      "transcript": [
+        "Amoxicillin",
+        "Capsules BP",
+        "500",
+        "mg",
+        "500",
+        "B",
+        "BRISTOL",
+        "21",
+        "Capsules"
+      ],
+      "kind_corrected": false,
+      "reader_agreement": {}
+    }
+  },
+  {
+    "case_id": "commons_cbc054303c",
+    "source": {
+      "case_id": "commons_cbc054303c",
+      "source_type": "real_medicine_photograph",
+      "evaluation_scope": "perception_only",
+      "file_title": "File:NOVAMOXIN antibiotic.jpg",
+      "source_url": "https://commons.wikimedia.org/wiki/File:NOVAMOXIN_antibiotic.jpg",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/9/94/NOVAMOXIN_antibiotic.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/9/94/NOVAMOXIN_antibiotic.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Bmramon at English Wikipedia",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+      "attribution": "Bmramon at English Wikipedia",
+      "sha256": "5f934594269222a2fe1387ea698bfd23d872d9f382ed5339fb768d0591e5deb5",
+      "retrieved_at": "2026-10-04T13:17:45.330235+00:00",
+      "annotation_status": "single_annotator_visual_review",
+      "notes": "1600px source thumbnail; no synthetic transformations"
+    },
+    "fields": [],
+    "invented_absent_fields": [],
+    "observations": [],
+    "extraction": {
+      "asset_id": "commons_cbc054303c",
+      "kind": "medicine",
+      "document_type": "other",
+      "legibility": "good",
+      "observations": [],
+      "untrusted_instructions_seen": false,
+      "model": "deepseek-ai/DeepSeek-V4.1-Flash",
+      "provider": "nebius-token-factory",
+      "replayed": true,
+      "latency_ms": null,
+      "error": "structuring failed: no JSON object in model reply",
+      "rejected": [],
+      "transcript": [],
+      "kind_corrected": false,
+      "reader_agreement": {}
+    }
+  },
+  {
+    "case_id": "commons_d5c9df54ae",
+    "source": {
+      "case_id": "commons_d5c9df54ae",
+      "source_type": "real_medicine_photograph",
+      "evaluation_scope": "perception_only",
+      "file_title": "File:Curam 625mg.jpg",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Curam_625mg.jpg",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/6/6b/Curam_625mg.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/6/6b/Curam_625mg.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Islam h01",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "attribution": "",
+      "sha256": "d918655620a894f88e48ac2ce038381c095cdd63afea25753b24701f58931dd2",
+      "retrieved_at": "2026-10-04T13:17:42.624795+00:00",
+      "annotation_status": "single_annotator_visual_review",
+      "notes": "1600px source thumbnail; no synthetic transformations"
+    },
+    "fields": [
+      {
+        "field": "dispensed.drug",
+        "exact": false,
+        "autonomous": false,
+        "accepted_exact": false,
+        "expected": "Amoxicillin Clavulanic Acid",
+        "readings": [
+          "Curam® 625 mg"
+        ]
+      },
+      {
+        "field": "dispensed.strength",
+        "exact": false,
+        "autonomous": false,
+        "accepted_exact": false,
+        "expected": "500 mg/125 mg tablets",
+        "readings": [
+          "Amoxycillin 500 mg +",
+          "Clavulanic Acid 125 mg as potassium salt B.P."
+        ]
+      }
+    ],
+    "invented_absent_fields": [],
+    "observations": [
+      {
+        "field": "dispensed.drug",
+        "text": "Curam® 625 mg",
+        "legible": true,
+        "confidence": null,
+        "bbox": [
+          0.21250000596046448,
+          0.16609768018507148,
+          0.5362499952316284,
+          0.26856411831714766
+        ],
+        "alternatives": [],
+        "model_bbox": null,
+        "ocr_match": 1.0,
+        "ocr_text": "Curam® 625 mg",
+        "grounding": "ocr",
+        "ocr_score": 0.9992,
+        "corroboration": "located",
+        "requires_confirmation": false,
+        "p_correct": 0.0571,
+        "asset_id": "commons_d5c9df54ae",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.strength",
+        "text": "Amoxycillin 500 mg +",
+        "legible": true,
+        "confidence": null,
+        "bbox": [
+          0.2175000011920929,
+          0.26856411831714766,
+          0.40625,
+          0.3154370532665105
+        ],
+        "alternatives": [],
+        "model_bbox": null,
+        "ocr_match": 1.0,
+        "ocr_text": "Amoxycillin 500 mg +",
+        "grounding": "ocr",
+        "ocr_score": 0.9826,
+        "corroboration": "corroborated",
+        "requires_confirmation": true,
+        "p_correct": 0.0571,
+        "gate": "P-PERC-03",
+        "asset_id": "commons_d5c9df54ae",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.strength",
+        "text": "Clavulanic Acid 125 mg as potassium salt B.P.",
+        "legible": true,
+        "confidence": null,
+        "bbox": [
+          0.2175000011920929,
+          0.30017608378752836,
+          0.5981249809265137,
+          0.34922918572461015
+        ],
+        "alternatives": [],
+        "model_bbox": null,
+        "ocr_match": 1.0,
+        "ocr_text": "Clavulanic Acid 125 mg as potassium salt B.P.",
+        "grounding": "ocr",
+        "ocr_score": 0.9945,
+        "corroboration": "corroborated",
+        "requires_confirmation": true,
+        "p_correct": 0.0571,
+        "gate": "P-PERC-03",
+        "asset_id": "commons_d5c9df54ae",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.volume",
+        "text": "20 film-coated tablets • comprimés enrobés •",
+        "legible": true,
+        "confidence": null,
+        "bbox": [
+          0.2737500071525574,
+          0.3808411511949909,
+          0.5224999785423279,
+          0.41463328365309055
+        ],
+        "alternatives": [],
+        "model_bbox": null,
+        "ocr_match": 0.969,
+        "ocr_text": "film-coated tablets• comprimés enrobés •",
+        "grounding": "ocr",
+        "ocr_score": 0.9692,
+        "corroboration": "unconfirmed",
+        "requires_confirmation": true,
+        "crop_read": {
+          "text": "film-coated tablets • comprimés enrobés • tabletas con película",
+          "model": "deepseek-ai/DeepSeek-V4.1-Flash",
+          "replayed": true
+        },
+        "p_correct": 0.0457,
+        "gate": "P-PERC-03",
+        "asset_id": "commons_d5c9df54ae",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.volume",
+        "text": "tabletas con película",
+        "legible": true,
+        "confidence": null,
+        "bbox": [
+          0.27437499165534973,
+          0.4048226461712413,
+          0.4000000059604645,
+          0.4364346401323435
+        ],
+        "alternatives": [],
+        "model_bbox": null,
+        "ocr_match": 1.0,
+        "ocr_text": "tabletas con película",
+        "grounding": "ocr",
+        "ocr_score": 0.9838,
+        "corroboration": "unconfirmed",
+        "requires_confirmation": true,
+        "crop_read": {
+          "text": "film-coated tablets • co\ntabletas con película",
+          "model": "deepseek-ai/DeepSeek-V4.1-Flash",
+          "replayed": true
+        },
+        "p_correct": 0.0571,
+        "gate": "P-PERC-03",
+        "asset_id": "commons_d5c9df54ae",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.manufacturer",
+        "text": "SANDOZ A Novartis Division",
+        "legible": true,
+        "confidence": null,
+        "bbox": [
+          0.38999998569488525,
+          0.758004826268334,
+          0.46875,
+          0.8092380382116917
+        ],
+        "alternatives": [],
+        "model_bbox": null,
+        "ocr_match": 0.85,
+        "ocr_text": "A Novartis Division",
+        "grounding": "ocr",
+        "ocr_score": 0.995,
+        "corroboration": "located",
+        "requires_confirmation": false,
+        "p_correct": 0.9789,
+        "asset_id": "commons_d5c9df54ae",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.manufacturer",
+        "text": "SANDOZ",
+        "legible": true,
+        "confidence": null,
+        "bbox": [
+          0.8324999809265137,
+          0.41463328365309055,
+          0.9399999976158142,
+          0.45278566461446357
+        ],
+        "alternatives": [],
+        "model_bbox": null,
+        "ocr_match": 1.0,
+        "ocr_text": "SANDOZ",
+        "grounding": "ocr",
+        "ocr_score": 0.9998,
+        "corroboration": "located",
+        "requires_confirmation": false,
+        "p_correct": 0.5385,
+        "asset_id": "commons_d5c9df54ae",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.manufacturer",
+        "text": "SANDOZ",
+        "legible": true,
+        "confidence": null,
+        "bbox": [
+          0.8387500047683716,
+          0.597764746456547,
+          0.9456250071525574,
+          0.6348270724147821
+        ],
+        "alternatives": [],
+        "model_bbox": null,
+        "ocr_match": 1.0,
+        "ocr_text": "SANDOZ",
+        "grounding": "ocr",
+        "ocr_score": 0.9998,
+        "corroboration": "located",
+        "requires_confirmation": false,
+        "p_correct": 0.6,
+        "asset_id": "commons_d5c9df54ae",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.manufacturer",
+        "text": "SANDO",
+        "legible": true,
+        "confidence": null,
+        "bbox": [
+          0.03187499940395355,
+          0.6152058544325265,
+          0.12062499672174454,
+          0.6631688443850274
+        ],
+        "alternatives": [],
+        "model_bbox": null,
+        "ocr_match": 0.983,
+        "ocr_text": "SANDOZ",
+        "grounding": "ocr",
+        "ocr_score": 0.9968,
+        "corroboration": "located",
+        "requires_confirmation": false,
+        "p_correct": 0.5965,
+        "asset_id": "commons_d5c9df54ae",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.drug",
+        "text": "Curam® 625 mg",
+        "asset_id": "commons_d5c9df54ae",
+        "bbox": [
+          0.21250000596046448,
+          0.16609768018507148,
+          0.5362499952316284,
+          0.26856411831714766
+        ],
+        "grounding": "ocr",
+        "method": "rapidocr (second reader)",
+        "kind": "VISUAL_OBSERVATION"
+      }
+    ],
+    "extraction": {
+      "asset_id": "commons_d5c9df54ae",
+      "kind": "medicine",
+      "document_type": "medicine_label",
+      "legibility": "good",
+      "observations": [
+        {
+          "field": "dispensed.drug",
+          "text": "Curam® 625 mg",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        },
+        {
+          "field": "dispensed.strength",
+          "text": "Amoxycillin 500 mg +",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        },
+        {
+          "field": "dispensed.strength",
+          "text": "Clavulanic Acid 125 mg as potassium salt B.P.",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        },
+        {
+          "field": "dispensed.volume",
+          "text": "20 film-coated tablets • comprimés enrobés •",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        },
+        {
+          "field": "dispensed.volume",
+          "text": "tabletas con película",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        },
+        {
+          "field": "dispensed.manufacturer",
+          "text": "SANDOZ A Novartis Division",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        },
+        {
+          "field": "dispensed.manufacturer",
+          "text": "SANDOZ",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        },
+        {
+          "field": "dispensed.manufacturer",
+          "text": "SANDOZ",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        },
+        {
+          "field": "dispensed.manufacturer",
+          "text": "SANDO",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        }
+      ],
+      "untrusted_instructions_seen": false,
+      "model": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+      "provider": "nebius-token-factory",
+      "replayed": true,
+      "latency_ms": 9358,
+      "error": null,
+      "rejected": [],
+      "transcript": [
+        "Curam® 625 mg",
+        "Amoxycillin 500 mg +",
+        "Clavulanic Acid 125 mg as potassium salt B.P.",
+        "20 film-coated tablets • comprimés enrobés •",
+        "tabletas con película",
+        "SANDOZ A Novartis Division",
+        "SANDOZ",
+        "SANDOZ",
+        "SANDO"
+      ],
+      "kind_corrected": false,
+      "reader_agreement": {}
+    }
+  },
+  {
+    "case_id": "commons_e6e2006d51",
+    "source": {
+      "case_id": "commons_e6e2006d51",
+      "source_type": "real_medicine_photograph",
+      "evaluation_scope": "perception_only",
+      "file_title": "File:Cefalexin (25738066058).jpg",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Cefalexin_(25738066058).jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Cefalexin_%2825738066058%29.jpg/1920px-Cefalexin_%2825738066058%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/9/93/Cefalexin_%2825738066058%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "agirlnamednee",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "attribution": "",
+      "sha256": "e37ca988d4c61175bc0909657aeb69a9fde58fe8ed75dd598898ae7c5bd468bc",
+      "retrieved_at": "2026-10-04T13:16:20.745389+00:00",
+      "annotation_status": "single_annotator_visual_review",
+      "notes": "1600px source thumbnail; no synthetic transformations"
+    },
+    "fields": [],
+    "invented_absent_fields": [],
+    "observations": [
+      {
+        "field": "dispensed.drug",
+        "text": "LUPIN",
+        "legible": true,
+        "confidence": null,
+        "bbox": [
+          0.5687500238418579,
+          0.4223790168762207,
+          0.6991071701049805,
+          0.49294352531433105
+        ],
+        "alternatives": [],
+        "model_bbox": null,
+        "ocr_match": 1.0,
+        "ocr_text": "LUPIN",
+        "grounding": "ocr",
+        "ocr_score": 0.9996,
+        "corroboration": "located",
+        "requires_confirmation": false,
+        "p_correct": 0.0439,
+        "asset_id": "commons_e6e2006d51",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.manufacturer",
+        "text": "LUPIN",
+        "legible": true,
+        "confidence": null,
+        "bbox": [
+          0.41607144474983215,
+          0.5322580337524414,
+          0.5508928894996643,
+          0.5982862710952759
+        ],
+        "alternatives": [],
+        "model_bbox": null,
+        "ocr_match": 1.0,
+        "ocr_text": "LUPIN",
+        "grounding": "ocr",
+        "ocr_score": 0.9993,
+        "corroboration": "located",
+        "requires_confirmation": false,
+        "p_correct": 0.5385,
+        "asset_id": "commons_e6e2006d51",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.drug",
+        "text": "LUPIN",
+        "asset_id": "commons_e6e2006d51",
+        "bbox": [
+          0.5687500238418579,
+          0.4223790168762207,
+          0.6991071701049805,
+          0.49294352531433105
+        ],
+        "grounding": "ocr",
+        "method": "rapidocr (second reader)",
+        "kind": "VISUAL_OBSERVATION"
+      }
+    ],
+    "extraction": {
+      "asset_id": "commons_e6e2006d51",
+      "kind": "medicine",
+      "document_type": "medicine_label",
+      "legibility": "good",
+      "observations": [
+        {
+          "field": "dispensed.drug",
+          "text": "LUPIN",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        },
+        {
+          "field": "dispensed.manufacturer",
+          "text": "LUPIN",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        }
+      ],
+      "untrusted_instructions_seen": false,
+      "model": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+      "provider": "nebius-token-factory",
+      "replayed": true,
+      "latency_ms": 3127,
+      "error": null,
+      "rejected": [
+        {
+          "item": {
+            "field": "dispensed.strength",
+            "text": "",
+            "lines": []
+          },
+          "reason": "field outside schema or empty"
+        },
+        {
+          "item": {
+            "field": "dispensed.volume",
+            "text": "",
+            "lines": []
+          },
+          "reason": "field outside schema or empty"
+        },
+        {
+          "item": {
+            "field": "dispensed.lot",
+            "text": "",
+            "lines": []
+          },
+          "reason": "field outside schema or empty"
+        },
+        {
+          "item": {
+            "field": "dispensed.expiry",
+            "text": "",
+            "lines": []
+          },
+          "reason": "field outside schema or empty"
+        },
+        {
+          "item": {
+            "field": "dispensed.gtin",
+            "text": "",
+            "lines": []
+          },
+          "reason": "field outside schema or empty"
+        }
+      ],
+      "transcript": [
+        "LUPIN",
+        "LUPIN",
+        "LUPIN",
+        "LUPIN"
+      ],
+      "kind_corrected": false,
+      "reader_agreement": {}
+    }
+  },
+  {
+    "case_id": "commons_eb27c0d4db",
+    "source": {
+      "case_id": "commons_eb27c0d4db",
+      "source_type": "real_medicine_photograph",
+      "evaluation_scope": "perception_only",
+      "file_title": "File:Amoxil.jpg",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Amoxil.jpg",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/3/34/Amoxil.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/3/34/Amoxil.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Abdsomod",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "attribution": "",
+      "sha256": "27fae83f6245d86d875e47c507bed5eddccc4a7ddf19a5b3e84ebc03ec073a4c",
+      "retrieved_at": "2026-10-04T13:16:10.161632+00:00",
+      "annotation_status": "single_annotator_visual_review",
+      "notes": "1600px source thumbnail; no synthetic transformations"
+    },
+    "fields": [
+      {
+        "field": "dispensed.drug",
+        "exact": true,
+        "autonomous": true,
+        "accepted_exact": true,
+        "expected": "Amoxil oral suspension",
+        "readings": [
+          "Amoxil™"
+        ]
+      },
+      {
+        "field": "dispensed.strength",
+        "exact": true,
+        "autonomous": true,
+        "accepted_exact": true,
+        "expected": "125 mg/5 ml",
+        "readings": [
+          "125 mg/5 ml"
+        ]
+      },
+      {
+        "field": "dispensed.volume",
+        "exact": true,
+        "autonomous": true,
+        "accepted_exact": true,
+        "expected": "100 ml",
+        "readings": [
+          "100 ml"
+        ]
+      }
+    ],
+    "invented_absent_fields": [],
+    "observations": [
+      {
+        "field": "dispensed.drug",
+        "text": "Amoxil™",
+        "legible": true,
+        "confidence": null,
+        "bbox": [
+          0.3066120955691192,
+          0.24267170918356049,
+          0.47871855613044956,
+          0.27302545763920116
+        ],
+        "alternatives": [],
+        "model_bbox": null,
+        "ocr_match": 1.0,
+        "ocr_text": "Amoxil™",
+        "grounding": "ocr",
+        "ocr_score": 0.976,
+        "corroboration": "located",
+        "requires_confirmation": false,
+        "p_correct": 0.9618,
+        "asset_id": "commons_eb27c0d4db",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.strength",
+        "text": "125 mg/5 ml",
+        "legible": true,
+        "confidence": null,
+        "bbox": [
+          0.2629432960771132,
+          0.20894534499925507,
+          0.4718685417892882,
+          0.23785366044132095
+        ],
+        "alternatives": [],
+        "model_bbox": null,
+        "ocr_match": 1.0,
+        "ocr_text": "125 mg/5 ml",
+        "grounding": "ocr",
+        "ocr_score": 0.998,
+        "corroboration": "corroborated",
+        "requires_confirmation": false,
+        "p_correct": 0.9994,
+        "gate": "P-PERC-03",
+        "asset_id": "commons_eb27c0d4db",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.volume",
+        "text": "100 ml",
+        "legible": true,
+        "confidence": null,
+        "bbox": [
+          0.34343088071996397,
+          0.17136452343025513,
+          0.46673104301424506,
+          0.19930922452614738
+        ],
+        "alternatives": [],
+        "model_bbox": null,
+        "ocr_match": 1.0,
+        "ocr_text": "100 ml",
+        "grounding": "ocr",
+        "ocr_score": 0.9983,
+        "corroboration": "corroborated",
+        "requires_confirmation": false,
+        "p_correct": 0.9494,
+        "gate": "P-PERC-03",
+        "asset_id": "commons_eb27c0d4db",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.lot",
+        "text": "[illegible text]",
+        "legible": true,
+        "confidence": null,
+        "bbox": null,
+        "alternatives": [],
+        "model_bbox": null,
+        "ocr_match": 0.333,
+        "ocr_text": "amoxicillin",
+        "grounding": null,
+        "corroboration": "unmatched",
+        "requires_confirmation": false,
+        "p_correct": 0.0256,
+        "asset_id": "commons_eb27c0d4db",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.expiry",
+        "text": "[illegible text]",
+        "legible": true,
+        "confidence": null,
+        "bbox": null,
+        "alternatives": [],
+        "model_bbox": null,
+        "ocr_match": 0.333,
+        "ocr_text": "amoxicillin",
+        "grounding": null,
+        "corroboration": "unmatched",
+        "requires_confirmation": true,
+        "p_correct": 0.0382,
+        "gate": "P-PERC-03",
+        "asset_id": "commons_eb27c0d4db",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.manufacturer",
+        "text": "Amoxil™",
+        "legible": true,
+        "confidence": null,
+        "bbox": [
+          0.22526824116238162,
+          0.3399963903290394,
+          0.4761497947621002,
+          0.38769512804991957
+        ],
+        "alternatives": [],
+        "model_bbox": null,
+        "ocr_match": 1.0,
+        "ocr_text": "Amoxil",
+        "grounding": "ocr",
+        "ocr_score": 1.0,
+        "corroboration": "located",
+        "requires_confirmation": false,
+        "p_correct": 0.91,
+        "asset_id": "commons_eb27c0d4db",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.gtin",
+        "text": "[illegible text]",
+        "legible": true,
+        "confidence": null,
+        "bbox": null,
+        "alternatives": [],
+        "model_bbox": null,
+        "ocr_match": 0.333,
+        "ocr_text": "amoxicillin",
+        "grounding": null,
+        "corroboration": "unmatched",
+        "requires_confirmation": false,
+        "p_correct": 0.0187,
+        "asset_id": "commons_eb27c0d4db",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.drug",
+        "text": "Amoxil™",
+        "asset_id": "commons_eb27c0d4db",
+        "bbox": [
+          0.3066120955691192,
+          0.24267170918356049,
+          0.47871855613044956,
+          0.27302545763920116
+        ],
+        "grounding": "ocr",
+        "method": "rapidocr (second reader)",
+        "kind": "VISUAL_OBSERVATION"
+      }
+    ],
+    "extraction": {
+      "asset_id": "commons_eb27c0d4db",
+      "kind": "medicine",
+      "document_type": "medicine_label",
+      "legibility": "good",
+      "observations": [
+        {
+          "field": "dispensed.drug",
+          "text": "Amoxil™",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        },
+        {
+          "field": "dispensed.strength",
+          "text": "125 mg/5 ml",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        },
+        {
+          "field": "dispensed.volume",
+          "text": "100 ml",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        },
+        {
+          "field": "dispensed.lot",
+          "text": "[illegible text]",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        },
+        {
+          "field": "dispensed.expiry",
+          "text": "[illegible text]",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        },
+        {
+          "field": "dispensed.manufacturer",
+          "text": "Amoxil™",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        },
+        {
+          "field": "dispensed.gtin",
+          "text": "[illegible text]",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        }
+      ],
+      "untrusted_instructions_seen": false,
+      "model": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+      "provider": "nebius-token-factory",
+      "replayed": true,
+      "latency_ms": 8440,
+      "error": null,
+      "rejected": [],
+      "transcript": [
+        "Amoxil™",
+        "125 mg/5 ml",
+        "100 ml",
+        "oral suspension",
+        "in powder form",
+        "Amoxil™",
+        "125 mg/5 ml",
+        "amoxicillin",
+        "100 ml",
+        "oral suspension",
+        "in powder form",
+        "[illegible text]",
+        "[illegible text]"
+      ],
+      "kind_corrected": false,
+      "reader_agreement": {}
+    }
+  },
+  {
+    "case_id": "commons_edb6412a8c",
+    "source": {
+      "case_id": "commons_edb6412a8c",
+      "source_type": "real_medicine_photograph",
+      "evaluation_scope": "perception_only",
+      "file_title": "File:Amoxiclav Sandoz Mylan.JPG",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Amoxiclav_Sandoz_Mylan.JPG",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/95/Amoxiclav_Sandoz_Mylan.JPG/1920px-Amoxiclav_Sandoz_Mylan.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/9/95/Amoxiclav_Sandoz_Mylan.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Barbirossa",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+      "attribution": "",
+      "sha256": "123d5b094cf4a517139413c399232e9f88d7aa7ecbdc9076d4b6b010078544f6",
+      "retrieved_at": "2026-10-04T13:16:12.494406+00:00",
+      "annotation_status": "single_annotator_visual_review",
+      "notes": "1600px source thumbnail; no synthetic transformations"
+    },
+    "fields": [
+      {
+        "field": "dispensed.drug",
+        "exact": false,
+        "autonomous": false,
+        "accepted_exact": false,
+        "expected": "Amoxiclav Mylan oral suspension",
+        "readings": [
+          "mula: Amoxicillin. trihydr. overeenkomend met / équivalent à / entspricht 250 mg"
+        ]
+      },
+      {
+        "field": "dispensed.strength",
+        "exact": false,
+        "autonomous": false,
+        "accepted_exact": false,
+        "expected": "250 mg/62.5 mg per 5 ml",
+        "readings": [
+          "250 mg / 5 ml"
+        ]
+      },
+      {
+        "field": "dispensed.volume",
+        "exact": false,
+        "autonomous": false,
+        "accepted_exact": false,
+        "expected": "100 ml",
+        "readings": []
+      }
+    ],
+    "invented_absent_fields": [],
+    "observations": [
+      {
+        "field": "dispensed.lot",
+        "text": "B-1500",
+        "legible": true,
+        "confidence": null,
+        "bbox": null,
+        "alternatives": [],
+        "model_bbox": null,
+        "ocr_match": 0.421,
+        "ocr_text": "B-1800 Vilvoorde",
+        "grounding": null,
+        "corroboration": "unmatched",
+        "requires_confirmation": false,
+        "p_correct": 0.3333,
+        "asset_id": "commons_edb6412a8c",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.manufacturer",
+        "text": "Sandoz n.v./s.a.",
+        "legible": true,
+        "confidence": null,
+        "bbox": [
+          0.25208333134651184,
+          0.7555555701255798,
+          0.3630208373069763,
+          0.8062499761581421
+        ],
+        "alternatives": [],
+        "model_bbox": null,
+        "ocr_match": 1.0,
+        "ocr_text": "Sandoz n.v./s.a.",
+        "grounding": "ocr",
+        "ocr_score": 0.9975,
+        "corroboration": "located",
+        "requires_confirmation": false,
+        "p_correct": 0.9728,
+        "asset_id": "commons_edb6412a8c",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.gtin",
+        "text": "oz® 250 mg / 5 ml",
+        "legible": true,
+        "confidence": null,
+        "bbox": [
+          0.22968749701976776,
+          0.49791666865348816,
+          0.3968749940395355,
+          0.5541666746139526
+        ],
+        "alternatives": [],
+        "model_bbox": null,
+        "ocr_match": 1.0,
+        "ocr_text": "oz 250mg/5ml",
+        "grounding": "ocr",
+        "ocr_score": 0.9183,
+        "corroboration": "located",
+        "requires_confirmation": false,
+        "p_correct": 0.9,
+        "asset_id": "commons_edb6412a8c",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.drug",
+        "text": "mula: Amoxicillin. trihydr. overeenkomend met / équivalent à / entspricht 250 mg",
+        "legible": true,
+        "confidence": null,
+        "bbox": null,
+        "alternatives": [
+          "Amoxicillin. trihydric. - Kal. clavulan."
+        ],
+        "model_bbox": null,
+        "ocr_match": 0.424,
+        "ocr_text": "Amoxicillin. trihydric. — Kal. clavulan.",
+        "grounding": null,
+        "corroboration": "unmatched",
+        "requires_confirmation": true,
+        "p_correct": 0.5988,
+        "validation_issues": [
+          "transcript contains competing or incomplete ingredient evidence"
+        ],
+        "asset_id": "commons_edb6412a8c",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.strength",
+        "text": "250 mg / 5 ml",
+        "legible": true,
+        "confidence": null,
+        "bbox": [
+          0.22968749701976776,
+          0.47083333134651184,
+          0.7583333253860474,
+          0.5541666746139526
+        ],
+        "alternatives": [],
+        "model_bbox": null,
+        "ocr_match": 0.933,
+        "ocr_text": "AmoxiclavMylan oz 250mg/5ml",
+        "grounding": "ocr",
+        "ocr_score": 0.9183,
+        "corroboration": "corroborated",
+        "requires_confirmation": true,
+        "p_correct": 0.9308,
+        "gate": "P-PERC-03",
+        "validation_issues": [
+          "verify all strength components against the unresolved ingredient list"
+        ],
+        "asset_id": "commons_edb6412a8c",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      }
+    ],
+    "extraction": {
+      "asset_id": "commons_edb6412a8c",
+      "kind": "medicine",
+      "document_type": "medicine_label",
+      "legibility": "good",
+      "observations": [
+        {
+          "field": "dispensed.lot",
+          "text": "B-1500",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        },
+        {
+          "field": "dispensed.manufacturer",
+          "text": "Sandoz n.v./s.a.",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        },
+        {
+          "field": "dispensed.gtin",
+          "text": "oz® 250 mg / 5 ml",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        },
+        {
+          "field": "dispensed.drug",
+          "text": "mula: Amoxicillin. trihydr. overeenkomend met / équivalent à / entspricht 250 mg",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        },
+        {
+          "field": "dispensed.strength",
+          "text": "250 mg / 5 ml",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        }
+      ],
+      "untrusted_instructions_seen": false,
+      "model": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+      "provider": "nebius-token-factory",
+      "replayed": true,
+      "latency_ms": 4036,
+      "error": null,
+      "rejected": [
+        {
+          "item": {
+            "field": "dispensed.strength",
+            "text": "250 mg / 5 ml",
+            "lines": [
+              7
+            ]
+          },
+          "reason": "value is not copied verbatim from its cited lines"
+        },
+        {
+          "item": {
+            "field": "dispensed.volume",
+            "text": "100 ml de suspension s'obtiennent en ajoutant 90 ml d'eau purifiée à la poudre.",
+            "lines": [
+              12
+            ]
+          },
+          "reason": "value is not copied verbatim from its cited lines"
+        },
+        {
+          "item": {
+            "field": "dispensed.expiry",
+            "text": "EXP 03/2027",
+            "lines": [
+              24
+            ]
+          },
+          "reason": "value is not copied verbatim from its cited lines"
+        }
+      ],
+      "transcript": [
+        "100",
+        "m",
+        "e",
+        "AmoxiclavMylan",
+        "Amoxicillin. trihydric. - Kal. clavulan.",
+        "250 mg",
+        "/ 5 ml",
+        "mula: Amoxicillin. trihydr. overeenkomend met / équivalent à / entspricht 250 mg",
+        "clavulan. overeenkomend met / équivalent à / entspricht 62,5 mg Acid. clavulan.",
+        "suspensie / Poudre pour suspension buvable / Pulver zur Herstellung einer Susp",
+        "Bereiding:",
+        "100 ml de suspension s'obtiennent en ajoutant",
+        "90 ml d'eau purifiée à la poudre.",
+        "La suspension se conserve maximum 7 jours",
+        "entre 2-8°C. - Agiter avant l'emploi.",
+        "Zubereitung:",
+        "Sie erhalten 100 ml",
+        "dem Pulver 90 ml",
+        "Die Suspension kann",
+        "aufbewahrt werden",
+        "n / Tenir hors de portée des enfants/Vor Kindern gesichert aufbewahren.",
+        "B-1500 Hoeilaart",
+        "Reg. N° Enr. BE 214934",
+        "oz® 250 mg / 5 ml",
+        "Formula:",
+        "Amoxicillin. 250 mg (sub forma",
+        "trihydr.) - Acid. Clavulan. 62,5 mg",
+        "(sub forma Kal. Clavulan.) -",
+        "Excipiens q.s. pro dosis una (5 ml).",
+        "Reg. N° Enr. 1472 IS 21 F 11",
+        "Schudden vóór gebruik",
+        "Agiter avant l'emploi",
+        "Schütteln vor Gebrauch",
+        "Sandoz n.v./s.a.",
+        "B-1800 Vilvoorde",
+        "Amoxi",
+        "Kalii c",
+        "A",
+        "S",
+        "2"
+      ],
+      "kind_corrected": false,
+      "reader_agreement": {}
+    }
+  },
+  {
+    "case_id": "commons_f87f09f33a",
+    "source": {
+      "case_id": "commons_f87f09f33a",
+      "source_type": "real_medicine_photograph",
+      "evaluation_scope": "perception_only",
+      "file_title": "File:Klacid 125 mg- ml gra.jpg",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Klacid_125_mg-_ml_gra.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/80/Klacid_125_mg-_ml_gra.jpg/1920px-Klacid_125_mg-_ml_gra.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/8/80/Klacid_125_mg-_ml_gra.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Tomino de WS",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "attribution": "",
+      "sha256": "f7c80327046a7a97e01bc0f071d24a036d7e675e3867e1eb6130ceff57413133",
+      "retrieved_at": "2026-10-04T13:16:09.108372+00:00",
+      "annotation_status": "single_annotator_visual_review",
+      "notes": "1600px source thumbnail; no synthetic transformations"
+    },
+    "fields": [
+      {
+        "field": "dispensed.drug",
+        "exact": true,
+        "autonomous": true,
+        "accepted_exact": true,
+        "expected": "Klacid Clarithromycin",
+        "readings": [
+          "KLACID®"
+        ]
+      },
+      {
+        "field": "dispensed.strength",
+        "exact": true,
+        "autonomous": true,
+        "accepted_exact": true,
+        "expected": "125 mg/5 ml",
+        "readings": [
+          "125 mg/5 ml"
+        ]
+      },
+      {
+        "field": "dispensed.volume",
+        "exact": true,
+        "autonomous": false,
+        "accepted_exact": false,
+        "expected": "60 ml",
+        "readings": [
+          "60 ml"
+        ]
+      }
+    ],
+    "invented_absent_fields": [],
+    "observations": [
+      {
+        "field": "dispensed.drug",
+        "text": "KLACID®",
+        "legible": true,
+        "confidence": null,
+        "bbox": [
+          0.3131377398967743,
+          0.2192540317773819,
+          0.5274235010147095,
+          0.2948588728904724
+        ],
+        "alternatives": [],
+        "model_bbox": null,
+        "ocr_match": 1.0,
+        "ocr_text": "KLACID",
+        "grounding": "ocr",
+        "ocr_score": 0.9998,
+        "corroboration": "located",
+        "requires_confirmation": false,
+        "p_correct": 0.8841,
+        "asset_id": "commons_f87f09f33a",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.strength",
+        "text": "125 mg/5 ml",
+        "legible": true,
+        "confidence": null,
+        "bbox": [
+          0.3125,
+          0.2363911271095276,
+          0.6352040767669678,
+          0.33719760179519653
+        ],
+        "alternatives": [],
+        "model_bbox": null,
+        "ocr_match": 1.0,
+        "ocr_text": "125 mg/5 ml",
+        "grounding": "ocr",
+        "ocr_score": 0.924,
+        "corroboration": "corroborated",
+        "requires_confirmation": false,
+        "p_correct": 0.983,
+        "gate": "P-PERC-03",
+        "asset_id": "commons_f87f09f33a",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.volume",
+        "text": "60 ml",
+        "legible": true,
+        "confidence": null,
+        "bbox": [
+          0.33737245202064514,
+          0.47731852531433105,
+          0.41709184646606445,
+          0.512600839138031
+        ],
+        "alternatives": [],
+        "model_bbox": null,
+        "ocr_match": 1.0,
+        "ocr_text": "60 ml",
+        "grounding": "ocr",
+        "ocr_score": 0.9251,
+        "corroboration": "corroborated",
+        "requires_confirmation": true,
+        "p_correct": 0.7778,
+        "gate": "P-PERC-03",
+        "asset_id": "commons_f87f09f33a",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.lot",
+        "text": "č. L950",
+        "legible": true,
+        "confidence": null,
+        "bbox": [
+          0.3169642686843872,
+          0.19203630089759827,
+          0.4234693944454193,
+          0.22983871400356293
+        ],
+        "alternatives": [],
+        "model_bbox": null,
+        "ocr_match": 1.0,
+        "ocr_text": "č.L950",
+        "grounding": "ocr",
+        "ocr_score": 0.9723,
+        "corroboration": "corroborated",
+        "requires_confirmation": false,
+        "p_correct": 0.0571,
+        "asset_id": "commons_f87f09f33a",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.manufacturer",
+        "text": "Mylan",
+        "legible": true,
+        "confidence": null,
+        "bbox": [
+          0.47130101919174194,
+          0.7036290168762207,
+          0.6186224818229675,
+          0.765625
+        ],
+        "alternatives": [],
+        "model_bbox": null,
+        "ocr_match": 1.0,
+        "ocr_text": "Mylan",
+        "grounding": "ocr",
+        "ocr_score": 0.9992,
+        "corroboration": "located",
+        "requires_confirmation": false,
+        "p_correct": 0.5385,
+        "asset_id": "commons_f87f09f33a",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.gtin",
+        "text": "1 ml",
+        "legible": true,
+        "confidence": null,
+        "bbox": null,
+        "alternatives": [],
+        "model_bbox": null,
+        "ocr_match": 0.571,
+        "ocr_text": "60 ml",
+        "grounding": null,
+        "corroboration": "unmatched",
+        "requires_confirmation": false,
+        "p_correct": 0.0526,
+        "asset_id": "commons_f87f09f33a",
+        "method": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B via nebius-token-factory (replay)"
+      },
+      {
+        "field": "dispensed.drug",
+        "text": "KLACID",
+        "asset_id": "commons_f87f09f33a",
+        "bbox": [
+          0.3131377398967743,
+          0.2192540317773819,
+          0.5274235010147095,
+          0.2948588728904724
+        ],
+        "grounding": "ocr",
+        "method": "rapidocr (second reader)",
+        "kind": "VISUAL_OBSERVATION"
+      }
+    ],
+    "extraction": {
+      "asset_id": "commons_f87f09f33a",
+      "kind": "medicine",
+      "document_type": "medicine_label",
+      "legibility": "good",
+      "observations": [
+        {
+          "field": "dispensed.drug",
+          "text": "KLACID®",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        },
+        {
+          "field": "dispensed.strength",
+          "text": "125 mg/5 ml",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        },
+        {
+          "field": "dispensed.volume",
+          "text": "60 ml",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        },
+        {
+          "field": "dispensed.lot",
+          "text": "č. L950",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        },
+        {
+          "field": "dispensed.manufacturer",
+          "text": "Mylan",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        },
+        {
+          "field": "dispensed.gtin",
+          "text": "1 ml",
+          "legible": true,
+          "confidence": null,
+          "bbox": null,
+          "alternatives": []
+        }
+      ],
+      "untrusted_instructions_seen": false,
+      "model": "deepseek-ai/DeepSeek-V4.1-Flash + nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+      "provider": "nebius-token-factory",
+      "replayed": true,
+      "latency_ms": 4352,
+      "error": null,
+      "rejected": [
+        {
+          "item": {
+            "field": "dispensed.expiry",
+            "text": "EXP",
+            "lines": []
+          },
+          "reason": "a form label, not a value"
+        }
+      ],
+      "transcript": [
+        "KLACID®",
+        "125 mg/5 ml",
+        "Granule pro",
+        "perorální suspenzi",
+        "125 mg/5 ml",
+        "Clarithromycinum",
+        "60 ml",
+        "Perorální podání.",
+        "KLACID®",
+        "125 mg/5 ml",
+        "Granule pro",
+        "perorální suspenzi",
+        "125 mg/5 ml",
+        "Clarithromycinum",
+        "60 ml",
+        "Perorální podání.",
+        "č. L950",
+        "KLACID®",
+        "125 mg/5 ml",
+        "Granule pro",
+        "perorální suspenzi",
+        "125 mg/5 ml",
+        "Clarithromycinum",
+        "60 ml",
+        "Perorální podání.",
+        "Mylan",
+        "č. L950",
+        "KLACID®",
+        "125 mg/5 ml",
+        "Granule pro perorální",
+        "suspenzi",
+        "125 mg/5 ml",
+        "Clarit",
+        "romycinum",
+        "60 ml",
+        "Mylan",
+        "1 ml",
+        "2 ml",
+        "3 ml",
+        "4 ml",
+        "5 ml",
+        "6 ml",
+        "7 ml",
+        "8 ml",
+        "9 ml",
+        "10 ml"
+      ],
+      "kind_corrected": false,
+      "reader_agreement": {}
+    }
+  }
+]

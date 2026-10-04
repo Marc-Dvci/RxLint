@@ -1,0 +1,21 @@
+{
+  "case_id": "commons_7a2a988bd8",
+  "split": "external",
+  "evaluation_scope": "perception_only",
+  "expected_state": null,
+  "gold_rx": [],
+  "gold_label": [
+    {
+      "field": "dispensed.drug",
+      "raw": "Amoxicilline Mylan Pharma"
+    },
+    {
+      "field": "dispensed.strength",
+      "raw": "1 g comprim\u00e9s"
+    }
+  ],
+  "patient": {},
+  "absent_fields": [],
+  "annotation_method": "manual visual inspection before reader evaluation; single coding agent, not pharmacist adjudicated",
+  "notes": "Missing prescription and patient facts are intentionally not invented. Solid strengths include the dose form visibly printed elsewhere on the same package."
+}

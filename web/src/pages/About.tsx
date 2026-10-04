@@ -20,8 +20,8 @@ export default function About() {
         </div>
         <div className="node det">
           <span className="upper">Corroborates</span>
-          <b>Independent OCR reader</b>
-          <span className="small muted">Every dose and strength read from a photo needs a second reader that agrees, a typed entry, or a pharmacist's one-tap confirmation.</span>
+          <b>PP-OCRv6 + reliability head</b>
+          <span className="small muted">Independent OCR checks high-risk photo readings, focused crops recover small print, and a calibrated head refers uncertain values for confirmation. Conflicting readings require an explicit choice.</span>
         </div>
         <div className="node det">
           <span className="upper">Proves</span>
@@ -31,8 +31,14 @@ export default function About() {
         <div className="node nv">
           <span className="upper">Clarifies and explains</span>
           <b>Nemotron 3 Ultra</b>
-          <span className="small muted">Picks the smallest clarification from a closed set, and explains established findings in four languages around locked values. Nemotron 3 Nano audits each explanation against the result.</span>
+          <span className="small muted">Picks the smallest clarification from a closed set. All reviewed values can be confirmed together without another model call. Explanations use locked values and a Nano audit in English, French and Arabic; Swahili uses reviewed phrases.</span>
         </div>
+      </div>
+
+      <div className="card pad stack" style={{ gap: 8 }}>
+        <h2>Bring the prescription directly from a structured order</h2>
+        <p className="small">FHIR R4 MedicationRequest import supplies fixed medicine, concentration, dose and schedule facts with JSON-path evidence.
+          Upload the bottle photo and add patient context to run the same deterministic checks. Unsupported conditional orders are rejected.</p>
       </div>
 
       <div className="card pad stack" style={{ gap: 10 }}>

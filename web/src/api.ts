@@ -94,6 +94,7 @@ export interface Observation {
   legible?: boolean;
   alternatives?: string[];
   requires_confirmation?: boolean;
+  validation_issues?: string[];
   method?: string;
 }
 
@@ -219,7 +220,7 @@ export interface Health {
   rulepack: { id: string; version: string; sha256: string; rules: number; title: string; effective_date: string };
   models: Record<string, { model: string; provider: string | null; configured: boolean; note?: string }>;
   voice?: boolean;
-  perception: { mode: "omni" | "two_stage"; readers: string[] };
+  perception: { mode: "omni" | "two_stage" | "ensemble"; readers: string[] };
   model_mode: string;
   tavily: { configured: boolean };
   languages: Record<string, { name: string; dir: string }>;
@@ -248,6 +249,8 @@ export const api = {
     return fetch("/api/cases", { method: "POST", body: fd }).then((r) => j<{ case_id: string }>(r));
   },
   createCase: (fd: FormData) => fetch("/api/cases", { method: "POST", body: fd }).then((r) => j<{ case_id: string }>(r)),
+  validateFhir: (resource: unknown) => fetch("/api/fhir/validate", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(resource) })
+    .then((r) => j<{ observations: Observation[]; note: string }>(r)),
   getCase: (id: string) => fetch(`/api/cases/${id}`).then((r) => j<CaseEnvelope>(r)),
   confirm: (id: string, confirmations: Record<string, string>) =>
     fetch(`/api/cases/${id}/confirm`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ confirmations }) }).then((r) => j<CaseResult>(r)),

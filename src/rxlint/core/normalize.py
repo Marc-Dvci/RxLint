@@ -25,7 +25,8 @@ class Resolution:
 
 
 def _norm(s: str) -> str:
-    s = clean(s)
+    # Strip trademark marks before NFKC turns ™ into the literal letters "TM".
+    s = clean(re.sub(r"[®™©]", "", s))
     s = re.sub(r"[®™©]", "", s)
     return s
 
@@ -57,6 +58,8 @@ class Normalizer:
         text = _norm(raw)
         if not text:
             return Resolution(None, "unknown", reason="empty")
+        if re.search(r"(?:\+|/|&|\b(?:and|et))\s*$", text):
+            return Resolution(None, "unresolved", reason="ingredient list ends with an unfinished separator")
         # 1. whole-product aliases (brands and combination names)
         prod_hits = {(name, alias) for name, alias, rx in self._prod_patterns if rx.search(text)}
         # 2. ingredient aliases, keeping only the longest alias per span

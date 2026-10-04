@@ -15,7 +15,7 @@
   .sub { color: var(--ink2); margin-top: 4px; font-size: 15.5px; }
   .legend { display: flex; gap: 26px; margin-top: 16px; font-size: 14.5px; color: var(--ink2); }
   .legend i { display: inline-block; width: 13px; height: 13px; border-radius: 3px; margin-right: 8px; vertical-align: -1px; }
-  .panels { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; margin-top: 18px; }
+  .panels { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; margin-top: 18px; }
   .panel { background: #fff; border: 1px solid var(--grid); border-radius: 14px; padding: 18px 20px 14px; }
   .panel h2 { font-size: 16.5px; font-weight: 600; }
   .panel .note { color: var(--muted); font-size: 13px; margin-top: 2px; }
@@ -32,7 +32,7 @@
     <span><i style="background:var(--s3)"></i>OCR + regex + the same kernel</span>
   </div>
   <div class="panels" id="panels"></div>
-  <div class="foot">Readers: DeepSeek V4.1 Flash transcribes, NVIDIA Nemotron 3 Nano structures, on Nebius Token Factory. 40 clean cases, 60 with a rule violation, 20 with a missing or overwritten fact.</div>
+  <div class="foot">Frozen review-v4: DeepSeek V4.1 Flash transcribes, NVIDIA Nemotron 3 Nano structures on Nebius Token Factory. PP-OCRv6 + a validation-calibrated head. Confirmation is simulated. Previous RxLint: 50.83% confirmations, 95.83% exact after confirmation. Revised RxLint: 45.0% confirmations, 95.0% exact. This synthetic evaluation does not establish clinical safety.</div>
 <script>
 const SYS = [
   { name: "RxLint", color: "var(--s1)" },
@@ -41,11 +41,13 @@ const SYS = [
 ];
 const PANELS = [
   { title: "Exact verdict after confirmation", note: "higher is better", max: 100, ticks: [0, 25, 50, 75, 100], unit: "%",
-    values: [95.8, 90.0, 87.5], labels: ["95.8%", "90.0%", "87.5%"] },
+    values: [95.0, 85.8, 92.5], labels: ["95.0%", "85.8%", "92.5%"] },
   { title: "Overwritten doses held for confirmation", note: "of 10, higher is better", max: 10, ticks: [0, 2, 4, 6, 8, 10],
-    values: [8, 2, 8], labels: ["8 / 10", "2 / 10", "8 / 10"] },
+    values: [9, 3, 6], labels: ["9 / 10", "3 / 10", "6 / 10"] },
   { title: "Error cases returned as PASS", note: "of 80, lower is better", max: 4, ticks: [0, 1, 2, 3, 4],
-    values: [0, 0, 1], labels: ["0 / 80", "0 / 80", "1 / 80"] },
+    values: [0, 2, 0], labels: ["0 / 80", "2 / 80", "0 / 80"] },
+  { title: "Cases asking for confirmation", note: "lower is better", max: 100, ticks: [0, 25, 50, 75, 100], unit: "%",
+    values: [45.0, 23.3, 45.8], labels: ["45.0%", "23.3%", "45.8%"] },
 ];
 const W = 470, H = 250, L = 128, R = 70, T = 10, B = 34, BAR = 38, GAP = 22;
 const host = document.getElementById("panels");

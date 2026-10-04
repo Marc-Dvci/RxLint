@@ -1,0 +1,84 @@
+{
+  "resourceType": "MedicationRequest",
+  "id": "demo-order",
+  "status": "active",
+  "intent": "order",
+  "medicationReference": {
+    "reference": "#medicine"
+  },
+  "contained": [
+    {
+      "resourceType": "Medication",
+      "id": "medicine",
+      "code": {
+        "text": "Amoxicillin/clavulanate"
+      },
+      "form": {
+        "text": "oral suspension"
+      },
+      "ingredient": [
+        {
+          "itemCodeableConcept": {
+            "text": "clavulanic acid"
+          },
+          "strength": {
+            "numerator": {
+              "value": 57,
+              "unit": "mg"
+            },
+            "denominator": {
+              "value": 5,
+              "unit": "mL"
+            }
+          }
+        },
+        {
+          "itemCodeableConcept": {
+            "text": "amoxicillin"
+          },
+          "strength": {
+            "numerator": {
+              "value": 400,
+              "unit": "mg"
+            },
+            "denominator": {
+              "value": 5,
+              "unit": "mL"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "reasonCode": [
+    {
+      "text": "acute otitis media"
+    }
+  ],
+  "dosageInstruction": [
+    {
+      "doseAndRate": [
+        {
+          "doseQuantity": {
+            "value": 5,
+            "unit": "mL"
+          }
+        }
+      ],
+      "route": {
+        "text": "oral"
+      },
+      "timing": {
+        "repeat": {
+          "frequency": 2,
+          "period": 1,
+          "periodUnit": "d",
+          "boundsDuration": {
+            "value": 5,
+            "unit": "d"
+          }
+        }
+      }
+    }
+  ]
+}

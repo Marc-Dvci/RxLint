@@ -1,0 +1,21 @@
+{
+  "case_id": "commons_b88e2e19d4",
+  "split": "external",
+  "evaluation_scope": "perception_only",
+  "expected_state": null,
+  "gold_rx": [],
+  "gold_label": [
+    {
+      "field": "dispensed.drug",
+      "raw": "Amoxicillin Capsules BP"
+    },
+    {
+      "field": "dispensed.strength",
+      "raw": "500 mg capsules"
+    }
+  ],
+  "patient": {},
+  "absent_fields": [],
+  "annotation_method": "manual visual inspection before reader evaluation; single coding agent, not pharmacist adjudicated",
+  "notes": "Missing prescription and patient facts are intentionally not invented. Solid strengths include the dose form visibly printed elsewhere on the same package."
+}

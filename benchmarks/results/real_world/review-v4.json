@@ -1,0 +1,60 @@
+{
+  "evaluation_scope": "external_real_photograph_perception_only",
+  "run": "review-v4",
+  "images": 12,
+  "expected_images": 12,
+  "label_images": 10,
+  "negative_controls": 2,
+  "failed_images": 1,
+  "ocr_fingerprint": "ppocr6-3.9.2-ground-v2",
+  "field_results": {
+    "dispensed.drug": {
+      "exact": 8,
+      "total": 10,
+      "autonomous": 8,
+      "wrong_autonomous": 0,
+      "exact_rate": 0.8
+    },
+    "dispensed.strength": {
+      "exact": 4,
+      "total": 9,
+      "autonomous": 3,
+      "wrong_autonomous": 0,
+      "exact_rate": 0.4444444444444444
+    },
+    "dispensed.volume": {
+      "exact": 5,
+      "total": 6,
+      "autonomous": 4,
+      "wrong_autonomous": 0,
+      "exact_rate": 0.8333333333333334
+    }
+  },
+  "strength_by_printed_form": {
+    "solid_strength": {
+      "exact": 0,
+      "total": 4
+    },
+    "liquid_concentration": {
+      "exact": 4,
+      "total": 5
+    }
+  },
+  "product_audit_version": "transcript-product-v1",
+  "reliability_head_sha256": "50505855be2a0a91bc0b99cc810aeeb1fdd26d5d04e58d1dfc1710f1b7c52e4d",
+  "absent_field_hallucinations": 0,
+  "errors": [
+    {
+      "case_id": "commons_cbc054303c",
+      "error": "structuring failed: no JSON object in model reply"
+    }
+  ],
+  "generated_at": "2026-10-04T14:07:29.407415+00:00",
+  "limitations": [
+    "Convenience sample of public medicine photographs; no paired prescriptions or patient facts",
+    "Single visual annotator; no pharmacist adjudication",
+    "Includes tablets and non-English packaging",
+    "Multiple images by the same photographers; not statistically independent",
+    "No clinical safety/verdict claims"
+  ]
+}

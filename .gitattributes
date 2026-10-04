@@ -3,3 +3,7 @@
 *.jpg binary
 *.ttf binary
 *.pdf binary
+# Keep the frozen model and benchmark manifest byte-identical across Windows/Linux checkouts.
+models/reliability/head.txt -text whitespace=cr-at-eol
+models/reliability/head.json -text whitespace=cr-at-eol
+benchmarks/artifacts/review-v4/cases.jsonl -text whitespace=cr-at-eol

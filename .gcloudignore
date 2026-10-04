@@ -1,0 +1,12 @@
+.gcloudignore
+.git
+.gitignore
+#!include:.gitignore
+.dockerignore
+.pytest_cache
+.hypothesis
+**/__pycache__
+docs
+tests
+tools
+web/dist

@@ -21,7 +21,7 @@ COPY assets ./assets
 COPY benchmarks ./benchmarks
 COPY --from=web /web/dist ./web/dist
 # Warm the OCR models into the image so the first request does not download them.
-RUN python -c "from rapidocr_onnxruntime import RapidOCR; RapidOCR()"
+RUN python -c "from rxlint.perception.grounding import _engine; _engine()"
 RUN useradd -m rxlint && mkdir -p /data && chown rxlint /data
 USER rxlint
 EXPOSE 8000

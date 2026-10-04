@@ -8,6 +8,18 @@ patient's facts and a versioned rule pack, and returns one of four verdicts: `PA
 arithmetic, and the rule and source quote that fired. A separate live plane asks whether a
 regulator has published anything since the rule pack was frozen.
 
+**Latest results:** label-strength accuracy rose from **80.0% to 93.3%**, and confirmation
+requests fell from **61 to 54 cases** on the same 120-case test fold. The revised gate accepted
+**zero incorrect high-risk readings** across 677 readings, with **95.0% exact verdicts after
+simulated confirmation** and **9/10 overwritten doses held for review**.
+
+PP-OCRv6, focused crop re-reads and improved English/French extraction make the reader stronger;
+batch confirmation resolves reviewed fields together, and FHIR R4 import supplies supported
+prescriptions directly with source evidence.
+
+[Try the app](https://rxlint-284853036406.europe-west1.run.app) ·
+[Submission story](docs/submission.md) · [Results and reproduction](#benchmark)
+
 On Nebius Token Factory, a vision model transcribes each photo line by line and NVIDIA Nemotron 3
 Nano turns the transcript into fields, citing the line every value was copied from. A deterministic
 kernel decides. Nemotron 3 Ultra picks the smallest clarification and explains established findings
@@ -54,29 +66,30 @@ their sources, so a formulary update ships as a new hashed rule pack.
 ```text
 PLANE A: VERIFIED RULES
 
-prescription photo  ─┐   vision transcription ─► Nemotron 3 Nano
-medicine photo      ─┼─► (or Nemotron 3 Nano Omni)   structures, cites lines ─► OCR corroboration ─► RxLint grammar ─► kernel ─► verdict
-typed / spoken facts ┘                                                          + reliability head     (units, decimals)   (59 rules)
+prescription + bottle photos -> vision transcript -> Nemotron 3 Nano cited fields
+                                                     | PP-OCRv6 + reliability gate
+fixed FHIR R4 prescription -> supplied facts ---------+
+typed / spoken patient context ----------------------+-> strict grammar -> 59-rule kernel -> verdict
 
-                                                          Nemotron 3 Ultra ◄── CANNOT_VERIFY: smallest clarification
-                                                          Nemotron 3 Ultra ◄── explanation around locked values (EN FR AR; SW phrase table)
-                                                          Nemotron 3 Nano  ◄── audits each explanation against the verified result
+Unresolved facts -> Ultra clarification + batch confirmation -> kernel re-run, no new inference
+Verified findings -> Ultra explanation around locked values -> Nano audit (EN/FR/AR; SW phrases)
 
 PLANE B: LIVE INTELLIGENCE
 
-identified product + lot + country ─► Tavily Search (allowlisted regulator domains) ─► Extract shortlist ─► lot matching
-                                      openFDA enforcement feed (US)                                          ─► LIVE_REVIEW / LIVE_CLEAR / LIVE_UNAVAILABLE
-rule sources ─► Tavily Extract + Search on who.int ─► newer guidance ─► RULE_SOURCE_DRIFT (the rule never changes at runtime)
+product + lot + country -> allowlisted Tavily Search + Extract -> deterministic lot matching
+                          openFDA enforcement feed (US)       -> LIVE_REVIEW / CLEAR / UNAVAILABLE
+rule sources -> allowlisted Tavily Search + Extract -> review newer guidance; rules stay frozen
 ```
 
 | Stage | What runs | Model call |
 |---|---|---|
 | Photo checks | Blur, glare, exposure, resolution | none |
 | Perception | A vision model transcribes the photo; Nemotron 3 Nano assigns lines to fields and every value must be a verbatim copy of its cited lines. With Nemotron 3 Nano Omni available, it reads the photo in one call | `vision` + `structure` per image, or `omni` |
-| Corroboration | An independent OCR reader must agree on every high-risk number (policy P-PERC-02), and a calibrated reliability head must score it as reliable (P-PERC-03); otherwise the pharmacist confirms it | none |
+| Corroboration | PP-OCRv6 independently checks high-risk photo readings (P-PERC-02); a validation-calibrated reliability head adds a second gate (P-PERC-03). Focused re-reads can recover disputed text only with independent OCR agreement | local OCR; at most three crop `vision` calls per image |
+| Structured prescription | Fixed FHIR R4 MedicationRequest quantities and schedules enter as supplied facts with JSON-path evidence; the bottle still goes through photo verification | none |
 | Normalisation | Strict unit grammar in `Decimal`; decimal commas, `q8h`, `BID`, `2 fois par jour`; household measures and alternatives fail closed | none |
 | Verification | 59 rules from WHO AWaRe Table 50.1, the AWaRe infection chapters and FDA prescribing information | none |
-| Clarification | Nemotron 3 Ultra picks one action from a closed list; numbers it did not see are rejected | `ultra`, only when blocked |
+| Clarification | Nemotron 3 Ultra picks one action from a closed list; all unresolved fields can be confirmed in one card and the kernel re-runs | `ultra` initially when blocked; none after confirmation |
 | Explanation | Nemotron 3 Ultra writes around placeholder tokens that carry values with their units; any free digit, or a claim Nemotron 3 Nano's audit finds contradicting the result, sends the text back to a deterministic template. Model text is shown only in languages where the audit caught every planted error (`tools/audit_canary.py`) | `ultra` + `structure`, on request |
 | Live plane | Tavily Search + Extract on the country's regulators, openFDA enforcement for the US | Tavily |
 
@@ -200,6 +213,16 @@ uvicorn rxlint.api.app:app --port 8000
 Open http://127.0.0.1:8000. Without keys, the demo library runs from recorded model responses and
 the live plane reports `LIVE_UNAVAILABLE`.
 
+### Structured prescriptions
+
+Choose **FHIR prescription** to import a fixed FHIR R4 MedicationRequest instead of photographing
+the order. Try [the sample JSON](fixtures/fhir/combination_suspension.json), then attach the bottle
+photo and enter patient context. JSON-path provenance is preserved. Unsupported conditional orders
+are rejected; import does not authenticate the prescription. See [supported input](fixtures/fhir/README.md).
+`RXLINT_PERCEPTION=ensemble` also compares the two-stage and Omni readers when an Omni endpoint is
+configured; disagreement stays unresolved. This optional path has regression tests but no new
+runtime benchmark because an Omni endpoint was unavailable.
+
 ### Docker
 
 ```bash
@@ -245,23 +268,66 @@ confirmation, exact verdicts after confirmation, and the false-safe rate (cases 
 that come back `PASS`). Results are written to `benchmarks/results/summary.json` and shown on the
 Benchmark page.
 
-Results on the held-out test fold (120 cases: 40 clean, 60 with a rule violation, 20 with a missing
+Results after the external review, on the same held-out test fold (120 cases: 40 clean, 60 with a rule violation, 20 with a missing
 or overwritten fact), read by DeepSeek V4.1 Flash and Nemotron 3 Nano on Token Factory:
+
+![Measured improvements on the original 120-case test fold](docs/img/benchmark_improvements.png)
+
+The upgraded reader uses PP-OCRv6, focused crop recovery and stricter field validation. The
+reliability head was retrained on the original training fold and frozen after validation-only
+selection; the test fold was used for reporting.
 
 ![RxLintBench held-out results](docs/img/benchmark.png)
 
 | System | False-safe | Exact verdict after confirmation | Clean PASS after confirmation | Overwritten dose held |
 |---|---|---|---|---|
-| Readings trusted as read | 0/80 | 90.0% | 97.5% | 2/10 |
-| RxLint: OCR corroboration + reliability head | **0/80** | **95.8%** | **100%** | **8/10** |
-| OCR + regex + the same kernel | 1/80 | 87.5% | 75.0% | 8/10 |
+| Readings trusted as read | 2/80 | 85.8% | 87.5% | 3/10 |
+| RxLint: OCR corroboration + reliability head | **0/80** | **95.0%** | **95.0%** | **9/10** |
+| OCR + regex + the same kernel | 0/80 | 92.5% | 90.0% | 6/10 |
 
-On the 566 high-risk readings in the test fold (42 of them wrong), OCR corroboration alone let 5
-wrong readings through; with the reliability head as a second gate, 2 got through. The head was
-trained on the train fold and its threshold set on the validation fold, so the test fold measures
-an unseen handwriting font, four unseen perturbation families and an unseen product.
+On 677 extracted high-risk readings in the test fold (69 wrong), OCR corroboration alone let 9
+wrong readings through; the reliability head let **0** through, with AUC **0.9805**. The head was
+frozen before test extraction. Before/after results are measured on the original 120 cases:
+
+| Metric | Before review | After fixes |
+|---|---|---|
+| Cases asking for confirmation | 61/120 (50.83%) | 54/120 (45.0%) |
+| Wrong high-risk readings past the gate | 2 | 0 |
+| Overwritten doses held after simulated review | 8/10 | 9/10 |
+| Exact dose reading | 70.0% | 82.5% |
+| Exact patient-weight reading | 72.5% | 85.0% |
+| Exact label-strength reading | 80.0% | 93.3% |
+| Exact expiry reading | 75.0% | 84.2% |
+| Exact verdict after simulated confirmation | 115/120 (95.83%) | 114/120 (95.0%) |
+| Clean PASS after simulated confirmation | 40/40 | 38/40 |
+
+The revised workflow needs **seven fewer confirmation requests (11.5% fewer cases requiring
+review)** while rejecting every incorrect high-risk reading in this sample. Final verdict
+accuracy is one case lower than the previous version, as shown above; confirmation uses written
+ground truth, and this rendered benchmark is not clinical validation.
+See the [audit](docs/implementation_audit.md), [comparison](benchmarks/results/review_comparison.json)
+and [frozen reproduction artifacts](benchmarks/artifacts/review-v4/README.md).
+
+### Public medicine photograph pilot
+
+The repository also includes **12 openly licensed medicine photographs**, with attribution and
+source hashes: ten packages and two bare-pill controls. The pilot reads **8/10 identities**,
+**4/5 liquid concentrations** and **5/6 volumes** exactly, with **zero incorrect evaluated fields
+accepted** by the parser and gates. Across liquid and solid forms, strength accuracy is **4/9**
+(solid strength **0/4**); one failed control read is included.
+
+This single-annotator development pilot measures perception, with paired prescriptions and
+independent pharmacist assessment planned for the next validation stage. Per-file authors,
+licenses, source links and hashes are in
+[the dataset](benchmarks/real_world/README.md); the [results](benchmarks/results/real_world/review-v4.json)
+are shown separately on the Benchmark page. Genuine prescription word crops are freely available
+from [RxHandBD](https://data.mendeley.com/datasets/dsb5r6vskg/3); complete paired dispensing cases
+still need collection and independent annotation.
 
 ### Other readers
+
+These are historical experiments using the previous prompts and reliability head. They do not
+measure the revised default configuration above.
 
 `tools/compare_readers.py` scores readers on the test cases each run finished, case for case.
 
@@ -283,7 +349,8 @@ head trained on the Token Factory reader's readings.
 pytest
 ```
 
-The suite covers the unit grammar (including property tests), boundary tests for every rule
+**251 tests pass**, and all **ten demo cases** return their expected verdict. The suite covers
+the unit grammar (including property tests), boundary tests for every rule
 family, golden demo cases, metamorphic invariants (unit equivalence, asset renaming, uncertainty
 never producing `PASS`), verbatim source quotes, perception grounding, explanation integrity, the
 live matcher with an allowlist, and the HTTP API including the confirmation flow.
@@ -293,7 +360,8 @@ live matcher with an allowlist, and the HTTP API including the confirmation flow
 
 ```text
 src/rxlint/core/        deterministic kernel: units, evidence graph, snapshot, rule pack, engine
-src/rxlint/perception/  Nano Omni extraction, OCR grounding, reliability head, photo checks
+src/rxlint/perception/  cited extraction, PP-OCRv6, crop recovery, reliability head, optional ensemble
+src/rxlint/fhir.py      fixed FHIR R4 prescription import with JSON-path provenance
 src/rxlint/reasoning/   Ultra clarification and explanation, audit, phrase table in four languages
 src/rxlint/live/        regulator policies, Tavily client, surveillance, openFDA feed, drift
 src/rxlint/api/         FastAPI app and report rendering
@@ -307,3 +375,4 @@ infra/nebius/           Serverless Endpoint deployment
 ## License
 
 Apache-2.0. See [LICENSE](LICENSE). WHO AWaRe excerpts in the rule pack are CC BY-NC-SA 3.0 IGO.
+Public medicine photographs retain their [per-file licenses and attribution](benchmarks/real_world/README.md).

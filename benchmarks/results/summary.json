@@ -1,29 +1,90 @@
 {
  "status": "ok",
- "generated_at": "2026-09-19T13:21:46+00:00",
+ "generated_at": "2026-10-04T14:11:48+00:00",
  "headline": [
   {
-   "label": "ambiguous handwritten entries held for confirmation",
-   "value": "8/10",
-   "note": "2/10 when readings are trusted as read"
+   "label": "incorrect high-risk readings accepted",
+   "value": "0",
+   "note": "677 readings evaluated; 9 wrong accepted with OCR alone"
   },
   {
-   "label": "exact verdict after pharmacist confirmation",
-   "value": "95.8%",
-   "note": "90.0% when readings are trusted as read"
+   "label": "cases needing confirmation",
+   "value": "45.0%",
+   "note": "50.83% previously; 7 fewer cases on the same 120-case fold"
   },
   {
-   "label": "wrong high-risk readings past the gate",
-   "value": "2/566",
-   "note": "5 with OCR corroboration alone"
+   "label": "exact verdict after simulated confirmation",
+   "value": "95.0%",
+   "note": "85.8% when readings are trusted as read"
   },
   {
-   "label": "false-safe cases, RxLint (test fold)",
-   "value": "0/80",
-   "note": "error cases returned as PASS; 0/80 when readings are trusted as read"
+   "label": "overwritten doses held for confirmation",
+   "value": "9/10",
+   "note": "3/10 when readings are trusted as read"
   }
  ],
  "tables": [
+  {
+   "title": "Measured improvements on the original 120-case test fold",
+   "note": "same cases; head selected on validation and frozen before test extraction",
+   "columns": [
+    "Metric",
+    "Previous version",
+    "Current version"
+   ],
+   "rows": [
+    {
+     "Metric": "Cases needing confirmation",
+     "Previous version": "61/120 (50.83%)",
+     "Current version": "54/120 (45.0%)"
+    },
+    {
+     "Metric": "Incorrect high-risk readings accepted",
+     "Previous version": "2",
+     "Current version": "0"
+    },
+    {
+     "Metric": "Overwritten doses held",
+     "Previous version": "8/10",
+     "Current version": "9/10"
+    },
+    {
+     "Metric": "Exact dose",
+     "Previous version": "70.0%",
+     "Current version": "82.5%"
+    },
+    {
+     "Metric": "Exact patient weight",
+     "Previous version": "72.5%",
+     "Current version": "85.0%"
+    },
+    {
+     "Metric": "Exact label strength",
+     "Previous version": "80.0%",
+     "Current version": "93.3%"
+    },
+    {
+     "Metric": "Exact expiry",
+     "Previous version": "75.0%",
+     "Current version": "84.2%"
+    },
+    {
+     "Metric": "Exact verdict after simulated confirmation",
+     "Previous version": "115/120 (95.83%)",
+     "Current version": "114/120 (95.0%)"
+    },
+    {
+     "Metric": "Clean PASS after simulated confirmation",
+     "Previous version": "40/40",
+     "Current version": "38/40"
+    },
+    {
+     "Metric": "False-safe before / after confirmation",
+     "Previous version": "0/80 / 0/80",
+     "Current version": "0/80 / 0/80"
+    }
+   ]
+  },
   {
    "title": "End-to-end verdicts, test fold (120 cases)",
    "note": "unseen handwriting font, perturbations and product",
@@ -50,43 +111,43 @@
     },
     {
      "System": "DeepSeek V4.1 Flash + Nemotron 3 Nano readings trusted as read",
-     "False-safe": "0/80",
-     "False-safe after confirmation": "0/80",
-     "Review recall": 0.7333,
-     "Exact verdict": 0.675,
-     "Clean PASS": 0.55,
-     "Asked to confirm": 0.3917,
-     "Exact after confirmation": 0.9
+     "False-safe": "2/80",
+     "False-safe after confirmation": "4/80",
+     "Review recall": 0.8667,
+     "Exact verdict": 0.775,
+     "Clean PASS": 0.7,
+     "Asked to confirm": 0.2333,
+     "Exact after confirmation": 0.8583
     },
     {
      "System": "RxLint: reader + OCR corroboration",
-     "False-safe": "0/80",
-     "False-safe after confirmation": "0/80",
-     "Review recall": 0.65,
-     "Exact verdict": 0.5917,
-     "Clean PASS": 0.375,
-     "Asked to confirm": 0.5083,
-     "Exact after confirmation": 0.9583
+     "False-safe": "1/80",
+     "False-safe after confirmation": "1/80",
+     "Review recall": 0.6833,
+     "Exact verdict": 0.6833,
+     "Clean PASS": 0.6,
+     "Asked to confirm": 0.4,
+     "Exact after confirmation": 0.9417
     },
     {
      "System": "RxLint: + reliability head",
      "False-safe": "0/80",
      "False-safe after confirmation": "0/80",
-     "Review recall": 0.65,
-     "Exact verdict": 0.5917,
-     "Clean PASS": 0.375,
-     "Asked to confirm": 0.5083,
-     "Exact after confirmation": 0.9583
+     "Review recall": 0.6833,
+     "Exact verdict": 0.65,
+     "Clean PASS": 0.475,
+     "Asked to confirm": 0.45,
+     "Exact after confirmation": 0.95
     },
     {
      "System": "OCR + regex + same kernel",
-     "False-safe": "1/80",
+     "False-safe": "0/80",
      "False-safe after confirmation": "1/80",
      "Review recall": 0.6,
-     "Exact verdict": 0.5583,
-     "Clean PASS": 0.375,
-     "Asked to confirm": 0.4833,
-     "Exact after confirmation": 0.875
+     "Exact verdict": 0.6583,
+     "Clean PASS": 0.625,
+     "Asked to confirm": 0.4583,
+     "Exact after confirmation": 0.925
     }
    ]
   },
@@ -99,73 +160,73 @@
    "rows": [
     {
      "Field": "dispensed.drug",
-     "Exact": 0.8167
+     "Exact": 0.9833
     },
     {
      "Field": "dispensed.expiry",
-     "Exact": 0.75
+     "Exact": 0.8417
     },
     {
      "Field": "dispensed.gtin",
-     "Exact": 0.7333
+     "Exact": 0.6833
     },
     {
      "Field": "dispensed.lot",
-     "Exact": 0.7583
+     "Exact": 0.8417
     },
     {
      "Field": "dispensed.manufacturer",
-     "Exact": 0.7917
+     "Exact": 0.85
     },
     {
      "Field": "dispensed.strength",
-     "Exact": 0.8
+     "Exact": 0.9333
     },
     {
      "Field": "dispensed.volume",
-     "Exact": 0.7297
+     "Exact": 0.7818
     },
     {
      "Field": "rx.allergies",
-     "Exact": 0.8
+     "Exact": 0.95
     },
     {
      "Field": "rx.dose",
-     "Exact": 0.7
+     "Exact": 0.825
     },
     {
      "Field": "rx.drug",
-     "Exact": 0.775
+     "Exact": 0.9417
     },
     {
      "Field": "rx.duration",
-     "Exact": 0.8
+     "Exact": 0.9667
     },
     {
      "Field": "rx.frequency",
-     "Exact": 0.7833
+     "Exact": 0.9583
     },
     {
      "Field": "rx.indication",
-     "Exact": 0.8021
+     "Exact": 0.9271
     },
     {
      "Field": "rx.patient_age",
-     "Exact": 0.7667
+     "Exact": 0.925
     },
     {
      "Field": "rx.patient_weight",
-     "Exact": 0.725
+     "Exact": 0.85
     },
     {
      "Field": "rx.strength",
-     "Exact": 0.7818
+     "Exact": 0.9455
     }
    ]
   },
   {
    "title": "Reliability head on high-risk readings",
-   "note": "threshold 0.976 set on validation; the head only adds confirmations and never waives OCR corroboration",
+   "note": "threshold 0.900 set on validation; the head only adds confirmations and never waives OCR corroboration",
    "columns": [
     "Fold",
     "Readings",
@@ -180,30 +241,30 @@
    "rows": [
     {
      "Fold": "val",
-     "Readings": 315,
+     "Readings": 338,
      "Wrong readings": 18,
-     "Accepted, OCR rule": 0.7841,
-     "False accepts, OCR rule": 4,
-     "Accepted, OCR rule + head": 0.7492,
-     "False accepts, OCR rule + head": 1,
-     "AUC head": 0.9787,
-     "AUC head on corroborated": 0.964,
+     "Accepted, OCR rule": 0.932,
+     "False accepts, OCR rule": 8,
+     "Accepted, OCR rule + head": 0.855,
+     "False accepts, OCR rule + head": 0,
+     "AUC head": 0.9848,
+     "AUC head on corroborated": 0.9937,
      "AUC model confidence": 0.5
     },
     {
      "Fold": "test",
-     "Readings": 566,
-     "Wrong readings": 42,
-     "Accepted, OCR rule": 0.8092,
-     "False accepts, OCR rule": 5,
-     "Accepted, OCR rule + head": 0.788,
-     "False accepts, OCR rule + head": 2,
-     "AUC head": 0.9508,
-     "AUC head on corroborated": 0.7987,
+     "Readings": 677,
+     "Wrong readings": 69,
+     "Accepted, OCR rule": 0.8272,
+     "False accepts, OCR rule": 9,
+     "Accepted, OCR rule + head": 0.7888,
+     "False accepts, OCR rule + head": 0,
+     "AUC head": 0.9805,
+     "AUC head on corroborated": 0.9998,
      "AUC model confidence": 0.5
     }
    ]
   }
  ],
- "description": "Run tf-deepseek-nemotron-nano: 330 cases. Perception by DeepSeek V4.1 Flash + Nemotron 3 Nano; every verdict by the deterministic kernel."
+ "description": "Run tf-review-v4-nano: 330 cases. Perception by DeepSeek V4.1 Flash + Nemotron 3 Nano; every verdict by the deterministic kernel."
 }

@@ -45,7 +45,7 @@ with sync_playwright() as p:
         page.screenshot(path=str(out / f"case_{cid}_live.png"), full_page=True)
         if cid == "D":
             page.locator(".confirm .quick button").first.click()
-            page.get_by_role("button", name="Confirm and re-check").click()
+            page.get_by_role("button", name="Confirm reviewed values and re-check").click()
             page.wait_for_timeout(1500)
             page.screenshot(path=str(out / f"case_{cid}_confirmed.png"), full_page=True)
             print(cid, "after confirmation ->", page.locator(".verdict .state").inner_text())

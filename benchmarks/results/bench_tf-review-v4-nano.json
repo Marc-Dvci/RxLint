@@ -1,0 +1,537 @@
+{
+ "run": "tf-review-v4-nano",
+ "cases": 330,
+ "scores": {
+  "train": {
+   "oracle": {
+    "cases": 150,
+    "false_safe": "0/100",
+    "false_safe_rate": 0.0,
+    "false_safe_after_confirmation": "0/100",
+    "review_recall": 1.0,
+    "review_recall_after_confirmation": 1.0,
+    "exact_verdict": 1.0,
+    "exact_verdict_after_confirmation": 1.0,
+    "clean_pass_rate": 1.0,
+    "clean_pass_after_confirmation": 1.0,
+    "confirmation_requests": 0.16,
+    "ambiguous_blocked": "12/12"
+   },
+   "omni_trust": {
+    "cases": 150,
+    "false_safe": "4/100",
+    "false_safe_rate": 0.04,
+    "false_safe_after_confirmation": "4/100",
+    "review_recall": 0.9342,
+    "review_recall_after_confirmation": 1.0,
+    "exact_verdict": 0.7933,
+    "exact_verdict_after_confirmation": 0.9067,
+    "clean_pass_rate": 0.64,
+    "clean_pass_after_confirmation": 0.9,
+    "confirmation_requests": 0.2267,
+    "ambiguous_blocked": "4/12"
+   },
+   "rxlint_strict": {
+    "cases": 150,
+    "false_safe": "2/100",
+    "false_safe_rate": 0.02,
+    "false_safe_after_confirmation": "4/100",
+    "review_recall": 0.7368,
+    "review_recall_after_confirmation": 1.0,
+    "exact_verdict": 0.66,
+    "exact_verdict_after_confirmation": 0.9333,
+    "clean_pass_rate": 0.46,
+    "clean_pass_after_confirmation": 0.92,
+    "confirmation_requests": 0.42,
+    "ambiguous_blocked": "7/12"
+   },
+   "rxlint_head": {
+    "cases": 150,
+    "false_safe": "0/100",
+    "false_safe_rate": 0.0,
+    "false_safe_after_confirmation": "0/100",
+    "review_recall": 0.7237,
+    "review_recall_after_confirmation": 1.0,
+    "exact_verdict": 0.6667,
+    "exact_verdict_after_confirmation": 0.9667,
+    "clean_pass_rate": 0.44,
+    "clean_pass_after_confirmation": 0.92,
+    "confirmation_requests": 0.4533,
+    "ambiguous_blocked": "12/12"
+   },
+   "ocr_rules": {
+    "cases": 150,
+    "false_safe": "0/100",
+    "false_safe_rate": 0.0,
+    "false_safe_after_confirmation": "2/100",
+    "review_recall": 0.7632,
+    "review_recall_after_confirmation": 1.0,
+    "exact_verdict": 0.66,
+    "exact_verdict_after_confirmation": 0.88,
+    "clean_pass_rate": 0.4,
+    "clean_pass_after_confirmation": 0.78,
+    "confirmation_requests": 0.4067,
+    "ambiguous_blocked": "8/12"
+   }
+  },
+  "val": {
+   "oracle": {
+    "cases": 60,
+    "false_safe": "0/40",
+    "false_safe_rate": 0.0,
+    "false_safe_after_confirmation": "0/40",
+    "review_recall": 1.0,
+    "review_recall_after_confirmation": 1.0,
+    "exact_verdict": 1.0,
+    "exact_verdict_after_confirmation": 1.0,
+    "clean_pass_rate": 1.0,
+    "clean_pass_after_confirmation": 1.0,
+    "confirmation_requests": 0.1667,
+    "ambiguous_blocked": "5/5"
+   },
+   "omni_trust": {
+    "cases": 60,
+    "false_safe": "0/40",
+    "false_safe_rate": 0.0,
+    "false_safe_after_confirmation": "0/40",
+    "review_recall": 0.8667,
+    "review_recall_after_confirmation": 0.9667,
+    "exact_verdict": 0.7833,
+    "exact_verdict_after_confirmation": 0.9,
+    "clean_pass_rate": 0.65,
+    "clean_pass_after_confirmation": 0.9,
+    "confirmation_requests": 0.2833,
+    "ambiguous_blocked": "3/5"
+   },
+   "rxlint_strict": {
+    "cases": 60,
+    "false_safe": "0/40",
+    "false_safe_rate": 0.0,
+    "false_safe_after_confirmation": "0/40",
+    "review_recall": 0.7,
+    "review_recall_after_confirmation": 0.9667,
+    "exact_verdict": 0.6667,
+    "exact_verdict_after_confirmation": 0.9333,
+    "clean_pass_rate": 0.5,
+    "clean_pass_after_confirmation": 0.9,
+    "confirmation_requests": 0.4333,
+    "ambiguous_blocked": "4/5"
+   },
+   "rxlint_head": {
+    "cases": 60,
+    "false_safe": "0/40",
+    "false_safe_rate": 0.0,
+    "false_safe_after_confirmation": "0/40",
+    "review_recall": 0.7,
+    "review_recall_after_confirmation": 0.9667,
+    "exact_verdict": 0.6667,
+    "exact_verdict_after_confirmation": 0.9667,
+    "clean_pass_rate": 0.45,
+    "clean_pass_after_confirmation": 0.95,
+    "confirmation_requests": 0.4667,
+    "ambiguous_blocked": "5/5"
+   },
+   "ocr_rules": {
+    "cases": 60,
+    "false_safe": "0/40",
+    "false_safe_rate": 0.0,
+    "false_safe_after_confirmation": "0/40",
+    "review_recall": 0.6667,
+    "review_recall_after_confirmation": 1.0,
+    "exact_verdict": 0.6,
+    "exact_verdict_after_confirmation": 0.8667,
+    "clean_pass_rate": 0.45,
+    "clean_pass_after_confirmation": 0.8,
+    "confirmation_requests": 0.4,
+    "ambiguous_blocked": "3/5"
+   }
+  },
+  "test": {
+   "oracle": {
+    "cases": 120,
+    "false_safe": "0/80",
+    "false_safe_rate": 0.0,
+    "false_safe_after_confirmation": "0/80",
+    "review_recall": 1.0,
+    "review_recall_after_confirmation": 1.0,
+    "exact_verdict": 1.0,
+    "exact_verdict_after_confirmation": 1.0,
+    "clean_pass_rate": 1.0,
+    "clean_pass_after_confirmation": 1.0,
+    "confirmation_requests": 0.1667,
+    "ambiguous_blocked": "10/10"
+   },
+   "omni_trust": {
+    "cases": 120,
+    "false_safe": "2/80",
+    "false_safe_rate": 0.025,
+    "false_safe_after_confirmation": "4/80",
+    "review_recall": 0.8667,
+    "review_recall_after_confirmation": 0.95,
+    "exact_verdict": 0.775,
+    "exact_verdict_after_confirmation": 0.8583,
+    "clean_pass_rate": 0.7,
+    "clean_pass_after_confirmation": 0.875,
+    "confirmation_requests": 0.2333,
+    "ambiguous_blocked": "3/10"
+   },
+   "rxlint_strict": {
+    "cases": 120,
+    "false_safe": "1/80",
+    "false_safe_rate": 0.0125,
+    "false_safe_after_confirmation": "1/80",
+    "review_recall": 0.6833,
+    "review_recall_after_confirmation": 0.9667,
+    "exact_verdict": 0.6833,
+    "exact_verdict_after_confirmation": 0.9417,
+    "clean_pass_rate": 0.6,
+    "clean_pass_after_confirmation": 0.95,
+    "confirmation_requests": 0.4,
+    "ambiguous_blocked": "8/10"
+   },
+   "rxlint_head": {
+    "cases": 120,
+    "false_safe": "0/80",
+    "false_safe_rate": 0.0,
+    "false_safe_after_confirmation": "0/80",
+    "review_recall": 0.6833,
+    "review_recall_after_confirmation": 0.9667,
+    "exact_verdict": 0.65,
+    "exact_verdict_after_confirmation": 0.95,
+    "clean_pass_rate": 0.475,
+    "clean_pass_after_confirmation": 0.95,
+    "confirmation_requests": 0.45,
+    "ambiguous_blocked": "9/10"
+   },
+   "ocr_rules": {
+    "cases": 120,
+    "false_safe": "0/80",
+    "false_safe_rate": 0.0,
+    "false_safe_after_confirmation": "1/80",
+    "review_recall": 0.6,
+    "review_recall_after_confirmation": 1.0,
+    "exact_verdict": 0.6583,
+    "exact_verdict_after_confirmation": 0.925,
+    "clean_pass_rate": 0.625,
+    "clean_pass_after_confirmation": 0.9,
+    "confirmation_requests": 0.4583,
+    "ambiguous_blocked": "6/10"
+   }
+  },
+  "all": {
+   "oracle": {
+    "cases": 330,
+    "false_safe": "0/220",
+    "false_safe_rate": 0.0,
+    "false_safe_after_confirmation": "0/220",
+    "review_recall": 1.0,
+    "review_recall_after_confirmation": 1.0,
+    "exact_verdict": 1.0,
+    "exact_verdict_after_confirmation": 1.0,
+    "clean_pass_rate": 1.0,
+    "clean_pass_after_confirmation": 1.0,
+    "confirmation_requests": 0.1636,
+    "ambiguous_blocked": "27/27"
+   },
+   "omni_trust": {
+    "cases": 330,
+    "false_safe": "6/220",
+    "false_safe_rate": 0.0273,
+    "false_safe_after_confirmation": "8/220",
+    "review_recall": 0.8976,
+    "review_recall_after_confirmation": 0.9759,
+    "exact_verdict": 0.7848,
+    "exact_verdict_after_confirmation": 0.8879,
+    "clean_pass_rate": 0.6636,
+    "clean_pass_after_confirmation": 0.8909,
+    "confirmation_requests": 0.2394,
+    "ambiguous_blocked": "10/27"
+   },
+   "rxlint_strict": {
+    "cases": 330,
+    "false_safe": "3/220",
+    "false_safe_rate": 0.0136,
+    "false_safe_after_confirmation": "5/220",
+    "review_recall": 0.7108,
+    "review_recall_after_confirmation": 0.9819,
+    "exact_verdict": 0.6697,
+    "exact_verdict_after_confirmation": 0.9364,
+    "clean_pass_rate": 0.5182,
+    "clean_pass_after_confirmation": 0.9273,
+    "confirmation_requests": 0.4152,
+    "ambiguous_blocked": "19/27"
+   },
+   "rxlint_head": {
+    "cases": 330,
+    "false_safe": "0/220",
+    "false_safe_rate": 0.0,
+    "false_safe_after_confirmation": "0/220",
+    "review_recall": 0.7048,
+    "review_recall_after_confirmation": 0.9819,
+    "exact_verdict": 0.6606,
+    "exact_verdict_after_confirmation": 0.9606,
+    "clean_pass_rate": 0.4545,
+    "clean_pass_after_confirmation": 0.9364,
+    "confirmation_requests": 0.4545,
+    "ambiguous_blocked": "26/27"
+   },
+   "ocr_rules": {
+    "cases": 330,
+    "false_safe": "0/220",
+    "false_safe_rate": 0.0,
+    "false_safe_after_confirmation": "3/220",
+    "review_recall": 0.6867,
+    "review_recall_after_confirmation": 1.0,
+    "exact_verdict": 0.6485,
+    "exact_verdict_after_confirmation": 0.8939,
+    "clean_pass_rate": 0.4909,
+    "clean_pass_after_confirmation": 0.8273,
+    "confirmation_requests": 0.4242,
+    "ambiguous_blocked": "17/27"
+   }
+  }
+ },
+ "perception": {
+  "test": {
+   "field_exact": {
+    "dispensed.drug": 0.9833,
+    "dispensed.expiry": 0.8417,
+    "dispensed.gtin": 0.6833,
+    "dispensed.lot": 0.8417,
+    "dispensed.manufacturer": 0.85,
+    "dispensed.strength": 0.9333,
+    "dispensed.volume": 0.7818,
+    "rx.allergies": 0.95,
+    "rx.dose": 0.825,
+    "rx.drug": 0.9417,
+    "rx.duration": 0.9667,
+    "rx.frequency": 0.9583,
+    "rx.indication": 0.9271,
+    "rx.patient_age": 0.925,
+    "rx.patient_weight": 0.85,
+    "rx.strength": 0.9455
+   },
+   "field_counts": {
+    "dispensed.drug": {
+     "exact": 118,
+     "total": 120
+    },
+    "dispensed.expiry": {
+     "exact": 101,
+     "total": 120
+    },
+    "dispensed.gtin": {
+     "exact": 82,
+     "total": 120
+    },
+    "dispensed.lot": {
+     "exact": 101,
+     "total": 120
+    },
+    "dispensed.manufacturer": {
+     "exact": 102,
+     "total": 120
+    },
+    "dispensed.strength": {
+     "exact": 112,
+     "total": 120
+    },
+    "dispensed.volume": {
+     "exact": 86,
+     "total": 110
+    },
+    "rx.allergies": {
+     "exact": 114,
+     "total": 120
+    },
+    "rx.dose": {
+     "exact": 99,
+     "total": 120
+    },
+    "rx.drug": {
+     "exact": 113,
+     "total": 120
+    },
+    "rx.duration": {
+     "exact": 116,
+     "total": 120
+    },
+    "rx.frequency": {
+     "exact": 115,
+     "total": 120
+    },
+    "rx.indication": {
+     "exact": 89,
+     "total": 96
+    },
+    "rx.patient_age": {
+     "exact": 111,
+     "total": 120
+    },
+    "rx.patient_weight": {
+     "exact": 102,
+     "total": 120
+    },
+    "rx.strength": {
+     "exact": 104,
+     "total": 110
+    }
+   },
+   "readings": 1846,
+   "fields_not_in_gold": 8
+  },
+  "all": {
+   "field_exact": {
+    "dispensed.drug": 0.9727,
+    "dispensed.expiry": 0.8909,
+    "dispensed.gtin": 0.597,
+    "dispensed.lot": 0.8697,
+    "dispensed.manufacturer": 0.8909,
+    "dispensed.strength": 0.9485,
+    "dispensed.volume": 0.8874,
+    "rx.allergies": 0.9455,
+    "rx.dose": 0.8152,
+    "rx.drug": 0.9636,
+    "rx.duration": 0.8909,
+    "rx.frequency": 0.9242,
+    "rx.indication": 0.9211,
+    "rx.patient_age": 0.9303,
+    "rx.patient_weight": 0.8909,
+    "rx.strength": 0.9406
+   },
+   "field_counts": {
+    "dispensed.drug": {
+     "exact": 321,
+     "total": 330
+    },
+    "dispensed.expiry": {
+     "exact": 294,
+     "total": 330
+    },
+    "dispensed.gtin": {
+     "exact": 197,
+     "total": 330
+    },
+    "dispensed.lot": {
+     "exact": 287,
+     "total": 330
+    },
+    "dispensed.manufacturer": {
+     "exact": 294,
+     "total": 330
+    },
+    "dispensed.strength": {
+     "exact": 313,
+     "total": 330
+    },
+    "dispensed.volume": {
+     "exact": 268,
+     "total": 302
+    },
+    "rx.allergies": {
+     "exact": 312,
+     "total": 330
+    },
+    "rx.dose": {
+     "exact": 269,
+     "total": 330
+    },
+    "rx.drug": {
+     "exact": 318,
+     "total": 330
+    },
+    "rx.duration": {
+     "exact": 294,
+     "total": 330
+    },
+    "rx.frequency": {
+     "exact": 305,
+     "total": 330
+    },
+    "rx.indication": {
+     "exact": 245,
+     "total": 266
+    },
+    "rx.patient_age": {
+     "exact": 307,
+     "total": 330
+    },
+    "rx.patient_weight": {
+     "exact": 294,
+     "total": 330
+    },
+    "rx.strength": {
+     "exact": 285,
+     "total": 303
+    }
+   },
+   "readings": 5067,
+   "fields_not_in_gold": 23
+  }
+ },
+ "reliability_head": {
+  "threshold": 0.9000000000000001,
+  "n_train": 2301,
+  "n_val": 900,
+  "n_test": 1832,
+  "selection": {
+   "fold": "val",
+   "objective": "minimize_correct_reading_referrals",
+   "max_false_accepts": 0,
+   "accepted_correct": 289,
+   "false_accepts": 0,
+   "correct_readings_referred": 18,
+   "validation_corroborated_readings": 315
+  },
+  "auc_val": 0.9848,
+  "auc_val_model_confidence": 0.5,
+  "auc_val_corroborated": 0.9937,
+  "val_strict_accept_rate": 0.932,
+  "val_strict_false_accept": 8,
+  "val_strict_false_accept_rate": 0.0237,
+  "val_head_accept_rate": 0.855,
+  "val_head_false_accept": 0,
+  "val_head_false_accept_rate": 0.0,
+  "val_high_risk_readings": 338,
+  "val_high_risk_wrong": 18,
+  "auc_test": 0.9805,
+  "auc_test_model_confidence": 0.5,
+  "auc_test_corroborated": 0.9998,
+  "test_strict_accept_rate": 0.8272,
+  "test_strict_false_accept": 9,
+  "test_strict_false_accept_rate": 0.0133,
+  "test_head_accept_rate": 0.7888,
+  "test_head_false_accept": 0,
+  "test_head_false_accept_rate": 0.0,
+  "test_high_risk_readings": 677,
+  "test_high_risk_wrong": 69,
+  "top_features": [
+   "parses",
+   "ocr_match",
+   "n_digits",
+   "numbers_agree",
+   "sharpness_ratio",
+   "doc_ocr_mean",
+   "text_len",
+   "ocr_score"
+  ]
+ },
+ "fold_completeness": {
+  "train": {
+   "completed": 150,
+   "expected": 150
+  },
+  "val": {
+   "completed": 60,
+   "expected": 60
+  },
+  "test": {
+   "completed": 120,
+   "expected": 120
+  }
+ },
+ "ocr_fingerprint": "ppocr6-3.9.2-ground-v2",
+ "refinement_version": "refine-v1",
+ "product_audit_version": "transcript-product-v1",
+ "generated_at": "2026-10-04T14:11:48+00:00"
+}

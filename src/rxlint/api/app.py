@@ -28,6 +28,7 @@ from ..live.drift import drift_check
 from ..live.surveillance import live_check, policies
 from ..live.tavily import TavilyClient
 from ..models.client import ModelClient, role_config
+from ..fhir import FHIRImportError, import_prescription
 from ..pipeline import Asset, CaseInput, assess, perception_mode, run_case
 from ..reasoning.explain import explain
 from ..reasoning.i18n import LANGUAGES
@@ -98,7 +99,8 @@ def health() -> dict[str, Any]:
         "voice": omni_served(),
         "perception": {"mode": perception_mode(),
                        "readers": [role_config("omni").model] if perception_mode() == "omni"
-                       else [role_config("vision").model, role_config("structure").model]},
+                       else [role_config("vision").model, role_config("structure").model]
+                       + ([role_config("omni").model] if perception_mode() == "ensemble" else [])},
         "model_mode": os.environ.get("RXLINT_MODEL_MODE", "auto"),
         "tavily": {"configured": TavilyClient().configured},
         "languages": LANGUAGES,
@@ -184,11 +186,38 @@ async def create_case(
     country: str = Form("FR"),
     dispense_date: str | None = Form(None),
     demo_id: str | None = Form(None),
+    fhir: str | None = Form(None),
 ) -> dict[str, Any]:
     case_id = f"c_{datetime.now().strftime('%Y%m%d_%H%M%S')}_{uuid.uuid4().hex[:6]}"
     blobs: dict[str, bytes] = {}
     assets: list[Asset] = []
     meta: dict[str, Any] = {}
+    try:
+        submitted_patient = json.loads(patient or "{}")
+    except json.JSONDecodeError:
+        raise HTTPException(400, "patient must be a JSON object") from None
+    if not isinstance(submitted_patient, dict) or any(not isinstance(v, str) for v in submitted_patient.values()):
+        raise HTTPException(400, "patient must be an object with string values")
+    if dispense_date:
+        from datetime import date
+        try:
+            date.fromisoformat(dispense_date)
+        except ValueError:
+            raise HTTPException(400, "dispense_date must be YYYY-MM-DD") from None
+    prescription_fhir = None
+    if fhir:
+        if prescription is not None or demo_id:
+            raise HTTPException(400, "use either a prescription photo or FHIR import")
+        if len(fhir.encode("utf-8")) > 512 * 1024:
+            raise HTTPException(413, "FHIR import too large")
+        try:
+            prescription_fhir = json.loads(fhir)
+            import_prescription(prescription_fhir)
+        except (json.JSONDecodeError, FHIRImportError, TypeError, AttributeError, KeyError) as exc:
+            raise HTTPException(400, f"invalid FHIR prescription: {exc}") from None
+        data = json.dumps(prescription_fhir, ensure_ascii=False).encode("utf-8")
+        blobs["fhir"] = data
+        assets.append(Asset.from_bytes("fhir", "structured_prescription", data, "application/fhir+json", "prescription.json"))
     if demo_id:
         c = demo.BY_ID.get(demo_id)
         if c is None:
@@ -199,7 +228,7 @@ async def create_case(
             blobs[aid] = data
             assets.append(Asset.from_bytes(aid, kind, data, demo.mime(p), p.name))
         pat = dict(c.patient)
-        pat.update(json.loads(patient or "{}"))
+        pat.update(submitted_patient)
         country, dispense_date = c.country, dispense_date or c.dispense_date
         meta = {"demo": c.meta()}
     else:
@@ -219,15 +248,12 @@ async def create_case(
             assets.append(Asset.from_bytes(aid, kind, data, mime, up.filename))
         if not any(a.kind in ("prescription", "medicine") for a in assets):
             raise HTTPException(400, "add at least one photo")
-        try:
-            pat = json.loads(patient or "{}")
-        except json.JSONDecodeError:
-            raise HTTPException(400, "patient must be a JSON object") from None
+        pat = submitted_patient
     unknown = sorted(k for k in pat if k not in PATIENT_FIELDS)
     if unknown:
         raise HTTPException(400, f"unknown patient field(s) {unknown}; use {sorted(PATIENT_FIELDS)}")
     inp = CaseInput(case_id=case_id, assets=assets, patient={k: v for k, v in pat.items() if v}, country=country,
-                    dispense_date=dispense_date)
+                    dispense_date=dispense_date, prescription_fhir=prescription_fhir)
     _start(inp, blobs, meta)
     return {"case_id": case_id}
 
@@ -282,13 +308,20 @@ class Confirmation(BaseModel):
 
 @app.post("/api/cases/{case_id}/confirm")
 def confirm(case_id: str, body: Confirmation) -> dict[str, Any]:
+    unknown = sorted(set(body.confirmations) - set(FIELD_MAP))
+    if unknown:
+        raise HTTPException(400, f"unknown confirmation field(s): {unknown}")
+    if not body.confirmations or not any(v.strip() for v in body.confirmations.values()):
+        raise HTTPException(400, "enter at least one confirmed value")
     inp_raw = _load(case_id, "input.json")
     res = _load(case_id, "result.json")
     inp = CaseInput(**{k: v for k, v in inp_raw.items() if k != "meta"})
-    inp.confirmations.update({k: v for k, v in body.confirmations.items() if v})
+    inp.confirmations.update({k: v.strip() for k, v in body.confirmations.items() if v.strip()})
     perception = {"quality": res["quality"], "extractions": res["extractions"], "speech": res["speech"],
                   "observations": res["observations"], "untrusted_text_flagged": res["untrusted_text_flagged"]}
-    new = assess(inp, perception, _client(), PACK)
+    # Confirmation reuses perception; remaining questions come from the kernel without
+    # another inference call, including when only part of a batch has been completed.
+    new = assess(inp, perception, None, PACK, use_ultra=False)
     out = new.model_dump()
     out["model_calls"] = res["model_calls"] + out["model_calls"]
     _save(case_id, "input.json", {**inp.model_dump(), "meta": inp_raw.get("meta", {})})
@@ -367,8 +400,26 @@ class ManualRequest(BaseModel):
 
 @app.post("/api/verify")
 def manual_verify(body: ManualRequest) -> dict[str, Any]:
+    unknown = sorted(set(body.fields) - set(FIELD_MAP))
+    if unknown:
+        raise HTTPException(400, f"unknown field(s): {unknown}")
+    if body.dispense_date:
+        from datetime import date
+        try:
+            date.fromisoformat(body.dispense_date)
+        except ValueError:
+            raise HTTPException(400, "dispense_date must be YYYY-MM-DD") from None
     snap = build_snapshot({k: v for k, v in body.fields.items() if v}, PACK, case_id="manual", dispense_date=body.dispense_date)
     return verify(snap, PACK).model_dump()
+
+
+@app.post("/api/fhir/validate")
+def validate_fhir(body: dict[str, Any]) -> dict[str, Any]:
+    try:
+        observations = import_prescription(body)
+    except (FHIRImportError, TypeError, AttributeError, KeyError) as exc:
+        raise HTTPException(400, str(exc)) from None
+    return {"observations": observations, "note": "Imported as supplied; patient context is entered separately. This does not authenticate the prescription."}
 
 
 # ----------------------------------------------------------------------------- rule pack
@@ -409,6 +460,14 @@ def bench() -> dict[str, Any]:
     if not p.exists():
         return {"status": "NOT_RUN"}
     return json.loads(p.read_text(encoding="utf-8"))
+
+
+@app.get("/api/bench/real-world")
+def real_world_bench() -> dict[str, Any]:
+    p = BENCH / "real_world" / "review-v4.json"
+    if not p.exists():
+        return {"status": "NOT_RUN"}
+    return {"status": "ok", **json.loads(p.read_text(encoding="utf8"))}
 
 
 # ----------------------------------------------------------------------------- web app

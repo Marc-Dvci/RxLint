@@ -165,7 +165,7 @@ def apply(observations: list[dict[str, Any]], kind: str, doc: dict[str, Any], im
     if not rows:
         return observations
     X = np.array([[r[k] for k in meta["features"]] for r in rows], dtype=np.float32)
-    p = calibrate(booster.predict(X), meta)
+    p = calibrate(booster.predict(X, num_threads=2), meta)
     t = meta["threshold"]
     for o, pi in zip(observations, p):
         o["p_correct"] = round(float(pi), 4)

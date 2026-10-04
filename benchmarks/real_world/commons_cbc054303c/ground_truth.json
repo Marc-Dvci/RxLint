@@ -1,0 +1,15 @@
+{
+  "case_id": "commons_cbc054303c",
+  "split": "external",
+  "evaluation_scope": "perception_only",
+  "expected_state": null,
+  "gold_rx": [],
+  "gold_label": [],
+  "patient": {},
+  "absent_fields": [
+    "dispensed.expiry",
+    "dispensed.lot"
+  ],
+  "annotation_method": "manual visual inspection before reader evaluation; single coding agent, not pharmacist adjudicated",
+  "notes": "Missing prescription and patient facts are intentionally not invented. Solid strengths include the dose form visibly printed elsewhere on the same package."
+}

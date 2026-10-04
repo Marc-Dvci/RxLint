@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import difflib
 import io
+import os
 import re
 import threading
 from dataclasses import dataclass
@@ -36,12 +37,38 @@ class OcrLine:
     score: float
 
 
-@lru_cache(maxsize=1)
-def _engine():
-    from rapidocr_onnxruntime import RapidOCR
+def backend() -> str:
+    name = os.environ.get("RXLINT_OCR_BACKEND", "ppocr6")
+    if name not in ("ppocr6", "legacy"):
+        raise ValueError("RXLINT_OCR_BACKEND must be ppocr6 or legacy")
+    return name
 
-    # Lower detection thresholds and a larger working size keep small label lines on a bottle photo.
-    return RapidOCR(det_limit_side_len=1280, det_box_thresh=0.3, det_thresh=0.2)
+
+def fingerprint() -> str:
+    """Invalidate benchmark caches when the OCR model or processing changes."""
+    from importlib.metadata import version
+
+    package = "rapidocr" if backend() == "ppocr6" else "rapidocr-onnxruntime"
+    return f"{backend()}-{version(package)}-ground-v2"
+
+
+@lru_cache(maxsize=2)
+def _engine_for(name: str):
+    if name == "legacy":
+        from rapidocr_onnxruntime import RapidOCR
+        return RapidOCR(det_limit_side_len=1280, det_box_thresh=0.3, det_thresh=0.2)
+    from rapidocr import RapidOCR
+
+    # PP-OCRv6 small models are included in this pinned wheel: no request-time downloads.
+    return RapidOCR(params={"Det.limit_side_len": 1280, "Det.limit_type": "max",
+                            "Det.box_thresh": 0.3, "Det.thresh": 0.2,
+                            "EngineConfig.onnxruntime.intra_op_num_threads": 2,
+                            "EngineConfig.onnxruntime.inter_op_num_threads": 1,
+                            "Global.log_level": "warning"})
+
+
+def _engine():
+    return _engine_for(backend())
 
 
 _OCR_LOCK = threading.Lock()  # one detection at a time: concurrent passes multiply the working set, not the throughput
@@ -50,12 +77,18 @@ _OCR_LOCK = threading.Lock()  # one detection at a time: concurrent passes multi
 def _read(img) -> list[OcrLine]:
     W, H = img.size
     with _OCR_LOCK:
-        result, _ = _engine()(np.asarray(img)[:, :, ::-1])
+        result = _engine()(np.asarray(img)[:, :, ::-1])
+    if backend() == "legacy":
+        result, _ = result
+        items = result or []
+    else:
+        items = zip(result.boxes, result.txts, result.scores) if result.boxes is not None else []
     lines = []
-    for pts, text, score in result or []:
+    for pts, text, score in items:
         xs = [p[0] for p in pts]
         ys = [p[1] for p in pts]
-        lines.append(OcrLine(text=text, bbox=[min(xs) / W, min(ys) / H, max(xs) / W, max(ys) / H], score=float(score)))
+        lines.append(OcrLine(text=text, bbox=[float(min(xs) / W), float(min(ys) / H),
+                                            float(max(xs) / W), float(max(ys) / H)], score=float(score)))
     return lines
 
 

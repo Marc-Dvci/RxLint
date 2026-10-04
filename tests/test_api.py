@@ -55,6 +55,9 @@ def test_confirmation_flow_on_ambiguous_dose(client):
     cid, body = run_demo(client, "D")
     assert body["result"]["verification"]["state"] == "CANNOT_VERIFY"
     assert "rx.dose" in body["result"]["clarification"]["fields"]
+    partial = client.post(f"/api/cases/{cid}/confirm", json={"confirmations": {"rx.dose": "unreadable"}}).json()
+    assert partial["verification"]["state"] == "CANNOT_VERIFY"
+    assert len(partial["model_calls"]) == len(body["result"]["model_calls"])
     after = client.post(f"/api/cases/{cid}/confirm", json={"confirmations": {"rx.dose": "7.5 mL"}}).json()
     assert after["verification"]["state"] == "PASS"
     node = after["verification"]["evidence"]["ev_rx_dose"]
@@ -129,3 +132,49 @@ def test_voice_note_needs_a_served_omni_model(client):
     r = client.post("/api/cases", files={"prescription": ("rx.png", _png(), "image/png"), "audio": ("n.webm", b"x", "audio/webm")},
                     data={"patient": "{}"})
     assert r.status_code == 400
+
+
+def test_fhir_upload_uses_structured_rx_provenance_and_only_reads_the_bottle(client):
+    import json
+    from test_review_fixes import prescription
+    from rxlint import demo
+    p = prescription()
+    preview = client.post("/api/fhir/validate", json=p)
+    assert preview.status_code == 200
+    assert all(o["kind"] == "STRUCTURED_PRESCRIPTION" for o in preview.json()["observations"])
+    r = client.post("/api/cases", data={"fhir": json.dumps(p), "patient": json.dumps(demo.BY_ID["A"].patient)},
+                    files={"medicine": ("label.jpg", demo.photo("A", "label").read_bytes(), "image/jpeg")})
+    assert r.status_code == 200
+    cid = r.json()["case_id"]
+    for _ in range(240):
+        body = client.get(f"/api/cases/{cid}").json()
+        if body["status"] == "done": break
+        time.sleep(.25)
+    assert body["status"] == "done"
+    result = body["result"]
+    assert [e["asset_id"] for e in result["extractions"]] == ["label"]
+    assert result["verification"]["state"] != "PASS"
+    assert any(e["kind"] == "STRUCTURED_PRESCRIPTION" and e["source"]["span"] for e in result["verification"]["evidence"].values())
+    assert client.get(f"/api/cases/{cid}/assets/fhir").json()["resourceType"] == "MedicationRequest"
+
+
+def test_bad_fhir_and_invalid_patient_or_date_fail_before_start(client):
+    from test_review_fixes import prescription
+    p = prescription(); p["dosageInstruction"][0]["asNeededBoolean"] = True
+    assert client.post("/api/fhir/validate", json=p).status_code == 400
+    for patient in ('[]', '{"patient.weight": 9.5}', '{"unknown": "x"}'):
+        assert client.post("/api/cases", data={"demo_id": "A", "patient": patient}).status_code == 400
+    assert client.post("/api/cases", data={"demo_id": "A", "dispense_date": "2027-13-02"}).status_code == 400
+    assert client.post("/api/verify", json={"fields": {}, "dispense_date": "wrong"}).status_code == 400
+    assert client.post("/api/verify", json={"fields": {"bogus": "1"}}).status_code == 400
+
+
+def test_batch_confirmation_rejects_unknown_fields_and_records_each_value(client):
+    cid, body = run_demo(client, "D")
+    assert client.post(f"/api/cases/{cid}/confirm", json={"confirmations": {}}).status_code == 400
+    assert client.post(f"/api/cases/{cid}/confirm", json={"confirmations": {"rx.dose": "7.5 mL", "bad": "x"}}).status_code == 400
+    after = client.post(f"/api/cases/{cid}/confirm", json={"confirmations": {"rx.dose": " 7.5 mL ", "patient.weight": "9.5 kg"}})
+    assert after.status_code == 200
+    ev = after.json()["verification"]["evidence"]
+    assert ev["ev_rx_dose"]["status"] == "normalized"
+    assert ev["ev_patient_weight_kg"]["status"] == "normalized"

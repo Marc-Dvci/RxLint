@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { api, type DemoCase } from "../api";
-import { STATE_META } from "../labels";
+import { STATE_META, fieldLabel } from "../labels";
 import { IBottle, IMic, IRx, IUser } from "../icons";
 
 function go(id: string) {
@@ -96,6 +96,11 @@ const MED_CHIPS = ["none", "paracetamol", "ibuprofen", "warfarin", "methotrexate
 
 function NewCase() {
   const [rx, setRx] = useState<File | null>(null);
+  const [rxMode, setRxMode] = useState<"photo" | "fhir">("photo");
+  const [fhirText, setFhirText] = useState("");
+  const [fhirPreview, setFhirPreview] = useState<{ observations: { field: string; text: string }[]; note: string } | null>(null);
+  const [fhirError, setFhirError] = useState<string | null>(null);
+  const fhirLoad = useRef(0);
   const [med, setMed] = useState<File | null>(null);
   const [voice, setVoice] = useState<File | null>(null);
   const [recording, setRecording] = useState(false);
@@ -138,7 +143,8 @@ function NewCase() {
     setBusy(true);
     setErr(null);
     const fd = new FormData();
-    if (rx) fd.append("prescription", rx);
+    if (rxMode === "photo" && rx) fd.append("prescription", rx);
+    if (rxMode === "fhir") fd.append("fhir", fhirText);
     if (med) fd.append("medicine", med);
     if (voice) fd.append("audio", voice);
     fd.append("patient", JSON.stringify({
@@ -159,10 +165,40 @@ function NewCase() {
     <section className="stack">
       <div>
         <h2>New verification</h2>
-        <p className="muted small">Photograph the prescription and the medicine being handed over, then add what the prescription does not say.</p>
+        <p className="muted small">Photograph the prescription or import a FHIR order, attach the bottle photo, then add patient context.</p>
       </div>
       <div className="grid3">
-        <Capture label="Prescription" icon={<IRx />} file={rx} onFile={setRx} hint="Printed or handwritten" />
+        <div className="stack" style={{ gap: 8 }}>
+          <div className="seg" aria-label="Prescription source">
+            <button className={rxMode === "photo" ? "on" : ""} onClick={() => setRxMode("photo")}>Photo</button>
+            <button className={rxMode === "fhir" ? "on" : ""} onClick={() => setRxMode("fhir")}>FHIR prescription</button>
+          </div>
+          {rxMode === "photo" ? <Capture label="Prescription" icon={<IRx />} file={rx} onFile={setRx} hint="Printed or handwritten" /> : (
+            <div className="card pad stack" style={{ gap: 10 }}>
+              <b>Import a FHIR R4 prescription</b>
+              <input aria-label="FHIR prescription file" type="file" accept=".json,application/json,application/fhir+json" onChange={async (e) => {
+                const loadId = ++fhirLoad.current;
+                const file = e.target.files?.[0];
+                setFhirPreview(null); setFhirError(null); setFhirText("");
+                if (!file) return;
+                if (file.size > 512 * 1024) { setFhirError("Use a JSON file smaller than 512 KB."); return; }
+                try {
+                  const text = await file.text();
+                  const resource: unknown = JSON.parse(text);
+                  const preview = await api.validateFhir(resource);
+                  if (loadId !== fhirLoad.current) return;
+                  setFhirText(text); setFhirPreview(preview);
+                } catch (error) { if (loadId === fhirLoad.current) setFhirError(String(error)); }
+              }} />
+              <span className="tiny muted">One active MedicationRequest, with a fixed dose and schedule. Include its Medication in the Bundle or contained resources for concentration.</span>
+              {fhirError && <div className="error">{fhirError}</div>}
+              {fhirPreview && <>
+                <dl className="small">{fhirPreview.observations.map((o) => <div key={o.field}><dt>{fieldLabel(o.field)}</dt><dd>{o.text}</dd></div>)}</dl>
+                <span className="tiny muted">Imported as supplied. Verify patient context separately.</span>
+              </>}
+            </div>
+          )}
+        </div>
         <Capture label="Medicine" icon={<IBottle />} file={med} onFile={setMed} hint="Front label with strength, lot and expiry" />
         <div className="card pad stack" style={{ gap: 12 }}>
           <div className="row" style={{ gap: 8 }}><IUser className="ico" /><b>Patient context</b></div>
@@ -198,7 +234,7 @@ function NewCase() {
       </div>
       {err && <div className="error">{err}</div>}
       <div className="row">
-        <button className="btn primary" disabled={busy || (!rx && !med)} onClick={submit}>
+        <button className="btn primary" disabled={busy || (rxMode === "photo" ? (!rx && !med) : (!fhirPreview || !med))} onClick={submit}>
           {busy ? <span className="spinner" /> : null} Verify
         </button>
         <span className="muted small">Images are hashed on arrival. Patient names are never needed.</span>

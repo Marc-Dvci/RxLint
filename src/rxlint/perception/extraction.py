@@ -119,6 +119,7 @@ class Extraction(BaseModel):
     rejected: list[dict[str, Any]] = Field(default_factory=list)
     transcript: list[str] = Field(default_factory=list)
     kind_corrected: bool = False  # the photo was uploaded in the other slot and read as what it is
+    reader_agreement: dict[str, str] = Field(default_factory=dict)
 
 
 def _user_prompt(kind: str, fields: dict[str, str]) -> str:

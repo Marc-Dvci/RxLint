@@ -1,0 +1,25 @@
+{
+  "case_id": "commons_74afbad588",
+  "split": "external",
+  "evaluation_scope": "perception_only",
+  "expected_state": null,
+  "gold_rx": [],
+  "gold_label": [
+    {
+      "field": "dispensed.drug",
+      "raw": "Amoxicillin Oral Suspension"
+    },
+    {
+      "field": "dispensed.strength",
+      "raw": "125mg/5ml"
+    },
+    {
+      "field": "dispensed.volume",
+      "raw": "60ml"
+    }
+  ],
+  "patient": {},
+  "absent_fields": [],
+  "annotation_method": "manual visual inspection before reader evaluation; single coding agent, not pharmacist adjudicated",
+  "notes": "Missing prescription and patient facts are intentionally not invented. Solid strengths include the dose form visibly printed elsewhere on the same package."
+}

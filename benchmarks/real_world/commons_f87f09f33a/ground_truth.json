@@ -1,0 +1,25 @@
+{
+  "case_id": "commons_f87f09f33a",
+  "split": "external",
+  "evaluation_scope": "perception_only",
+  "expected_state": null,
+  "gold_rx": [],
+  "gold_label": [
+    {
+      "field": "dispensed.drug",
+      "raw": "Klacid Clarithromycin"
+    },
+    {
+      "field": "dispensed.strength",
+      "raw": "125 mg/5 ml"
+    },
+    {
+      "field": "dispensed.volume",
+      "raw": "60 ml"
+    }
+  ],
+  "patient": {},
+  "absent_fields": [],
+  "annotation_method": "manual visual inspection before reader evaluation; single coding agent, not pharmacist adjudicated",
+  "notes": "Missing prescription and patient facts are intentionally not invented. Solid strengths include the dose form visibly printed elsewhere on the same package."
+}

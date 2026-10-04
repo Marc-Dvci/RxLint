@@ -1,0 +1,42 @@
+{
+  "status": "frozen_before_test",
+  "frozen_at": "2026-10-04T14:02:00.277702+00:00",
+  "run": "tf-review-v4-nano",
+  "training_cases": 150,
+  "validation_cases": 60,
+  "test_cases_not_yet_extracted": 120,
+  "selection": "Zero validation false-accept budget; lower confirmation burden and better post-confirmation accuracy than the one-error-budget alternative",
+  "head_sha256": {
+    "head.json": "15324bf2cbbdc23b28034caa2c7075d146d8b2bf3e093efc9b02398c646bf32a",
+    "head.txt": "50505855be2a0a91bc0b99cc810aeeb1fdd26d5d04e58d1dfc1710f1b7c52e4d"
+  },
+  "manifest_sha256": "5b79b7d6e2cb67fb72f2d0c614916c827cfbe6516c374efa3e17e78370443b6d",
+  "ocr_fingerprint": "ppocr6-3.9.2-ground-v2",
+  "refinement_version": "refine-v1",
+  "product_audit_version": "transcript-product-v1",
+  "transcription_prompt": "transcribe-v2",
+  "transport_version": "nebius-effort-v1",
+  "validation": {
+    "cases": 60,
+    "false_safe": "0/40",
+    "false_safe_rate": 0.0,
+    "false_safe_after_confirmation": "0/40",
+    "review_recall": 0.7,
+    "review_recall_after_confirmation": 0.9667,
+    "exact_verdict": 0.6667,
+    "exact_verdict_after_confirmation": 0.9667,
+    "clean_pass_rate": 0.45,
+    "clean_pass_after_confirmation": 0.95,
+    "confirmation_requests": 0.4667,
+    "ambiguous_blocked": "5/5"
+  },
+  "threshold_selection": {
+    "fold": "val",
+    "objective": "minimize_correct_reading_referrals",
+    "max_false_accepts": 0,
+    "accepted_correct": 289,
+    "false_accepts": 0,
+    "correct_readings_referred": 18,
+    "validation_corroborated_readings": 315
+  }
+}

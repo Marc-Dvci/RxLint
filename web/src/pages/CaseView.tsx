@@ -103,18 +103,19 @@ function Viewer({ caseId, result, highlight, tone, selectedAsset, setAsset }: {
 }) {
   // Tabs are named by what the reader found in the photo, so a bottle uploaded in the prescription slot is still "Medicine".
   const kindOf = (a: { id: string; kind: string }) => result.extractions.find((e) => e.asset_id === a.id)?.kind ?? a.kind;
-  const images = result.assets.filter((a) => a.kind !== "audio")
+  const images = result.assets.filter((a) => a.kind === "prescription" || a.kind === "medicine")
     .sort((a, b) => (kindOf(a) === "prescription" ? 0 : 1) - (kindOf(b) === "prescription" ? 0 : 1));
-  const shown = selectedAsset === "both" ? images.map((a) => a.id) : [selectedAsset];
-  const q = selectedAsset === "both" ? undefined : result.quality[selectedAsset];
-  const ext = result.extractions.find((e) => e.asset_id === selectedAsset);
+  const active = images.some((a) => a.id === selectedAsset) ? selectedAsset : images[0]?.id;
+  const shown = selectedAsset === "both" ? images.map((a) => a.id) : active ? [active] : [];
+  const q = selectedAsset === "both" || !active ? undefined : result.quality[active];
+  const ext = result.extractions.find((e) => e.asset_id === active);
   return (
     <div className="card" style={{ overflow: "hidden" }}>
       <div className="viewer-tabs">
         <div className="seg">
           {images.length > 1 && <button className={selectedAsset === "both" ? "on" : ""} onClick={() => setAsset("both")}>Both</button>}
           {images.map((a) => (
-            <button key={a.id} className={selectedAsset === a.id ? "on" : ""} onClick={() => setAsset(a.id)}>
+            <button key={a.id} className={selectedAsset !== "both" && active === a.id ? "on" : ""} onClick={() => setAsset(a.id)}>
               {kindOf(a) === "prescription" ? "Prescription" : "Medicine"}
               {highlight.some((h) => h.asset === a.id) ? " •" : ""}
             </button>
@@ -125,6 +126,9 @@ function Viewer({ caseId, result, highlight, tone, selectedAsset, setAsset }: {
         {q && q.checks.every((c) => c.ok) && <span className="badge t-pass">photo checks ok</span>}
         {ext?.model && <span className="chip tiny" title={ext.model}>{ext.replayed ? "recorded" : "live"} · {((ext.latency_ms ?? 0) / 1000).toFixed(1)} s</span>}
       </div>
+      {result.assets.some((a) => a.kind === "structured_prescription") && <div className="pad small">
+        Prescription imported from FHIR. <a href={api.assetUrl(caseId, "fhir")} target="_blank" rel="noreferrer">View supplied prescription JSON</a>
+      </div>}
       <div style={{ display: "grid", gridTemplateColumns: `repeat(${shown.length}, minmax(0, 1fr))`, gap: 2, background: "#0b0f14" }}>
         {shown.map((aid) => {
           const obs = result.observations.filter((o) => o.asset_id === aid && o.bbox && o.method !== "rapidocr (second reader)");
@@ -175,6 +179,7 @@ function FactsTable({ result, selected, onSelect }: { result: CaseResult; select
       if (p.kind === "VISUAL_OBSERVATION") kinds.add(p.method?.includes("rapidocr") ? "OCR" : "photo");
       else if (p.kind === "USER_ENTERED_FACT") kinds.add(p.method === "confirmation" ? "confirmed" : "typed");
       else if (p.kind === "SPOKEN_OBSERVATION") kinds.add("voice");
+      else if (p.kind === "STRUCTURED_PRESCRIPTION") kinds.add("FHIR import");
       stack.push(...p.parents);
     }
     return [...kinds];
@@ -312,36 +317,46 @@ const CONFIRMABLE: Record<string, string> = {
   "rx.dose": "rx.dose", "rx.strength": "rx.strength", "rx.patient_weight": "patient.weight", "dispensed.strength": "dispensed.strength",
   "rx.frequency": "rx.frequency", "rx.duration": "rx.duration", "dispensed.expiry": "dispensed.expiry", "dispensed.drug": "dispensed.drug",
   "rx.drug": "rx.drug", "rx.patient_age": "patient.age",
+  "dispensed.volume": "dispensed.volume", "dispensed.lot": "dispensed.lot", "rx.indication": "rx.indication",
+  "patient.allergies": "patient.allergies", "patient.medications": "patient.medications",
 };
 const FACT_TO_FIELDS: Record<string, string[]> = {
   "rx.dose": ["rx.dose"], "rx.strength": ["rx.strength"], "patient.weight_kg": ["rx.patient_weight"], "dispensed.strength": ["dispensed.strength"],
   "rx.frequency": ["rx.frequency"], "rx.duration_days": ["rx.duration"], "dispensed.expiry": ["dispensed.expiry"], "dispensed.product": ["dispensed.drug"],
   "rx.product": ["rx.drug"], "patient.age_months": ["rx.patient_age"],
+  "dispensed.volume_ml": ["dispensed.volume"], "dispensed.lot": ["dispensed.lot"], "rx.indication": ["rx.indication"],
+  "patient.allergies": ["patient.allergies"], "patient.current_medications": ["patient.medications"],
 };
 
-/** One-tap values for a reading: each candidate amount on its own ("2.5 7.5 mL" offers 2.5 mL and 7.5 mL).
- *  A string holding more than one number is never offered whole, because it is not one value. */
-function candidates(obs?: { text: string; alternatives?: string[] | null }): string[] {
+/** Keep complete strengths and dates. Only a dose with two alternative amounts shares a unit. */
+function candidates(field: string, obs?: { text: string; alternatives?: string[] | null }): string[] {
   if (!obs) return [];
   const out: string[] = [];
   for (const s of [obs.text, ...(obs.alternatives ?? [])]) {
     const nums = s.match(/\d+(?:[.,]\d+)?/g) ?? [];
-    if (nums.length === 1) out.push(s.trim());
-    else if (nums.length > 1 && s === obs.text) {
-      const unit = s.match(/\b(mL|ml|mg|g|tablets?)\b/)?.[0] ?? "";
-      if (s.split(/[\s/|]+/).filter((t) => /\d/.test(t)).length === nums.length) out.push(...nums.map((n) => `${n}${unit ? ` ${unit}` : ""}`));
-    }
+    const amounts = field === "rx.dose" && s.match(/^\s*\d+(?:[.,]\d+)?(?:\s+|\s*[|/]\s*)\d+(?:[.,]\d+)?\s*(mL|ml|mg|g|tablets?)\s*$/);
+    if (amounts) out.push(...nums.map((n) => `${n} ${amounts[1]}`));
+    else out.push(s.trim());
   }
   return [...new Set(out)].slice(0, 3);
 }
 
 function ConfirmPanel({ caseId, result, onDone }: { caseId: string; result: CaseResult; onDone: (r: CaseResult) => void }) {
   const clar = result.clarification;
-  const blocked = clar?.fields ?? [];
+  const fieldToFact = Object.fromEntries(Object.entries(FACT_TO_FIELDS).flatMap(([fact, fields]) => fields.map((field) => [field, fact])));
+  const pending = [...(clar?.fields ?? []),
+    ...result.verification.findings.filter((f) => f.status === "cannot_evaluate").flatMap((f) => f.missing),
+    ...result.observations.filter((o) => o.requires_confirmation).map((o) => fieldToFact[o.field]).filter(Boolean)];
+  const blocked = [...new Set(pending)].filter((fact) => {
+    const node = result.verification.evidence[`ev_${fact.replace(/\./g, "_")}`];
+    return !node || !["normalized", "derived"].includes(node.status);
+  });
   const items = blocked.flatMap((fact) => (FACT_TO_FIELDS[fact] ?? []).map((field) => ({
     fact, field, obs: result.observations.find((o) => o.field === field && o.asset_id && o.method !== "rapidocr (second reader)"),
   })));
-  const [vals, setVals] = useState<Record<string, string>>({});
+  const [vals, setVals] = useState<Record<string, string>>(() => Object.fromEntries(items
+    .filter((it) => it.obs && it.obs.legible !== false && !it.obs.alternatives?.length && !it.obs.validation_issues?.length)
+    .map((it) => [it.field, it.obs!.text])));
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   if (!clar) return null;
@@ -375,7 +390,7 @@ function ConfirmPanel({ caseId, result, onDone }: { caseId: string; result: Case
         <div key={it.field} className="item">
           {it.obs?.bbox && it.obs.asset_id ? <div className="crop" style={cropStyle(api.assetUrl(caseId, it.obs.asset_id), it.obs.bbox)} /> : <div className="crop" />}
           <div className="stack" style={{ gap: 4 }}>
-            <b>{fieldLabel(it.field)}</b>
+            <b>{fieldLabel(it.obs ? it.field : CONFIRMABLE[it.field] ?? it.field)}</b>
             {it.obs && (
               <span className="small muted">
                 Model read <b style={{ color: "var(--ink)" }}>{it.obs.text}</b>
@@ -383,18 +398,18 @@ function ConfirmPanel({ caseId, result, onDone }: { caseId: string; result: Case
               </span>
             )}
             <div className="quick">
-              {candidates(it.obs).map((a) => <button key={a} onClick={() => setVals((p) => ({ ...p, [it.field]: a }))}>use {a}</button>)}
+              {candidates(it.field, it.obs).map((a) => <button key={a} onClick={() => setVals((p) => ({ ...p, [it.field]: a }))}>use {a}</button>)}
             </div>
           </div>
-          <input className="input" style={{ width: 160 }} value={vals[it.field] ?? ""} placeholder="value as written"
+          <input className="input" aria-label={`Confirm ${fieldLabel(it.obs ? it.field : CONFIRMABLE[it.field] ?? it.field)}`} style={{ width: 160 }} value={vals[it.field] ?? ""} placeholder="value as written"
             onChange={(e) => setVals((p) => ({ ...p, [it.field]: e.target.value }))} />
         </div>
       ))}
       {err && <div className="error">{err}</div>}
       {items.length > 0 && (
         <div className="row">
-          <button className="btn primary" onClick={confirmAll} disabled={busy}>{busy && <span className="spinner" />}Confirm and re-check</button>
-          <span className="tiny muted">Your entry is recorded as a pharmacist confirmation in the evidence graph.</span>
+          <button className="btn primary" onClick={confirmAll} disabled={busy || !items.some((it) => vals[it.field]?.trim())}>{busy && <span className="spinner" />}Confirm reviewed values and re-check</button>
+          <span className="tiny muted">Review every pre-filled value against the image. Overwritten or disputed values need an explicit choice. All entries are recorded together.</span>
         </div>
       )}
     </div>
@@ -541,7 +556,7 @@ export default function CaseView({ id }: { id: string; health: Health | null }) 
               <span className="small">The photo contains text addressed to a machine. It was transcribed as data and has no path to the verdict.</span>
             </div>
           )}
-          {result.clarification && <ConfirmPanel caseId={id} result={result} onDone={(r) => { setResult(r); setOpen(null); }} />}
+          {result.clarification && <ConfirmPanel key={result.verification.result_sha256} caseId={id} result={result} onDone={(r) => { setResult(r); setOpen(null); }} />}
 
           <div className="grid2">
             <div className="stack">
