@@ -1,119 +1,119 @@
 1
-00:00:00,850 --> 00:00:07,770
-A prescription says amoxicillin clavulanate, 400 milligrams per 5 millilitres, 5 millilitres twice a day.
+00:00:00,850 --> 00:00:07,400
+RxLint is a medication-checking assistant for pharmacists and clinic nurses dispensing antibiotics to children.
 
 2
-00:00:07,800 --> 00:00:14,237
-The bottle says 250: same drug, wrong concentration, and the child's dose falls below the WHO range.
+00:00:07,430 --> 00:00:14,661
+It checks the bottle against the prescription and patient details, flagging potential errors with evidence before the medicine is handed over.
 
 3
-00:00:14,267 --> 00:00:17,759
-WHO puts medication errors at 42 billion dollars a year.
+00:00:14,691 --> 00:00:20,824
+Here, a child is prescribed amoxicillin clavulanate at 400 milligrams per 5 millilitres.
 
 4
-00:00:17,789 --> 00:00:23,504
-RxLint checks the medicine being handed over against the prescription, the way a compiler checks code.
+00:00:20,854 --> 00:00:26,493
+The bottle contains 250: the same medicine, but a weaker concentration than prescribed.
 
 5
-00:00:24,158 --> 00:00:27,708
+00:00:27,158 --> 00:00:30,708
 Two photos, or a FHIR prescription and a bottle photo.
 
 6
-00:00:27,738 --> 00:00:38,328
+00:00:30,738 --> 00:00:41,328
 On Nebius Token Factory, a vision model transcribes each photo, and NVIDIA Nemotron 3 Nano turns the transcript into typed facts, each citing the line it was copied from.
 
 7
-00:00:38,358 --> 00:00:43,850
+00:00:41,358 --> 00:00:46,850
 PP-OCRv6 checks high-risk numbers, with a calibrated second gate.
 
 8
-00:00:43,880 --> 00:00:48,002
+00:00:46,880 --> 00:00:51,002
 Then a deterministic kernel applies 59 rules from the WHO AWaRe book.
 
 9
-00:00:48,032 --> 00:00:52,030
+00:00:51,032 --> 00:00:55,030
 Click any fact, and RxLint shows the pixels it was read from.
 
 10
-00:00:52,698 --> 00:00:54,075
+00:00:55,698 --> 00:00:57,075
 The verdict is REVIEW.
 
 11
-00:00:54,105 --> 00:01:00,140
+00:00:57,105 --> 00:01:03,140
 The critical finding shows what was read: 400 per 5 prescribed, 250 per 5 dispensed.
 
 12
-00:01:00,170 --> 00:01:04,966
+00:01:03,170 --> 00:01:07,966
 The calculation is right there: 80 milligrams per millilitre against 50.
 
 13
-00:01:04,996 --> 00:01:10,624
+00:01:07,996 --> 00:01:13,624
 The rule source is quoted verbatim: every finding links the pixels, the arithmetic, and the rule.
 
 14
-00:01:11,278 --> 00:01:17,155
+00:01:14,278 --> 00:01:20,155
 Nemotron 3 Ultra explains the result to the caregiver, in English, French or Arabic.
 
 15
-00:01:17,185 --> 00:01:20,448
+00:01:20,185 --> 00:01:23,448
 It writes around locked values, so it can never invent a number.
 
 16
-00:01:20,478 --> 00:01:26,248
+00:01:23,478 --> 00:01:29,248
 And Nemotron 3 Nano audits every sentence against the verified result before it is shown.
 
 17
-00:01:26,906 --> 00:01:33,619
+00:01:29,906 --> 00:01:36,619
 When the handwriting is overwritten, 2.5 or 7.5 millilitres, RxLint does not guess.
 
 18
-00:01:33,649 --> 00:01:39,489
+00:01:36,649 --> 00:01:42,489
 It returns CANNOT VERIFY, and Nemotron 3 Ultra picks the single smallest question to ask.
 
 19
-00:01:39,519 --> 00:01:43,859
+00:01:42,519 --> 00:01:46,859
 Reviewed values are confirmed together, with explicit choices for ambiguity.
 
 20
-00:01:43,889 --> 00:01:47,843
+00:01:46,889 --> 00:01:50,843
 The rules re-run without another model call, and the case passes.
 
 21
-00:01:48,510 --> 00:01:55,430
+00:01:51,510 --> 00:01:58,430
 The rule pack is frozen and hashed, so a separate live plane asks: has a regulator published anything since?
 
 22
-00:01:55,460 --> 00:02:01,430
+00:01:58,460 --> 00:02:04,430
 For this French dispensing check, Tavily searches ANSM for pages naming the exact lot.
 
 23
-00:02:01,460 --> 00:02:07,832
+00:02:04,460 --> 00:02:10,832
 For this bottle, dispensed in February 2019, ANSM had recalled lot JA0287.
 
 24
-00:02:07,862 --> 00:02:11,556
+00:02:10,862 --> 00:02:14,556
 The live state sits next to the verdict; it never changes it.
 
 25
-00:02:12,202 --> 00:02:17,568
+00:02:15,202 --> 00:02:20,568
 On 120 held-out cases, RxLint accepted zero incorrect high-risk readings.
 
 26
-00:02:17,598 --> 00:02:24,307
+00:02:20,598 --> 00:02:27,307
 Forty-five percent of cases need confirmation, and label-strength accuracy is 93.3 percent.
 
 27
-00:02:24,337 --> 00:02:33,356
+00:02:27,337 --> 00:02:36,356
 95 percent exact verdicts after simulated confirmation, against 85.8 when readings are trusted, with nine of ten overwritten doses held.
 
 28
-00:02:34,022 --> 00:02:38,953
+00:02:37,022 --> 00:02:41,953
 A model may transcribe, report a competing reading, and write around locked values.
 
 29
-00:02:38,983 --> 00:02:42,551
+00:02:41,983 --> 00:02:45,551
 It may not compute a dose, decide the verdict, or write a number.
 
 30
-00:02:42,581 --> 00:02:51,579
+00:02:45,581 --> 00:02:54,579
 RxLint: Nemotron on Nebius Token Factory reads and explains, a deterministic kernel decides, and Tavily watches the regulators.

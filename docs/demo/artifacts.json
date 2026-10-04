@@ -1,13 +1,17 @@
 {
   "video": "rxlint-demo.mp4",
-  "sha256": "fdc0e320c792ebead8d3629f40431dd2bbd04b24d4ccd82d7b40b658c7564878",
-  "duration_seconds": 174.0,
-  "frames": 5220,
+  "sha256": "0c70979b8a0208dd5b6343f9b5bfcf09d3911fd31dddfcc61788c3ee195b62d0",
+  "size_bytes": 24427722,
+  "duration_seconds": 177.0,
+  "frames": 5310,
   "resolution": "1920x1080",
   "frames_per_second": 30,
   "captions": "rxlint-demo.srt",
-  "captions_sha256": "a04533e658381cccfdbb75dd375d72c961adbb127dc4d9fbde7cc0977bf3965a",
+  "captions_sha256": "181a96d4582ed469223b034f6fbc77722558b2e1640839f6aacd0217b3c13ba7",
   "caption_cues": 30,
   "tour_complete": true,
-  "failed_controls": 0
+  "failed_controls": 0,
+  "audio_integrated_lufs": -14.11,
+  "audio_true_peak_dbtp": -1.24,
+  "video_frames_unchanged_by_audio_normalization": true
 }

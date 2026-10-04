@@ -9,14 +9,14 @@ SECTIONS = [
     {
         "id": "home",
         "sentences": [
-            {"say": "A prescription says amoxicillin clavulanate, 400 milligrams per 5 millilitres, 5 millilitres twice a day.",
+            {"say": "RxLint is a medication-checking assistant for pharmacists and clinic nurses dispensing antibiotics to children.",
+             "cap": "RxLint: medication checks for pharmacists and clinic nurses caring for children."},
+            {"say": "It checks the bottle against the prescription and patient details, flagging potential errors with evidence before the medicine is handed over.",
+             "cap": "Check the bottle, prescription and patient details. See potential errors and the evidence."},
+            {"say": "Here, a child is prescribed amoxicillin clavulanate at 400 milligrams per 5 millilitres.",
              "cap": "Prescribed: amoxicillin/clavulanate 400 mg per 5 mL, 5 mL twice daily."},
-            {"say": "The bottle says 250: same drug, wrong concentration, and the child's dose falls below the WHO range.",
-             "cap": "Dispensed: 250 mg per 5 mL. A 9.5 kg child receives 52.6 mg/kg/day instead of 80 to 90."},
-            {"say": "WHO puts medication errors at 42 billion dollars a year.",
-             "cap": "WHO: medication errors cost US$42 billion a year."},
-            {"say": "RxLint checks the medicine being handed over against the prescription, the way a compiler checks code.",
-             "cap": "RxLint: static analysis for medication dispensing."},
+            {"say": "The bottle contains 250: the same medicine, but a weaker concentration than prescribed.",
+             "cap": "Dispensed: 250 mg per 5 mL. The same volume delivers less than prescribed."},
         ],
     },
     {

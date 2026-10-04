@@ -181,16 +181,16 @@
 
   // ── sections ──────────────────────────────────────────────────────────────
   async function secHome() {
-    // Already on the home page. Point at the case that the narration describes.
+    // Establish the product and workflow before pointing at the example.
     await cue('home', 0);
     await sleep(600);
-    await hover(demoCard('A'), { ay: 0.3, ms: 900, label: 'card A' });
+    await hover($('.page-head h1'), { ay: 0.5, ms: 900, label: 'product purpose' });
     await cue('home', 1);
-    await hover(demoCard('A'), { ay: 0.85, ms: 700, label: 'card A text' });
+    await hover($('.page-head p'), { ay: 0.5, ms: 700, label: 'evidence-linked checks' });
     await cue('home', 2);
-    await sweep([demoCard('B'), demoCard('D'), demoCard('G')].filter(Boolean), 1100, { ay: 0.7 });
+    await hover(demoCard('A'), { ay: 0.3, ms: 900, label: 'card A' });
     await cue('home', 3);
-    await hover(demoCard('A'), { ay: 0.6, ms: 900, label: 'card A' });
+    await hover(demoCard('A'), { ay: 0.85, ms: 700, label: 'card A text' });
   }
 
   async function secRead() {

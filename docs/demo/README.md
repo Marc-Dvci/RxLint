@@ -1,9 +1,14 @@
 # RxLint demo recording
 
-The [174-second submission video and captions](https://github.com/Marc-Dvci/RxLint/releases/tag/submission-demo)
+The [177-second submission video and captions](https://github.com/Marc-Dvci/RxLint/releases/tag/submission-demo)
 show the interface, confirmation flow and frozen benchmark results. All patients and
 demo labels are fictional; model responses and the case I Tavily result are recorded and
 identified as such by the app.
+
+The first two sentences introduce RxLint, its pharmacist and clinic-nurse users, and the
+value of checking the bottle against the prescription with inspectable evidence. The
+concentration example follows at 00:15; the working verification begins at 00:27.
+Narration is normalized to -14 LUFS for playback; video frames and cue timing are preserved.
 
 To reproduce it, install the project's development dependencies, `edge-tts==7.2.8`, ffmpeg and
 Playwright Chromium, build the web app, then run a local server on port 8011 in replay mode:

@@ -23,6 +23,7 @@ import threading
 import time
 
 from playwright.sync_api import sync_playwright
+from normalize_audio import normalize_audio
 
 HERE = pathlib.Path(__file__).resolve().parent
 FRAMES = HERE / "frames"
@@ -170,6 +171,7 @@ def main() -> None:
         ff.wait()
         if ff.returncode:
             raise RuntimeError(f"ffmpeg failed ({ff.returncode}):\n{ff.stderr.read().decode(errors='replace')[-4000:]}")
+        print("Audio normalization:", normalize_audio(out))
         print(f"\n{out.name}  {written} frames  {seconds:.1f}s  {out.stat().st_size / 1e6:.1f} MB")
     print("tour done:", state["done"])
     print("\n".join("  " + l for l in state["log"]))
