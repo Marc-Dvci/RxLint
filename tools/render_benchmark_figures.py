@@ -64,7 +64,9 @@ def main() -> None:
     fig.text(.04, .125, "Head frozen before test extraction. High-risk readings: 566 previous, 677 current; incorrect accepts are counts, not rates.", fontsize=9, color="#68746d")
     fig.text(.04, .075, "Full comparison: exact verdicts 115/120 to 114/120; clean PASS after confirmation 40/40 to 38/40. Rendered benchmark, not clinical validation.", fontsize=9, color="#68746d")
     fig.savefig(ROOT / "docs/img/benchmark_improvements.png", dpi=120, facecolor=fig.get_facecolor())
-    fig.savefig(ROOT / "docs/figures/benchmark_improvements.svg", facecolor=fig.get_facecolor())
+    svg = ROOT / "docs/figures/benchmark_improvements.svg"
+    fig.savefig(svg, facecolor=fig.get_facecolor())
+    svg.write_text("\n".join(line.rstrip() for line in svg.read_text(encoding="utf-8").splitlines()) + "\n", encoding="utf-8")
     plt.close(fig)
 
 
