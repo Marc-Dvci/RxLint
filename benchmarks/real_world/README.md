@@ -42,6 +42,6 @@ not complete orders paired with dispensed bottles. Keep its published test split
 and retain author attribution. It is suitable for a separate handwriting-recognition experiment;
 it cannot supply the missing dose regimen, patient context or a clinical verdict.
 
-The review's target of 30–50 genuine paired dispensing cases still needs appropriately licensed,
+The next validation stage is 30–50 genuine paired dispensing cases with appropriately licensed,
 de-identified prescription/bottle pairs and independent pharmacist annotation. Public bottle
 photos and handwritten word crops do not fulfill that clinical-data requirement.

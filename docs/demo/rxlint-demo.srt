@@ -95,25 +95,25 @@ For this bottle, dispensed in February 2019, ANSM had recalled lot JA0287.
 The live state sits next to the verdict; it never changes it.
 
 25
-00:02:12,202 --> 00:02:18,046
-On the same 120 held-out cases, the revised gate accepted zero incorrect high-risk readings.
+00:02:12,202 --> 00:02:17,568
+On 120 held-out cases, RxLint accepted zero incorrect high-risk readings.
 
 26
-00:02:18,076 --> 00:02:26,057
-Confirmation requests fell from 61 to 54, and label-strength accuracy rose from 80 to 93.3 percent.
+00:02:17,598 --> 00:02:24,307
+Forty-five percent of cases need confirmation, and label-strength accuracy is 93.3 percent.
 
 27
-00:02:26,087 --> 00:02:35,193
+00:02:24,337 --> 00:02:33,356
 95 percent exact verdicts after simulated confirmation, against 85.8 when readings are trusted, with nine of ten overwritten doses held.
 
 28
-00:02:35,846 --> 00:02:40,777
+00:02:34,022 --> 00:02:38,953
 A model may transcribe, report a competing reading, and write around locked values.
 
 29
-00:02:40,807 --> 00:02:44,375
+00:02:38,983 --> 00:02:42,551
 It may not compute a dose, decide the verdict, or write a number.
 
 30
-00:02:44,405 --> 00:02:53,403
+00:02:42,581 --> 00:02:51,579
 RxLint: Nemotron on Nebius Token Factory reads and explains, a deterministic kernel decides, and Tavily watches the regulators.

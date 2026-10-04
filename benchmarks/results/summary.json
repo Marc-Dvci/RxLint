@@ -5,12 +5,12 @@
   {
    "label": "incorrect high-risk readings accepted",
    "value": "0",
-   "note": "677 readings evaluated; 9 wrong accepted with OCR alone"
+   "note": "677 high-risk readings evaluated"
   },
   {
    "label": "cases needing confirmation",
    "value": "45.0%",
-   "note": "50.83% previously; 7 fewer cases on the same 120-case fold"
+   "note": "54/120 cases; unresolved fields reviewed together"
   },
   {
    "label": "exact verdict after simulated confirmation",
@@ -25,127 +25,66 @@
  ],
  "tables": [
   {
-   "title": "Measured improvements on the original 120-case test fold",
-   "note": "same cases; head selected on validation and frozen before test extraction",
-   "columns": [
-    "Metric",
-    "Previous version",
-    "Current version"
-   ],
-   "rows": [
-    {
-     "Metric": "Cases needing confirmation",
-     "Previous version": "61/120 (50.83%)",
-     "Current version": "54/120 (45.0%)"
-    },
-    {
-     "Metric": "Incorrect high-risk readings accepted",
-     "Previous version": "2",
-     "Current version": "0"
-    },
-    {
-     "Metric": "Overwritten doses held",
-     "Previous version": "8/10",
-     "Current version": "9/10"
-    },
-    {
-     "Metric": "Exact dose",
-     "Previous version": "70.0%",
-     "Current version": "82.5%"
-    },
-    {
-     "Metric": "Exact patient weight",
-     "Previous version": "72.5%",
-     "Current version": "85.0%"
-    },
-    {
-     "Metric": "Exact label strength",
-     "Previous version": "80.0%",
-     "Current version": "93.3%"
-    },
-    {
-     "Metric": "Exact expiry",
-     "Previous version": "75.0%",
-     "Current version": "84.2%"
-    },
-    {
-     "Metric": "Exact verdict after simulated confirmation",
-     "Previous version": "115/120 (95.83%)",
-     "Current version": "114/120 (95.0%)"
-    },
-    {
-     "Metric": "Clean PASS after simulated confirmation",
-     "Previous version": "40/40",
-     "Current version": "38/40"
-    },
-    {
-     "Metric": "False-safe before / after confirmation",
-     "Previous version": "0/80 / 0/80",
-     "Current version": "0/80 / 0/80"
-    }
-   ]
-  },
-  {
    "title": "End-to-end verdicts, test fold (120 cases)",
-   "note": "unseen handwriting font, perturbations and product",
+   "note": "False-safe means an error case returned PASS. Confirmation is simulated from written ground truth. Gold facts are an upper bound.",
    "columns": [
     "System",
-    "False-safe",
+    "False-safe before confirmation",
     "False-safe after confirmation",
-    "Review recall",
-    "Exact verdict",
-    "Clean PASS",
+    "Review recall before confirmation",
+    "Exact before confirmation",
+    "Clean PASS before confirmation",
     "Asked to confirm",
     "Exact after confirmation"
    ],
    "rows": [
     {
      "System": "Kernel on gold facts",
-     "False-safe": "0/80",
+     "False-safe before confirmation": "0/80",
      "False-safe after confirmation": "0/80",
-     "Review recall": 1.0,
-     "Exact verdict": 1.0,
-     "Clean PASS": 1.0,
+     "Review recall before confirmation": 1.0,
+     "Exact before confirmation": 1.0,
+     "Clean PASS before confirmation": 1.0,
      "Asked to confirm": 0.1667,
      "Exact after confirmation": 1.0
     },
     {
      "System": "DeepSeek V4.1 Flash + Nemotron 3 Nano readings trusted as read",
-     "False-safe": "2/80",
+     "False-safe before confirmation": "2/80",
      "False-safe after confirmation": "4/80",
-     "Review recall": 0.8667,
-     "Exact verdict": 0.775,
-     "Clean PASS": 0.7,
+     "Review recall before confirmation": 0.8667,
+     "Exact before confirmation": 0.775,
+     "Clean PASS before confirmation": 0.7,
      "Asked to confirm": 0.2333,
      "Exact after confirmation": 0.8583
     },
     {
      "System": "RxLint: reader + OCR corroboration",
-     "False-safe": "1/80",
+     "False-safe before confirmation": "1/80",
      "False-safe after confirmation": "1/80",
-     "Review recall": 0.6833,
-     "Exact verdict": 0.6833,
-     "Clean PASS": 0.6,
+     "Review recall before confirmation": 0.6833,
+     "Exact before confirmation": 0.6833,
+     "Clean PASS before confirmation": 0.6,
      "Asked to confirm": 0.4,
      "Exact after confirmation": 0.9417
     },
     {
      "System": "RxLint: + reliability head",
-     "False-safe": "0/80",
+     "False-safe before confirmation": "0/80",
      "False-safe after confirmation": "0/80",
-     "Review recall": 0.6833,
-     "Exact verdict": 0.65,
-     "Clean PASS": 0.475,
+     "Review recall before confirmation": 0.6833,
+     "Exact before confirmation": 0.65,
+     "Clean PASS before confirmation": 0.475,
      "Asked to confirm": 0.45,
      "Exact after confirmation": 0.95
     },
     {
      "System": "OCR + regex + same kernel",
-     "False-safe": "0/80",
+     "False-safe before confirmation": "0/80",
      "False-safe after confirmation": "1/80",
-     "Review recall": 0.6,
-     "Exact verdict": 0.6583,
-     "Clean PASS": 0.625,
+     "Review recall before confirmation": 0.6,
+     "Exact before confirmation": 0.6583,
+     "Clean PASS before confirmation": 0.625,
      "Asked to confirm": 0.4583,
      "Exact after confirmation": 0.925
     }
@@ -266,5 +205,5 @@
    ]
   }
  ],
- "description": "Run tf-review-v4-nano: 330 cases. Perception by DeepSeek V4.1 Flash + Nemotron 3 Nano; every verdict by the deterministic kernel."
+ "description": "330 rendered cases; train/validation/test folds kept separate. Perception by DeepSeek V4.1 Flash + Nemotron 3 Nano; every verdict by the deterministic kernel."
 }

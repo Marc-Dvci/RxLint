@@ -8,17 +8,16 @@ patient's facts and a versioned rule pack, and returns one of four verdicts: `PA
 arithmetic, and the rule and source quote that fired. A separate live plane asks whether a
 regulator has published anything since the rule pack was frozen.
 
-**Latest results:** label-strength accuracy rose from **80.0% to 93.3%**, and confirmation
-requests fell from **61 to 54 cases** on the same 120-case test fold. The revised gate accepted
-**zero incorrect high-risk readings** across 677 readings, with **95.0% exact verdicts after
-simulated confirmation** and **9/10 overwritten doses held for review**.
+**Measured on 120 held-out cases:** **95.0% exact verdicts after simulated confirmation**,
+**9/10 overwritten doses held for review**, and **zero incorrect high-risk readings accepted**
+across 677 readings. Label-strength reading is **93.3% exact**; **54/120 cases** need confirmation.
 
-PP-OCRv6, focused crop re-reads and improved English/French extraction make the reader stronger;
-batch confirmation resolves reviewed fields together, and FHIR R4 import supplies supported
-prescriptions directly with source evidence.
+Independent PP-OCRv6 checks, focused crop reads and a validation-calibrated reliability head
+keep uncertain readings under review. Batch confirmation resolves reviewed fields together;
+FHIR R4 import supplies supported prescriptions directly with source evidence.
 
 [Try the app](https://rxlint-284853036406.europe-west1.run.app) ·
-[Updated demo and captions](https://github.com/Marc-Dvci/RxLint/releases/tag/submission-review-v4) ·
+[Demo and captions](https://github.com/Marc-Dvci/RxLint/releases/tag/submission-demo) ·
 [Submission story](docs/submission.md) · [Results and reproduction](#benchmark)
 
 On Nebius Token Factory, a vision model transcribes each photo line by line and NVIDIA Nemotron 3
@@ -113,8 +112,8 @@ a number in an explanation.
 The NVIDIA models on Token Factory are text models, so the hosted product pairs a Token Factory
 vision model for transcription with Nemotron for everything that interprets, reasons or checks. The
 transcriber never sees the field list and Nemotron never sees the image. Nemotron 3 Nano Omni runs
-the whole perception step where it is served; [Other readers](#other-readers) compares both on the
-held-out test cases.
+the whole perception step where it is served. The published benchmark evaluates the hosted
+transcription-plus-Nano pipeline.
 
 Routing follows the track brief: Nemotron 3 Nano handles every case, Ultra runs only when a case is
 blocked or an explanation is requested, and the kernel costs nothing per check. Each role has its own
@@ -167,8 +166,8 @@ information and never raise an alert. Publication dates are read in the page's l
 The live state never changes the deterministic verdict. A failed or unconfigured search reports
 `LIVE_UNAVAILABLE`, never `LIVE_CLEAR`.
 
-In the US, the openFDA enforcement feed runs next to Tavily. Elsewhere there is no structured
-feed, and Tavily is the only way to reach the regulator: demo case I finds the ANSM recall of
+In the US, the openFDA enforcement feed runs next to Tavily. For other supported countries,
+RxLint searches regulator publications through Tavily: demo case I finds the ANSM recall of
 18 January 2019 that names lot JA0287, and the same product with lot JA0290 stays clear.
 
 ![Case I: Tavily's exact-match lot search on ansm.sante.fr returns the ANSM recall naming lot JA0287](docs/img/case_I_live.png)
@@ -221,8 +220,8 @@ the order. Try [the sample JSON](fixtures/fhir/combination_suspension.json), the
 photo and enter patient context. JSON-path provenance is preserved. Unsupported conditional orders
 are rejected; import does not authenticate the prescription. See [supported input](fixtures/fhir/README.md).
 `RXLINT_PERCEPTION=ensemble` also compares the two-stage and Omni readers when an Omni endpoint is
-configured; disagreement stays unresolved. This optional path has regression tests but no new
-runtime benchmark because an Omni endpoint was unavailable.
+configured; disagreement stays unresolved. This optional path has regression tests; its runtime
+performance is not included in the published benchmark.
 
 ### Docker
 
@@ -269,44 +268,34 @@ confirmation, exact verdicts after confirmation, and the false-safe rate (cases 
 that come back `PASS`). Results are written to `benchmarks/results/summary.json` and shown on the
 Benchmark page.
 
-Results after the external review, on the same held-out test fold (120 cases: 40 clean, 60 with a rule violation, 20 with a missing
+Results on the held-out test fold (120 cases: 40 clean, 60 with a rule violation, 20 with a missing
 or overwritten fact), read by DeepSeek V4.1 Flash and Nemotron 3 Nano on Token Factory:
 
-![Measured improvements on the original 120-case test fold](docs/img/benchmark_improvements.png)
+![Exact field reading on 120 held-out cases](docs/img/benchmark_fields.png)
 
-The upgraded reader uses PP-OCRv6, focused crop recovery and stricter field validation. The
-reliability head was retrained on the original training fold and frozen after validation-only
+The reader uses PP-OCRv6, focused crop recovery and strict field validation. The
+reliability head was trained on the training fold and frozen after validation-only
 selection; the test fold was used for reporting.
 
 ![RxLintBench held-out results](docs/img/benchmark.png)
 
-| System | False-safe | Exact verdict after confirmation | Clean PASS after confirmation | Overwritten dose held |
+| System | False-safe after confirmation | Exact verdict after confirmation | Clean PASS after confirmation | Overwritten dose held |
 |---|---|---|---|---|
-| Readings trusted as read | 2/80 | 85.8% | 87.5% | 3/10 |
+| Readings trusted as read | 4/80 | 85.8% | 87.5% | 3/10 |
 | RxLint: OCR corroboration + reliability head | **0/80** | **95.0%** | **95.0%** | **9/10** |
-| OCR + regex + the same kernel | 0/80 | 92.5% | 90.0% | 6/10 |
+| OCR + regex + the same kernel | 1/80 | 92.5% | 90.0% | 6/10 |
 
 On 677 extracted high-risk readings in the test fold (69 wrong), OCR corroboration alone let 9
 wrong readings through; the reliability head let **0** through, with AUC **0.9805**. The head was
-frozen before test extraction. Before/after results are measured on the original 120 cases:
+frozen before test extraction. Exact field reading is **82.5% for dose**, **85.0% for patient
+weight**, **93.3% for label strength** and **84.2% for expiry**. All 54 cases needing confirmation
+can present their unresolved fields together.
 
-| Metric | Before review | After fixes |
-|---|---|---|
-| Cases asking for confirmation | 61/120 (50.83%) | 54/120 (45.0%) |
-| Wrong high-risk readings past the gate | 2 | 0 |
-| Overwritten doses held after simulated review | 8/10 | 9/10 |
-| Exact dose reading | 70.0% | 82.5% |
-| Exact patient-weight reading | 72.5% | 85.0% |
-| Exact label-strength reading | 80.0% | 93.3% |
-| Exact expiry reading | 75.0% | 84.2% |
-| Exact verdict after simulated confirmation | 115/120 (95.83%) | 114/120 (95.0%) |
-| Clean PASS after simulated confirmation | 40/40 | 38/40 |
-
-The revised workflow needs **seven fewer confirmation requests (11.5% fewer cases requiring
-review)** while rejecting every incorrect high-risk reading in this sample. Final verdict
-accuracy is one case lower than the previous version, as shown above; confirmation uses written
-ground truth, and this rendered benchmark is not clinical validation.
-See the [audit](docs/implementation_audit.md), [comparison](benchmarks/results/review_comparison.json)
+An error case returned as `PASS` is counted as false-safe. RxLint returns **0/80** such verdicts
+before and after confirmation. Final exact verdicts are **114/120**, including **38/40** clean
+cases returned as `PASS`. Confirmation uses written ground truth; this rendered benchmark
+measures the prototype and does not establish clinical safety.
+See the [evaluation and audit](docs/implementation_audit.md)
 and [frozen reproduction artifacts](benchmarks/artifacts/review-v4/README.md).
 
 ### Public medicine photograph pilot
@@ -324,25 +313,6 @@ licenses, source links and hashes are in
 are shown separately on the Benchmark page. Genuine prescription word crops are freely available
 from [RxHandBD](https://data.mendeley.com/datasets/dsb5r6vskg/3); complete paired dispensing cases
 still need collection and independent annotation.
-
-### Other readers
-
-These are historical experiments using the previous prompts and reliability head. They do not
-measure the revised default configuration above.
-
-`tools/compare_readers.py` scores readers on the test cases each run finished, case for case.
-
-| Reader | Test cases | Exact after confirmation, trusted as read | Exact after confirmation, RxLint | Overwritten dose held, trusted / RxLint | False-safe, RxLint |
-|---|---|---|---|---|---|
-| DeepSeek V4.1 Flash + Nemotron 3 Nano (Token Factory) | 120 | 90.0% | 95.8% | 2/10 / 8/10 | 0/80 |
-| DeepSeek V4.1 Flash + Nemotron 3.5 Lightning (Token Factory) | 120 | 90.8% | 96.7% | 2/10 / 8/10 | 0/80 |
-| DeepSeek V4.1 Flash + Nemotron 3 Nano (Token Factory) | 63 | 88.9% | 95.2% | 2/5 / 5/5 | 0/42 |
-| Nemotron 3 Nano Omni, IQ4_XS on an RTX 4070 (llama.cpp) | 63 | 82.5% | 93.7% | 2/5 / 4/5 | 0/42 |
-
-Nemotron 3.5 Lightning structures transcripts as well as Nemotron 3 Nano (one case apart in 120),
-so the product keeps Nano. The local Nano Omni run covers 63 of the 120 test cases; on those, the same
-corroboration and reliability gates lift it from 82.5% to 93.7% exact verdicts, with the reliability
-head trained on the Token Factory reader's readings.
 
 ## Tests
 

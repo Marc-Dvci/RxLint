@@ -3,7 +3,7 @@
  "rate": "+15%",
  "lead_ms": 800,
  "tail_ms": 1800,
- "total_ms": 175816,
+ "total_ms": 173992,
  "sections": [
   {
    "id": "home",
@@ -201,23 +201,23 @@
    "id": "bench",
    "file": "7.wav",
    "start_ms": 132152,
-   "duration_ms": 23644,
+   "duration_ms": 21820,
    "sentences": [
     {
      "start_ms": 132202.0,
-     "end_ms": 138075.9131,
-     "say": "On the same 120 held-out cases, the revised gate accepted zero incorrect high-risk readings.",
+     "end_ms": 137597.6522,
+     "say": "On 120 held-out cases, RxLint accepted zero incorrect high-risk readings.",
      "cap": "0 incorrect high-risk readings accepted across 677 evaluated readings."
     },
     {
-     "start_ms": 138075.9131,
-     "end_ms": 146086.7828,
-     "say": "Confirmation requests fell from 61 to 54, and label-strength accuracy rose from 80 to 93.3 percent.",
-     "cap": "61 to 54 confirmation requests. Label-strength accuracy: 80.0% to 93.3%."
+     "start_ms": 137597.6522,
+     "end_ms": 144336.7827,
+     "say": "Forty-five percent of cases need confirmation, and label-strength accuracy is 93.3 percent.",
+     "cap": "Confirmation requested on 54/120 cases. Label-strength accuracy: 93.3%."
     },
     {
-     "start_ms": 146086.7828,
-     "end_ms": 155043.3047,
+     "start_ms": 144336.7828,
+     "end_ms": 153206.3482,
      "say": "95 percent exact verdicts after simulated confirmation, against 85.8 when readings are trusted, with nine of ten overwritten doses held.",
      "cap": "95.0% exact verdicts after simulated confirmation vs 85.8%; 9/10 overwritten doses held. Synthetic test fold."
     }
@@ -226,24 +226,24 @@
   {
    "id": "close",
    "file": "8.wav",
-   "start_ms": 155796,
+   "start_ms": 153972,
    "duration_ms": 18220,
    "sentences": [
     {
-     "start_ms": 155846.0,
-     "end_ms": 160806.8696,
+     "start_ms": 154022.0,
+     "end_ms": 158982.8696,
      "say": "A model may transcribe, report a competing reading, and write around locked values.",
      "cap": "A model may transcribe, report competing readings, choose a clarification, write around locked values."
     },
     {
-     "start_ms": 160806.8696,
-     "end_ms": 164404.6957,
+     "start_ms": 158982.8696,
+     "end_ms": 162580.6957,
      "say": "It may not compute a dose, decide the verdict, or write a number.",
      "cap": "It may not convert a unit, compute a dose, decide PASS or REVIEW, or write a number."
     },
     {
-     "start_ms": 164404.6958,
-     "end_ms": 173252.522,
+     "start_ms": 162580.6958,
+     "end_ms": 171428.522,
      "say": "RxLint: Nemotron on Nebius Token Factory reads and explains, a deterministic kernel decides, and Tavily watches the regulators.",
      "cap": "RxLint. Nemotron reads and explains. The kernel decides. Tavily watches the regulators."
     }

@@ -518,24 +518,17 @@ def write_summary(full: dict[str, Any], out: Path) -> None:
     NAMES = names(reader)
     split = "test" if "test" in full["scores"] else "all"
     s = full["scores"][split]
-    cols = ["System", "False-safe", "False-safe after confirmation", "Review recall", "Exact verdict", "Clean PASS", "Asked to confirm", "Exact after confirmation"]
-    rows = [{"System": NAMES[v], "False-safe": m["false_safe"], "False-safe after confirmation": m["false_safe_after_confirmation"],
-             "Review recall": m["review_recall"], "Exact verdict": m["exact_verdict"], "Clean PASS": m["clean_pass_rate"],
+    cols = ["System", "False-safe before confirmation", "False-safe after confirmation", "Review recall before confirmation", "Exact before confirmation", "Clean PASS before confirmation", "Asked to confirm", "Exact after confirmation"]
+    rows = [{"System": NAMES[v], "False-safe before confirmation": m["false_safe"], "False-safe after confirmation": m["false_safe_after_confirmation"],
+             "Review recall before confirmation": m["review_recall"], "Exact before confirmation": m["exact_verdict"], "Clean PASS before confirmation": m["clean_pass_rate"],
              "Asked to confirm": m["confirmation_requests"], "Exact after confirmation": m["exact_verdict_after_confirmation"]}
             for v, m in s.items()]
     best = s.get("rxlint_head") or s.get("rxlint_strict")
     trust = s["omni_trust"]
     # Presentation uses published reports only: no reader rerun or model fitting.
-    comparison = None
-    comparison_path = out / "review_comparison.json"
-    if split == "test" and comparison_path.exists():
-        candidate = json.loads(comparison_path.read_text(encoding="utf-8"))
-        if candidate.get("final_run") == full["run"] and candidate.get("after") == best:
-            comparison = candidate
     headline = [
         {"label": "cases needing confirmation", "value": f"{best['confirmation_requests'] * 100:.1f}%",
-         "note": (f"{comparison['before']['confirmation_requests'] * 100:.2f}% previously; 7 fewer cases on the same 120-case fold"
-                  if comparison else "all unresolved fields can be confirmed together")},
+         "note": f"{round(best['confirmation_requests'] * best['cases'])}/{best['cases']} cases; unresolved fields reviewed together"},
         {"label": "exact verdict after simulated confirmation", "value": f"{best['exact_verdict_after_confirmation'] * 100:.1f}%",
          "note": f"{trust['exact_verdict_after_confirmation'] * 100:.1f}% when readings are trusted as read"},
         {"label": "overwritten doses held for confirmation", "value": best["ambiguous_blocked"],
@@ -544,31 +537,13 @@ def write_summary(full: dict[str, Any], out: Path) -> None:
     r = full.get("reliability_head")
     if r and f"{split}_head_false_accept" in r:
         headline.insert(0, {"label": "incorrect high-risk readings accepted", "value": str(r[f"{split}_head_false_accept"]),
-                            "note": f"{r[f'{split}_high_risk_readings']} readings evaluated; {r[f'{split}_strict_false_accept']} wrong accepted with OCR alone"})
+                            "note": f"{r[f'{split}_high_risk_readings']} high-risk readings evaluated"})
     else:
         headline.insert(0, {"label": f"false-safe cases, RxLint ({split} fold)", "value": best["false_safe"],
                             "note": f"error cases returned as PASS; {trust['false_safe']} when readings are trusted as read"})
     tables = []
-    if comparison:
-        before = comparison["before"]
-        tables.append({"title": "Measured improvements on the original 120-case test fold",
-                       "note": "same cases; head selected on validation and frozen before test extraction",
-                       "columns": ["Metric", "Previous version", "Current version"],
-                       "rows": [
-                           {"Metric": "Cases needing confirmation", "Previous version": "61/120 (50.83%)", "Current version": "54/120 (45.0%)"},
-                           {"Metric": "Incorrect high-risk readings accepted", "Previous version": str(comparison["wrong_high_risk_before"]), "Current version": str(comparison["wrong_high_risk_after"])},
-                           {"Metric": "Overwritten doses held", "Previous version": before["ambiguous_blocked"], "Current version": best["ambiguous_blocked"]},
-                           *[{"Metric": label, "Previous version": f"{comparison['field_exact_before'][field] * 100:.1f}%",
-                              "Current version": f"{comparison['field_exact_after'][field] * 100:.1f}%"}
-                             for field, label in [("rx.dose", "Exact dose"), ("rx.patient_weight", "Exact patient weight"),
-                                                  ("dispensed.strength", "Exact label strength"), ("dispensed.expiry", "Exact expiry")]],
-                           {"Metric": "Exact verdict after simulated confirmation", "Previous version": "115/120 (95.83%)", "Current version": "114/120 (95.0%)"},
-                           {"Metric": "Clean PASS after simulated confirmation", "Previous version": "40/40", "Current version": "38/40"},
-                           {"Metric": "False-safe before / after confirmation", "Previous version": f"{before['false_safe']} / {before['false_safe_after_confirmation']}",
-                            "Current version": f"{best['false_safe']} / {best['false_safe_after_confirmation']}"},
-                       ]})
     tables.append({"title": f"End-to-end verdicts, {split} fold ({s['oracle']['cases']} cases)",
-                   "note": "unseen handwriting font, perturbations and product" if split == "test" else "", "columns": cols, "rows": rows})
+                   "note": "False-safe means an error case returned PASS. Confirmation is simulated from written ground truth. Gold facts are an upper bound.", "columns": cols, "rows": rows})
     pf = full["perception"].get(split) or full["perception"]["all"]
     tables.append({"title": f"{reader} field accuracy (exact after RxLint parsing)", "columns": ["Field", "Exact"],
                    "rows": [{"Field": k, "Exact": v} for k, v in pf["field_exact"].items()]})
@@ -584,7 +559,7 @@ def write_summary(full: dict[str, Any], out: Path) -> None:
                                  "AUC head": r.get(f"auc_{f}"), "AUC head on corroborated": r.get(f"auc_{f}_corroborated"),
                                  "AUC model confidence": r.get(f"auc_{f}_model_confidence")} for f in ("val", "test")]})
     summary = {"status": "ok", "generated_at": full["generated_at"], "headline": headline, "tables": tables,
-               "description": f"Run {full['run']}: {full['cases']} cases. Perception by {reader}; every verdict by the deterministic kernel."}
+               "description": f"{full['cases']} rendered cases; train/validation/test folds kept separate. Perception by {reader}; every verdict by the deterministic kernel."}
     (out / "summary.json").write_text(json.dumps(summary, indent=1), encoding="utf-8")
 
 

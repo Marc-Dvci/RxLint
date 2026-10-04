@@ -1,138 +1,91 @@
-# External review implementation audit
+# RxLint evaluation and implementation audit
 
-The revised reader improves dose, weight, concentration and expiry extraction on the original
-test fold, with seven fewer confirmation requests and zero incorrect high-risk accepts.
-Batch confirmation and fixed FHIR R4 import are implemented; the tables below retain every
-measured tradeoff and the separate public-photo pilot.
+RxLint reaches **95.0% exact verdicts after simulated confirmation** on 120 held-out rendered
+cases, holds **9/10 overwritten doses** for confirmation and accepts **zero incorrect high-risk
+readings** across 677 evaluated readings. The workflow supports photographed prescriptions,
+fixed FHIR R4 MedicationRequest import, evidence-linked findings and batch confirmation.
 
-Baseline: commit 7887bb5; 218 tests pass before changes. The committed Token Factory Nano
-benchmark uses 330 cases, including the fixed 120-case test fold. Original test confirmation
-rate: 50.83%; exact verdict after simulated pharmacist confirmation: 95.83%.
+## Evaluation design
 
-The implementation follows the external review's remaining-work list. Acceptance requires measured
-results, preserved fail-closed behavior, reproducible evaluation and candid dataset provenance.
+The fixed dataset contains 150 training, 60 validation and 120 test cases. Test cases hold out a
+handwriting font, four photo perturbation families and one product. The test composition is
+40 clean cases, 60 rule violations and 20 missing or overwritten facts. Every compared system
+uses these cases and the same deterministic rule kernel.
 
-## Decisions
+The hosted reader uses DeepSeek V4.1 Flash for transcription and Nemotron 3 Nano for cited
+structured fields. PP-OCRv6 independently corroborates high-risk readings. Focused crop reads
+are bounded to three per image and cannot waive independent OCR agreement. A calibrated
+LightGBM head adds confirmations using grammar, OCR agreement, plausibility and image evidence.
+It is trained on the training fold and selected on validation with a zero false-accept budget.
+The model and threshold (0.900) are frozen before test extraction; test results are reporting
+outcomes, not selection criteria.
 
-- Evaluate current PP-OCRv6 rather than the review's older PP-OCRv4 recommendation.
-- A focused vision re-read remains dependent on the original vision reader. It can correct an
-  extraction only with independent OCR agreement, never waive corroboration or erase genuine
-  ambiguity based on majority voting.
-- Reliability thresholds are selected on validation data only. Test false-accept counts are
-  reported outcomes, never optimization constraints.
-- Structured FHIR input is an explicitly supplied prescription, not authenticated medical data.
-  Unsupported schedules and ambiguous quantities must fail closed. Imported data gets its own
-  evidence provenance and never imports a clinical verdict.
-- Public medicine photographs are a perception-only external evaluation. They cannot be
-  advertised as paired clinical cases or as prospective validation.
+## Held-out results
 
-## Work tracking
+| Metric | Result |
+|---|---|
+| Exact verdict after simulated confirmation | 114/120 (95.0%) |
+| Clean cases returned PASS after simulated confirmation | 38/40 (95.0%) |
+| Cases needing confirmation | 54/120 (45.0%) |
+| Overwritten doses held after simulated confirmation | 9/10 |
+| Error cases returned PASS, before and after confirmation | 0/80 at both stages |
+| Incorrect high-risk readings accepted | 0 of 677 readings, including 69 incorrect readings |
+| Reliability-head test AUC | 0.9805 |
+| Exact prescription-dose reading | 82.5% |
+| Exact patient-weight reading | 85.0% |
+| Exact label-strength reading | 93.3% |
+| Exact expiry reading | 84.2% |
 
-| Review item | Status |
-| --- | --- |
-| Stronger OCR | Implemented: pinned RapidOCR 3.9.2, PP-OCRv6 bundled ONNX models; legacy comparison available |
-| Targeted disputed-field reader | Implemented: at most three crop calls per image; independent OCR agreement required |
-| Validation-only friction/safety threshold | Implemented and retrained; threshold 0.9000000000000001, zero validation false-accept budget |
-| Batch confirmation | Implemented and browser-tested with two missing fields confirmed in one request |
-| FHIR prescription import | Implemented, tested through the kernel, HTTP API and browser; JSON-path provenance |
-| Real photograph evaluation | 12 genuine public photos evaluated; 30–50 paired clinical cases remain unavailable |
-| English/French extraction examples | Implemented and measured on the original train/validation/test folds |
-| Deterministic field validation | Implemented, including expiry day ambiguity, pediatric ranges and incomplete ingredient lists |
-| Optional dual reader | Implemented and regression-tested; runtime evaluation needs an Omni endpoint |
-| Audit and measured before/after results | Complete; frozen artifacts and honest tradeoffs published |
+| System | Exact verdict after confirmation | Error cases returned PASS after confirmation | Overwritten doses held |
+|---|---|---|---|
+| Reader output trusted as read | 85.8% | 4/80 | 3/10 |
+| RxLint: OCR and reliability head | 95.0% | 0/80 | 9/10 |
+| OCR + regex + same kernel | 92.5% | 1/80 | 6/10 |
 
-## Fixed-fold results
+False-safe means an error case returned as PASS. Confirmation is simulated from written ground
+truth; 95.0% is not an autonomous clinical accuracy claim. The 120 rendered cases measure
+prototype performance and do not establish clinical safety. Zero observed false-safe cases
+does not establish a zero population risk. The gold-facts kernel result is an upper bound.
 
-No new synthetic cases were created. The original manifest still has 150 training, 60 validation
-and 120 test cases. The selected head and threshold were frozen before test extraction; hashes
-are in `benchmarks/results/review_selection.json`. Test reporting does not refit the head.
+## Public-photo perception pilot
 
-| Metric, original 120-case test fold | Before | After |
-| --- | --- | --- |
-| Confirmation requests | 61/120 (50.83%) | 54/120 (45.0%) |
-| Wrong high-risk readings through the head | 2 | 0 |
-| Ambiguous doses held after simulated confirmation | 8/10 | 9/10 |
-| Dose exact reading | 70.0% | 82.5% |
-| Weight exact reading | 72.5% | 85.0% |
-| Label strength exact reading | 80.0% | 93.3% |
-| Expiry exact reading | 75.0% | 84.2% |
-| Exact verdict after simulated confirmation | 115/120 (95.83%) | 114/120 (95.0%) |
-| Clean PASS after simulated confirmation | 40/40 | 38/40 |
-| False-safe, before and after confirmation | 0/80 | 0/80 |
+A separate development pilot contains 12 genuine public medicine photographs: ten packages
+and two bare-pill controls, including one failed control read. Author attribution, licenses,
+source URLs and SHA-256 hashes are retained for each photo.
 
-The final head has test AUC 0.9805, versus 0.951 in the original report. It sees 677 high-risk
-readings, including 69 incorrect ones; the earlier reader produced 566, including 42 incorrect
-ones. Extraction completeness changed, so reading-level denominators are not identical.
-The four field-accuracy comparisons above use the same 120 case-field denominators. Accuracy
-after confirmation dropped one case and clean-case acceptance dropped two; these regressions
-are retained in the report. No test-driven threshold adjustment was made.
+| Field | Exact reading | Accepted by parser and gates | Incorrect accepted |
+|---|---|---|---|
+| Product identity | 8/10 | 8/10 | 0 |
+| Strength | 4/9 | 3/9 | 0 |
+| Volume | 5/6 | 4/6 | 0 |
 
-Validation selected the zero-error budget: 46.67% case confirmations, 96.67% exact verdict after
-simulated review and 5/5 ambiguous doses held. The one-error budget saved one additional
-confirmation but fell to 95% exact verdict after review. The Qwen 3.8 27B alternative produced
-a false-safe validation verdict and was rejected. Only train/validation experiments informed
-reader selection. See `benchmarks/artifacts/review-v4/README.md` for reproduction.
+Liquid concentration is exact on 4/5 packages and solid strength on 0/4. This pilot uses one
+annotator and has no paired prescriptions or independent pharmacist adjudication. Paired
+pharmacy cases and independent assessment are the next validation stage; solid-package reading
+is a priority for broader coverage. [Dataset and provenance](../benchmarks/real_world/README.md).
 
-## Resolved audit findings
+## Implementation checks
 
-- OCR failure previously skipped corroboration; it now explicitly blocks high-risk readings.
-- A duplicate machine observation could waive a reliability veto. Only matching explicit
-  structured/user evidence can now satisfy it, with pharmacist confirmation taking precedence.
-- Expiry parsing could discard a day or ignore a second date. It now requires a complete,
-  unambiguous date; month-only expiry retains the last day of that month.
-- Token Factory template kwargs did not reliably stop vision reasoning. The documented
-  top-level `reasoning_effort=none` avoids empty transcripts from exhausted reasoning budgets.
-- Pathological repeated transcript lines are bounded without altering normal repetitions.
-- Trademark normalization could turn `Amoxil™` into `AmoxilTM`. Marks are removed before NFKC.
-- Partial ingredient lines could hide a combination product. Unfinished separators are
-  unresolved; competing transcript ingredients block medicine identity and concentration.
-  A post-freeze audit corrected a false conflict when a combination separately names its own
-  ingredients. No test verdicts had been inspected; model/threshold bytes stayed unchanged.
-- Cassette keys now distinguish models, endpoint and generation settings. Historical offline
-  replay remains supported; live comparisons cannot silently reuse a different model/settings.
-- Partial folds cannot be used to publish test summaries or fit calibration.
-- Malformed FHIR, conditional regimens, mismatched ingredient order and unsupported quantity
-  semantics fail before a run starts. Unknown confirmation fields and invalid dates return 400.
-- Partial batch confirmations now use deterministic follow-up questions, so confirmation
-  never spends another inference call, even while additional fields remain unresolved.
-- The medicine viewer now opens correctly when the prescription is structured JSON. A stale
-  asynchronous file preview cannot overwrite a newly selected FHIR file.
+**251 automated tests pass**, and all **ten demo cases** return their expected verdicts.
+The suite covers rule boundaries, source quotes, units, grounded readings, explanation integrity,
+live lot matching, FHIR import and confirmation. A browser check confirms that two missing fields
+can be reviewed in one action without additional model calls. The Linux container also completes
+all ten demos within the deployed 2 CPU / 2 GiB limits.
 
-## External photographs and remaining evidence
+FHIR import accepts supported fixed MedicationRequest orders with JSON-path evidence. It rejects
+unsupported conditional schedules and ambiguous quantities; import does not authenticate an order
+or perform full FHIR conformance validation. Optional Omni and dual-reader paths have regression
+coverage; their runtime performance is not included in the hosted benchmark.
 
-The 12-image Wikimedia convenience sample has per-file licenses, author attribution, source URLs
-and SHA-256 hashes. Three additional unannotated candidates are excluded. Exact readings: drug
-8/10, strength 4/9 and volume 5/6. Strength separates into 4/5 liquid and 0/4 solid values; all
-subgroups are reported. No wrong evaluated fields were accepted by the parser/gates. One failed
-negative-control transcription remains in the report rather than being dropped.
+## Reproduction and audit evidence
 
-This is a **development pilot**: bugs were diagnosed from its outputs. It has one visual
-annotator, no pharmacist adjudication, correlated photographers, no prescriptions paired with
-bottles and no patient data. It cannot establish real-world verdict accuracy. The requested
-30–50 paired clinical cases remain future evidence work. Public images were not used for
-training, calibration or threshold selection. RxHandBD version 3 (CC BY 4.0) is a downloadable
-source for genuine handwriting word crops, not complete dispensing pairs; download details are
-in `benchmarks/real_world/README.md`.
+- [Frozen report](../benchmarks/results/bench_tf-review-v4-nano.json), including all five systems,
+  every evaluated field and validation/test reading counts.
+- [Per-case results](../benchmarks/results/cases_tf-review-v4-nano.json).
+- [Frozen model selection](../benchmarks/results/review_selection.json).
+- [Reproduction artifacts](../benchmarks/artifacts/review-v4/README.md), including manifests,
+  image hashes, extractions and recorded responses. Reproduction does not require model fitting.
+- [Public-photo results](../benchmarks/results/real_world/review-v4.json).
 
-## Verification and delivery
-
-251 Python tests pass, including the new import, corroboration, confirmation and calibration
-boundaries; the React/TypeScript production build passes. Browser checks covered A/D/G/F, mobile
-layout, explanations, reports and a FHIR order with two missing fields confirmed together. No
-JavaScript page errors occurred; one remote font request was denied by the network sandbox.
-The ten rendered demo cases were checked; a false ingredient conflict in I was corrected and
-I rechecked successfully. All ten default photographed demo cases also match their expected
-verdicts with the final head and refreshed recording. The frozen model bytes are preserved
-across Windows/Linux checkouts while retaining the repository's existing line-ending rules.
-
-The implementation, frozen reports, submission story and refreshed gallery are published on
-GitHub. Cloud Run revision `rxlint-00012-khw` serves the tested `e50fa0a` image at the existing
-public app URL; its synthetic and public-photo reports match the repository exactly, and FHIR
-preview was verified after deployment. All ten demo verdicts also match in the Linux release
-container under the service's two-CPU, 2 GiB limits.
-
-The updated 175.8-second video and synchronized captions are available in the
-[submission release](https://github.com/Marc-Dvci/RxLint/releases/tag/submission-review-v4).
-The walkthrough completes without failed UI lookups, and the confirmation animation reflects
-the current interface. Devpost text is ready in `docs/submission.md` and the local fields file;
-the owner still needs to paste it and replace the YouTube embed with the new recording.
+Development history and complete historical comparisons are preserved in
+[the audit archive](audits/implementation_history.md) and the raw benchmark reports.

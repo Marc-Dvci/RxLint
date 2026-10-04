@@ -1,7 +1,7 @@
-# Updated demo recording
+# RxLint demo recording
 
-The [175.8-second submission video and captions](https://github.com/Marc-Dvci/RxLint/releases/tag/submission-review-v4)
-show the current interface, confirmation flow and frozen benchmark results. All patients and
+The [174-second submission video and captions](https://github.com/Marc-Dvci/RxLint/releases/tag/submission-demo)
+show the interface, confirmation flow and frozen benchmark results. All patients and
 demo labels are fictional; model responses and the case I Tavily result are recorded and
 identified as such by the app.
 

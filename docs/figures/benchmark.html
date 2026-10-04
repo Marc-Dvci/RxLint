@@ -32,7 +32,7 @@
     <span><i style="background:var(--s3)"></i>OCR + regex + the same kernel</span>
   </div>
   <div class="panels" id="panels"></div>
-  <div class="foot">Frozen review-v4: DeepSeek V4.1 Flash transcribes, NVIDIA Nemotron 3 Nano structures on Nebius Token Factory. PP-OCRv6 + a validation-calibrated head. Confirmation is simulated. Previous RxLint: 50.83% confirmations, 95.83% exact after confirmation. Revised RxLint: 45.0% confirmations, 95.0% exact. This synthetic evaluation does not establish clinical safety.</div>
+  <div class="foot">120 held-out rendered cases. Confirmation simulated from written ground truth; head frozen before test extraction. Prototype evaluation, not clinical validation.</div>
 <script>
 const SYS = [
   { name: "RxLint", color: "var(--s1)" },
@@ -44,8 +44,8 @@ const PANELS = [
     values: [95.0, 85.8, 92.5], labels: ["95.0%", "85.8%", "92.5%"] },
   { title: "Overwritten doses held for confirmation", note: "of 10, higher is better", max: 10, ticks: [0, 2, 4, 6, 8, 10],
     values: [9, 3, 6], labels: ["9 / 10", "3 / 10", "6 / 10"] },
-  { title: "Error cases returned as PASS", note: "of 80, lower is better", max: 4, ticks: [0, 1, 2, 3, 4],
-    values: [0, 2, 0], labels: ["0 / 80", "2 / 80", "0 / 80"] },
+  { title: "Error cases returned as PASS after confirmation", note: "of 80, lower is better", max: 4, ticks: [0, 1, 2, 3, 4],
+    values: [0, 4, 1], labels: ["0 / 80", "4 / 80", "1 / 80"] },
   { title: "Cases asking for confirmation", note: "lower is better", max: 100, ticks: [0, 25, 50, 75, 100], unit: "%",
     values: [45.0, 23.3, 45.8], labels: ["45.0%", "23.3%", "45.8%"] },
 ];

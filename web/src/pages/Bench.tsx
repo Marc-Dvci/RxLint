@@ -28,8 +28,8 @@ export default function Bench() {
         <div>
           <h1>RxLintBench</h1>
           <p>
-            Stronger reading, fewer confirmation requests, and every result traceable to its evidence.
-            PP-OCRv6, focused crop re-reads and a validation-calibrated reliability head were evaluated on the same 120 held-out cases.
+            120 held-out prescription and bottle cases, with every verdict traceable to its evidence.
+            Independent PP-OCRv6 checks, focused crop reads and a validation-calibrated reliability head keep uncertain values under review.
           </p>
         </div>
       </div>
@@ -43,7 +43,7 @@ export default function Bench() {
         </div>
       )}
       {s?.status === "ok" && <p className="small muted">
-        The test fold uses rendered prescription and bottle photos with an unseen handwriting font, photo perturbations and product.
+        The test fold uses rendered prescription and bottle photos with a held-out handwriting font, photo perturbation families and product.
         Confirmation is simulated from written ground truth. These results measure the prototype and do not establish clinical safety.
       </p>}
       {s?.tables?.map((t) => (
