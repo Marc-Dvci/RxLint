@@ -39,7 +39,7 @@ with sync_playwright() as p:
         page.get_by_role("button", name="العربية").click()
         page.wait_for_timeout(800)
         # live check
-        page.get_by_role("button", name="Run live check").click()
+        page.get_by_role("button", name="Run live check").first.click()
         page.wait_for_selector(".live-card .badge", timeout=60000)
         page.wait_for_timeout(1200)
         page.screenshot(path=str(out / f"case_{cid}_live.png"), full_page=True)

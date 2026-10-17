@@ -34,6 +34,8 @@ from . import openfda
 from .tavily import TavilyClient, TavilyUnavailable
 
 POLICY_PATH = Path(__file__).with_name("policies.yaml")
+CLEAR_STATEMENT = ("No applicable notice was found in the searched regulator sources during this check. Search coverage is "
+                   "not exhaustive, so this does not prove that no recall applies to this product or lot.")
 
 
 @lru_cache(maxsize=1)
@@ -288,8 +290,7 @@ def live_check(pack: RulePack, product: str | None, lot: str | None, country: st
     return {**base, "status": status, "notices": sorted(notices, key=lambda x: x["match_type"] not in APPLICABLE),
             "applicable": len(applicable), "searches": searches, "errors": errors,
             "tavily_calls": [c.__dict__ for c in tavily.log],
-            "statement": ("No applicable alert was retrieved from the configured sources during this check."
-                          if status == "LIVE_CLEAR" else None)}
+            "statement": CLEAR_STATEMENT if status == "LIVE_CLEAR" else None}
 
 
 MONTHS = {m: i for i, m in enumerate(["january", "february", "march", "april", "may", "june", "july", "august", "september",

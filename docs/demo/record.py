@@ -71,10 +71,12 @@ def warm_up() -> None:
     for cid in ("A", "D", "I"):
         body = ("--x" + CRLF + 'Content-Disposition: form-data; name="demo_id"' + CRLF + CRLF + cid + CRLF + "--x--" + CRLF).encode()
         req = urllib.request.Request(BASE + "/api/cases", data=body, headers={"Content-Type": "multipart/form-data; boundary=x"})
-        case_id = json.loads(urllib.request.urlopen(req).read())["case_id"]
+        created = json.loads(urllib.request.urlopen(req).read())
+        case_id = created["case_id"]
+        get = urllib.request.Request(BASE + f"/api/cases/{case_id}", headers={"X-RxLint-Case-Token": created["access_token"]})
         t0 = time.time()
         while time.time() - t0 < 300:
-            env = json.loads(urllib.request.urlopen(BASE + f"/api/cases/{case_id}").read())
+            env = json.loads(urllib.request.urlopen(get).read())
             if env.get("status") in ("done", "error"):
                 break
             time.sleep(0.5)

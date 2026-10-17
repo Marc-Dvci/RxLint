@@ -164,8 +164,11 @@ code must contain a digit ("lots concernés" is not a lot). Shortage notices are
 information and never raise an alert. Publication dates are read in the page's language
 (`Publié le 18/01/2019`), and a historical check ignores notices published after its date.
 
-The live state never changes the deterministic verdict. A failed or unconfigured search reports
-`LIVE_UNAVAILABLE`, never `LIVE_CLEAR`.
+The live state never changes the deterministic verdict, but it is shown where the verdict is read:
+a recall notice appears as a banner above the verdict ("do not dispense until reviewed"), and the
+report carries the recall check next to the state. Search recall is not exhaustive, so `LIVE_CLEAR`
+is worded as "no notice found in the searched sources" and never as proof that no recall applies.
+A failed or unconfigured search reports `LIVE_UNAVAILABLE`, never `LIVE_CLEAR`.
 
 In the US, the openFDA enforcement feed runs next to Tavily. For other supported countries,
 RxLint searches regulator publications through Tavily: demo case I finds the ANSM recall of
@@ -321,7 +324,7 @@ still need collection and independent annotation.
 pytest
 ```
 
-**251 tests pass**, and all **ten demo cases** return their expected verdict. The suite covers
+**254 tests pass**, and all **ten demo cases** return their expected verdict. The suite covers
 the unit grammar (including property tests), boundary tests for every rule
 family, golden demo cases, metamorphic invariants (unit equivalence, asset renaming, uncertainty
 never producing `PASS`), verbatim source quotes, perception grounding, explanation integrity, the

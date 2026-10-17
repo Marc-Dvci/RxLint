@@ -8,6 +8,28 @@ from typing import Any
 
 from ..core.engine import ENGINE_VERSION
 from ..core.rulepack import RulePack
+from ..live.surveillance import CLEAR_STATEMENT
+
+# The live regulator state is reported next to the verdict, never folded into it: a PASS from the
+# installed rules can sit beside a recall notice, and the reader must see both before dispensing.
+RECALL_CHECK = {
+    "NOT_RUN": ("Recall check not run", "The verified result covers the installed rules only. "
+                "Check for recalls before dispensing.", "#8a5a00"),
+    "LIVE_REVIEW": ("Recall notice found", "An authoritative notice may apply to this product or lot. "
+                    "Do not dispense until a pharmacist has reviewed it.", "#b3261e"),
+    "LIVE_CLEAR": ("No notice found in the searched sources", CLEAR_STATEMENT, "#4a5568"),
+    "LIVE_UNAVAILABLE": ("Recall check unavailable", "The live check could not be completed. "
+                         "Check the regulator directly before dispensing.", "#8a5a00"),
+    "LIVE_NOT_CONFIGURED": ("Recall check not configured", "No regulator source is configured for this country. "
+                            "Check recalls directly before dispensing.", "#8a5a00"),
+}
+
+
+def recall_check(live: dict[str, Any] | None) -> dict[str, Any]:
+    status = live["status"] if live else "NOT_RUN"
+    title, message, _ = RECALL_CHECK.get(status, RECALL_CHECK["LIVE_UNAVAILABLE"])
+    return {"status": status, "title": title, "message": message, "blocks_dispensing": status == "LIVE_REVIEW",
+            "retrieved_at": live.get("retrieved_at") if live else None}
 
 
 def bundle(case_id: str, inp: dict[str, Any], res: dict[str, Any], live: dict[str, Any] | None, pack: RulePack) -> dict[str, Any]:
@@ -29,6 +51,7 @@ def bundle(case_id: str, inp: dict[str, Any], res: dict[str, Any], live: dict[st
         "coverage": v["coverage"],
         "clarification": res.get("clarification"),
         "evidence": v["evidence"],
+        "recall_check": recall_check(live),
         "live_intelligence": live,
         "rulepack": {**pack.summary_dict()},
         "engine": ENGINE_VERSION,
@@ -37,7 +60,8 @@ def bundle(case_id: str, inp: dict[str, Any], res: dict[str, Any], live: dict[st
         "models": [{k: c.get(k) for k in ("role", "model", "provider", "purpose", "latency_ms", "replayed", "recorded_at", "ok")}
                    for c in res.get("model_calls", [])],
         "professional_approval": {"name": None, "signature": None, "decision": None, "time": None},
-        "disclaimer": "Research prototype. Not approved for clinical use. A PASS means no discrepancy was detected within the scope of the installed rule pack.",
+        "disclaimer": "Research prototype. Not approved for clinical use. A PASS means no discrepancy was detected within the scope of the installed rule pack. "
+                      "A live check that finds no notice does not prove that no recall applies.",
     }
 
 
@@ -67,6 +91,8 @@ def render_html(b: dict[str, Any]) -> str:
         live_html = f"<p><b>{e(live['status'])}</b> {e(live.get('statement') or live.get('reason') or '')}</p><ul>{items}</ul>"
     models = "".join(f"<tr><td>{e(m['role'] or '')}</td><td><code>{e(m['model'] or '')}</code></td><td>{e(m['provider'] or '')}{' (replay)' if m.get('replayed') else ''}</td><td>{e(m['purpose'] or '')}</td><td>{m.get('latency_ms') or ''} ms</td></tr>" for m in b["models"])
     color = STATE_COLOR.get(b["state"], "#333")
+    rc = b["recall_check"]
+    rc_color = RECALL_CHECK.get(rc["status"], RECALL_CHECK["LIVE_UNAVAILABLE"])[2]
     return f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><title>RxLint report {e(b['case_id'])}</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <style>
@@ -77,10 +103,12 @@ table{{border-collapse:collapse;width:100%}} td,th{{border-bottom:1px solid #eef
 tr.s-fail td:first-child{{border-left:3px solid #b3261e}} tr.s-cannot_evaluate td:first-child{{border-left:3px solid #8a5a00}}
 .calc{{font-family:ui-monospace,Consolas,monospace;font-size:12px;background:#f5f7fa;padding:6px;margin-top:6px;border-radius:4px}}
 code{{font-size:12px}} .muted{{color:#5b6472}} .sign{{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:16px}}
-.sign div{{border-bottom:1px solid #999;height:40px}} @media print{{body{{margin:0}}}}
+.sign div{{border-bottom:1px solid #999;height:40px}}
+.recall{{border:2px solid {rc_color};border-left-width:8px;border-radius:6px;padding:10px 14px;margin:14px 0}} .recall b{{color:{rc_color}}} @media print{{body{{margin:0}}}}
 </style></head><body>
 <p class="muted">RxLint verification report &middot; {e(b['generated_at'])}</p>
 <h1>Case {e(b['case_id'])} &nbsp; <span class="state">{e(b['state'].replace('_', ' '))}</span></h1>
+<div class="recall"><b>{e(rc['title'])}</b><br>{e(rc['message'])}</div>
 <p>{b['summary']['review']} require review &middot; {b['summary']['passed']} checks passed &middot; {b['summary']['cannot_verify']} cannot verify &middot; {b['summary']['notes']} notes</p>
 <p class="muted">Rule pack <code>{e(b['rulepack']['id'])}</code> {e(b['rulepack']['version'])} &middot; sha256 <code>{e(b['hashes']['rulepack_sha256'][:16])}</code> &middot; engine {e(b['engine'])} &middot; result <code>{e(b['hashes']['result_sha256'][:16])}</code></p>
 <h2>Findings</h2><table><tr><th>Rule</th><th>Status</th><th>What was found</th><th>Source</th></tr>{''.join(rows)}</table>

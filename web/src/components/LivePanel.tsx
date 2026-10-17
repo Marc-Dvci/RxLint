@@ -1,15 +1,17 @@
-import { useState } from "react";
-import { api, type LiveResult } from "../api";
+import { type LiveResult } from "../api";
 import { IExternal, IGlobe } from "../icons";
 
-const STATUS: Record<string, { label: string; tone: string; line: string }> = {
-  LIVE_REVIEW: { label: "LIVE REVIEW", tone: "t-live", line: "An authoritative notice may apply to this product. Review it before dispensing." },
-  LIVE_CLEAR: { label: "LIVE CLEAR", tone: "t-pass", line: "No applicable alert was retrieved from the configured sources during this check." },
-  LIVE_UNAVAILABLE: { label: "LIVE UNAVAILABLE", tone: "t-cannot", line: "The live check could not be completed. This does not change the verified result." },
-  LIVE_NOT_CONFIGURED: { label: "NOT CONFIGURED", tone: "t-oos", line: "No reviewed regulator-source policy exists for this country or product." },
+// A clear search reports what was searched; search recall is not exhaustive, so it never says "no recall".
+export const LIVE_STATUS: Record<string, { label: string; tone: string; line: string }> = {
+  LIVE_REVIEW: { label: "LIVE REVIEW", tone: "t-live", line: "An authoritative notice may apply to this product or lot. Do not dispense until a pharmacist has reviewed it." },
+  LIVE_CLEAR: { label: "NO NOTICE FOUND", tone: "t-oos", line: "No applicable notice was found in the searched regulator sources during this check. Search coverage is not exhaustive, so this does not prove that no recall applies." },
+  LIVE_UNAVAILABLE: { label: "LIVE UNAVAILABLE", tone: "t-cannot", line: "The live check could not be completed. Check the regulator directly before dispensing." },
+  LIVE_NOT_CONFIGURED: { label: "NOT CONFIGURED", tone: "t-oos", line: "No reviewed regulator-source policy exists for this country. Check recalls directly before dispensing." },
 };
 
-const MATCH: Record<string, string> = {
+export const APPLICABLE = ["lot_recall", "product_recall", "safety_communication"];
+
+export const MATCH: Record<string, string> = {
   lot_recall: "Recall naming this lot",
   product_recall: "Recall naming this product",
   safety_communication: "Safety communication",
@@ -19,25 +21,14 @@ const MATCH: Record<string, string> = {
   supply_notice: "Supply information",
 };
 
-export default function LivePanel({ caseId, initial, country, asOf }: { caseId: string; initial?: LiveResult; country: string | null; asOf: string | null }) {
-  const [live, setLive] = useState<LiveResult | null>(initial ?? null);
-  const [busy, setBusy] = useState(false);
-  const [err, setErr] = useState<string | null>(null);
-  const run = async () => {
-    setBusy(true);
-    setErr(null);
-    try {
-      setLive(await api.live(caseId));
-    } catch (e) {
-      setErr(String(e));
-    }
-    setBusy(false);
-  };
-  const st = live ? STATUS[live.status] : null;
-  const applicable = live?.notices.filter((n) => ["lot_recall", "product_recall", "safety_communication"].includes(n.match_type)) ?? [];
+export default function LivePanel({ live, busy, err, onRun, country, asOf }: {
+  live: LiveResult | null; busy: boolean; err: string | null; onRun: () => void; country: string | null; asOf: string | null;
+}) {
+  const st = live ? LIVE_STATUS[live.status] : null;
+  const applicable = live?.notices.filter((n) => APPLICABLE.includes(n.match_type)) ?? [];
   const others = live?.notices.filter((n) => !applicable.includes(n)) ?? [];
   return (
-    <div className="card live-card">
+    <div className="card live-card" id="live-panel">
       <div className="card-head">
         <div className="row" style={{ gap: 10 }}>
           <IGlobe className="" />
@@ -46,7 +37,7 @@ export default function LivePanel({ caseId, initial, country, asOf }: { caseId: 
             <div className="sub">Separate from the verified result · Tavily Search + Extract on allowlisted regulator domains{country ? ` for ${country}` : ""}{asOf ? ` · as of ${asOf}` : ""}</div>
           </div>
         </div>
-        <button className="btn live" onClick={run} disabled={busy}>{busy && <span className="spinner" />}{live ? "Re-run live check" : "Run live check"}</button>
+        <button className="btn live" onClick={onRun} disabled={busy}>{busy && <span className="spinner" />}{live ? "Re-run live check" : "Run live check"}</button>
       </div>
       <div className="explain">
         {err && <div className="error">{err}</div>}
@@ -55,7 +46,7 @@ export default function LivePanel({ caseId, initial, country, asOf }: { caseId: 
           <>
             <div className="row">
               <span className={`badge ${st.tone}`} style={{ fontSize: 12.5, padding: "4px 10px" }}>{st.label}</span>
-              <span className="small">{live.statement ?? live.reason ?? st.line}</span>
+              <span className="small">{live.status === "LIVE_CLEAR" ? st.line : live.statement ?? live.reason ?? st.line}</span>
             </div>
             {applicable.map((n, i) => (
               <div key={i} className="notice applicable">
@@ -95,7 +86,7 @@ export default function LivePanel({ caseId, initial, country, asOf }: { caseId: 
                   {s.rejected_off_allowlist ? ` · ${s.rejected_off_allowlist} rejected off allowlist` : ""}{s.error ? ` · ${s.error}` : ""}
                 </div>
               ))}
-              <div>Policy {live.query_policy} · retrieved {live.retrieved_at}{(live as { cached?: boolean }).cached ? " (cached, refreshed every 6 hours)" : ""} · the live state never changes the deterministic verdict</div>
+              <div>Policy {live.query_policy} · retrieved {live.retrieved_at}{(live as { cached?: boolean }).cached ? " (cached, refreshed every 6 hours)" : ""} · shown beside the deterministic verdict, never folded into it</div>
             </div>
           </>
         )}

@@ -4,8 +4,12 @@ from __future__ import annotations
 
 import asyncio
 import functools
+import hashlib
+import hmac
 import json
 import os
+import secrets
+import shutil
 import threading
 import time
 import uuid
@@ -56,6 +60,52 @@ def _case_dir(case_id: str) -> Path:
     if not case_id.replace("-", "").replace("_", "").isalnum():
         raise HTTPException(400, "bad case id")
     return CASES / case_id
+
+
+# ----------------------------------------------------------------------------- case access
+# A case is readable only by whoever created it. Creation returns a random access token; only its
+# SHA-256 is stored. The browser holds it in an HttpOnly cookie scoped to the case's own path, and
+# API clients send it as a header. Without the token a case answers 404, so its id reveals nothing.
+TOKEN_HEADER = "x-rxlint-case-token"
+TOKEN_COOKIE = "rxlint_case"
+RETENTION_S = int(float(os.environ.get("RXLINT_CASE_RETENTION_HOURS", "24")) * 3600)
+
+
+def _token_hash(token: str) -> str:
+    return hashlib.sha256(token.encode("utf-8")).hexdigest()
+
+
+def _authorize(request: Request, case_id: str) -> Path:
+    d = _case_dir(case_id)
+    access = d / "access.json"
+    supplied = request.headers.get(TOKEN_HEADER) or request.cookies.get(TOKEN_COOKIE) or ""
+    if not supplied or not access.exists() or _expired(d):
+        raise HTTPException(404, "case not found")
+    stored = json.loads(access.read_text(encoding="utf-8"))["token_sha256"]
+    if not hmac.compare_digest(stored, _token_hash(supplied)):
+        raise HTTPException(404, "case not found")
+    return d
+
+
+def _expired(d: Path) -> bool:
+    access = d / "access.json"
+    created = access.stat().st_mtime if access.exists() else d.stat().st_mtime
+    return time.time() - created > RETENTION_S
+
+
+def _purge_expired() -> None:
+    """Delete every case older than the retention window, with its photos, evidence and report."""
+    if not CASES.exists():
+        return
+    for d in CASES.iterdir():
+        if d.is_dir() and _expired(d):
+            _delete_case(d.name)
+
+
+def _delete_case(case_id: str) -> None:
+    shutil.rmtree(_case_dir(case_id), ignore_errors=True)
+    with _lock:
+        _events.pop(case_id, None)
 
 
 def _push(case_id: str, kind: str, data: dict[str, Any]) -> None:
@@ -179,6 +229,7 @@ def _image_mime(data: bytes) -> str:
 @app.post("/api/cases")
 async def create_case(
     request: Request,
+    response: Response,
     prescription: UploadFile | None = File(None),
     medicine: UploadFile | None = File(None),
     audio: UploadFile | None = File(None),
@@ -254,12 +305,20 @@ async def create_case(
         raise HTTPException(400, f"unknown patient field(s) {unknown}; use {sorted(PATIENT_FIELDS)}")
     inp = CaseInput(case_id=case_id, assets=assets, patient={k: v for k, v in pat.items() if v}, country=country,
                     dispense_date=dispense_date, prescription_fhir=prescription_fhir)
+    _purge_expired()
+    token = secrets.token_urlsafe(32)
+    _save(case_id, "access.json", {"token_sha256": _token_hash(token), "created_at": datetime.now(timezone.utc).isoformat()})
     _start(inp, blobs, meta)
-    return {"case_id": case_id}
+    https = request.url.scheme == "https" or request.headers.get("x-forwarded-proto", "").split(",")[0].strip() == "https"
+    response.set_cookie(TOKEN_COOKIE, token, max_age=RETENTION_S, path=f"/api/cases/{case_id}", httponly=True,
+                        samesite="strict", secure=https)
+    return {"case_id": case_id, "access_token": token, "retention_hours": RETENTION_S / 3600}
 
 
 @app.get("/api/cases/{case_id}/events")
-async def case_events(case_id: str):
+async def case_events(case_id: str, request: Request):
+    _authorize(request, case_id)
+
     async def gen():
         i = 0
         deadline = time.time() + 600
@@ -278,9 +337,9 @@ async def case_events(case_id: str):
 
 
 @app.get("/api/cases/{case_id}")
-def get_case(case_id: str) -> dict[str, Any]:
+def get_case(case_id: str, request: Request) -> dict[str, Any]:
+    d = _authorize(request, case_id)
     inp = _load(case_id, "input.json")
-    d = _case_dir(case_id)
     out: dict[str, Any] = {"input": inp, "status": "running"}
     if (d / "result.json").exists():
         out["result"] = json.loads((d / "result.json").read_text(encoding="utf-8"))
@@ -290,16 +349,27 @@ def get_case(case_id: str) -> dict[str, Any]:
             out[name.split(".")[0]] = json.loads((d / name).read_text(encoding="utf-8"))
     with _lock:
         out["events"] = [e["event"] for e in _events.get(case_id, [])]
+    out["expires_at"] = datetime.fromtimestamp((d / "access.json").stat().st_mtime + RETENTION_S, timezone.utc).isoformat(timespec="seconds")
     return out
 
 
+@app.delete("/api/cases/{case_id}")
+def delete_case(case_id: str, request: Request, response: Response) -> dict[str, Any]:
+    _authorize(request, case_id)
+    _delete_case(case_id)
+    response.delete_cookie(TOKEN_COOKIE, path=f"/api/cases/{case_id}")
+    return {"case_id": case_id, "deleted": True}
+
+
 @app.get("/api/cases/{case_id}/assets/{asset_id}")
-def case_asset(case_id: str, asset_id: str):
+def case_asset(case_id: str, asset_id: str, request: Request):
+    _authorize(request, case_id)
     inp = _load(case_id, "input.json")
     a = next((x for x in inp["assets"] if x["id"] == asset_id), None)
     if a is None:
         raise HTTPException(404)
-    return Response((_case_dir(case_id) / f"asset_{asset_id}").read_bytes(), media_type=a["mime"])
+    return Response((_case_dir(case_id) / f"asset_{asset_id}").read_bytes(), media_type=a["mime"],
+                    headers={"Cache-Control": "private, no-store"})
 
 
 class Confirmation(BaseModel):
@@ -307,7 +377,8 @@ class Confirmation(BaseModel):
 
 
 @app.post("/api/cases/{case_id}/confirm")
-def confirm(case_id: str, body: Confirmation) -> dict[str, Any]:
+def confirm(case_id: str, body: Confirmation, request: Request) -> dict[str, Any]:
+    _authorize(request, case_id)
     unknown = sorted(set(body.confirmations) - set(FIELD_MAP))
     if unknown:
         raise HTTPException(400, f"unknown confirmation field(s): {unknown}")
@@ -338,6 +409,7 @@ class ExplainRequest(BaseModel):
 def explain_case(case_id: str, body: ExplainRequest, request: Request) -> dict[str, Any]:
     if body.language not in LANGUAGES or body.audience not in ("caregiver", "professional"):
         raise HTTPException(400, "unsupported language or audience")
+    _authorize(request, case_id)
     res = _load(case_id, "result.json")
     d = _case_dir(case_id)
     cache = json.loads((d / "explanations.json").read_text(encoding="utf-8")) if (d / "explanations.json").exists() else {}
@@ -354,6 +426,7 @@ LIVE_CACHE = guard.LiveCache(DATA / "live_cache")
 
 @app.post("/api/cases/{case_id}/live")
 def live_case(case_id: str, request: Request) -> dict[str, Any]:
+    _authorize(request, case_id)
     inp = _load(case_id, "input.json")
     res = _load(case_id, "result.json")
     facts = {k: v for k, v in _facts(res).items()}
@@ -381,15 +454,17 @@ def _facts(res: dict[str, Any]) -> dict[str, Any]:
 
 
 @app.get("/api/cases/{case_id}/report")
-def case_report(case_id: str, format: str = "html"):
+def case_report(case_id: str, request: Request, format: str = "html"):
+    _authorize(request, case_id)
     inp = _load(case_id, "input.json")
     res = _load(case_id, "result.json")
     d = _case_dir(case_id)
     live = json.loads((d / "live.json").read_text(encoding="utf-8")) if (d / "live.json").exists() else None
     bundle = report.bundle(case_id, inp, res, live, PACK)
     if format == "json":
-        return JSONResponse(bundle, headers={"Content-Disposition": f'attachment; filename="rxlint-{case_id}.json"'})
-    return HTMLResponse(report.render_html(bundle))
+        return JSONResponse(bundle, headers={"Content-Disposition": f'attachment; filename="rxlint-{case_id}.json"',
+                                             "Cache-Control": "private, no-store"})
+    return HTMLResponse(report.render_html(bundle), headers={"Cache-Control": "private, no-store"})
 
 
 # ----------------------------------------------------------------------------- manual verification

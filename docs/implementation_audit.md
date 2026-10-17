@@ -66,7 +66,7 @@ is a priority for broader coverage. [Dataset and provenance](../benchmarks/real_
 
 ## Implementation checks
 
-**251 automated tests pass**, and all **ten demo cases** return their expected verdicts.
+**254 automated tests pass**, and all **ten demo cases** return their expected verdicts.
 The suite covers rule boundaries, source quotes, units, grounded readings, explanation integrity,
 live lot matching, FHIR import and confirmation. A browser check confirms that two missing fields
 can be reviewed in one action without additional model calls. The Linux container also completes

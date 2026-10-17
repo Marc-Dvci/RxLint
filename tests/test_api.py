@@ -178,3 +178,51 @@ def test_batch_confirmation_rejects_unknown_fields_and_records_each_value(client
     ev = after.json()["verification"]["evidence"]
     assert ev["ev_rx_dose"]["status"] == "normalized"
     assert ev["ev_patient_weight_kg"]["status"] == "normalized"
+
+
+def test_case_endpoints_answer_only_the_creator(client):
+    from fastapi.testclient import TestClient
+
+    r = client.post("/api/cases", data={"demo_id": "A"})
+    cid, token = r.json()["case_id"], r.json()["access_token"]
+    assert "httponly" in r.headers["set-cookie"].lower() and f"path=/api/cases/{cid}" in r.headers["set-cookie"].lower()
+    run_demo(client, "A")  # the creator's browser carries the cookie
+    assert client.get(f"/api/cases/{cid}").status_code == 200
+    stranger = TestClient(client.app)
+    for method, url, kw in (("get", "", {}), ("get", "/events", {}), ("get", "/assets/rx", {}), ("get", "/report", {}),
+                            ("get", "/report?format=json", {}), ("post", "/confirm", {"json": {"confirmations": {"rx.dose": "5 mL"}}}),
+                            ("post", "/explain", {"json": {"language": "en", "audience": "caregiver"}}), ("post", "/live", {}),
+                            ("delete", "", {})):
+        assert getattr(stranger, method)(f"/api/cases/{cid}{url}", **kw).status_code == 404, url
+        assert getattr(stranger, method)(f"/api/cases/{cid}{url}", headers={"x-rxlint-case-token": "x" + token}, **kw).status_code == 404
+    assert stranger.get(f"/api/cases/{cid}", headers={"x-rxlint-case-token": token}).status_code == 200
+
+
+def test_report_carries_the_recall_check_next_to_the_verdict(client):
+    from rxlint.api.report import recall_check
+
+    cid, _ = run_demo(client, "A")
+    bundle = client.get(f"/api/cases/{cid}/report?format=json").json()
+    assert bundle["recall_check"]["status"] == "NOT_RUN" and not bundle["recall_check"]["blocks_dispensing"]
+    assert "Recall check not run" in client.get(f"/api/cases/{cid}/report").text
+    assert recall_check({"status": "LIVE_REVIEW", "retrieved_at": "t"})["blocks_dispensing"]
+    assert "does not prove" in recall_check({"status": "LIVE_CLEAR"})["message"]
+
+
+def test_cases_can_be_deleted_and_expire(client):
+    import rxlint.api.app as app_mod
+
+    cid, _ = run_demo(client, "A")
+    d = app_mod.CASES / cid
+    assert d.exists()
+    assert client.delete(f"/api/cases/{cid}").json()["deleted"] is True
+    assert not d.exists() and client.get(f"/api/cases/{cid}").status_code == 404
+    cid, _ = run_demo(client, "A")
+    keep = app_mod.RETENTION_S
+    try:
+        app_mod.RETENTION_S = -1
+        assert client.get(f"/api/cases/{cid}").status_code == 404
+        client.post("/api/cases", data={"demo_id": "B"})
+        assert not (app_mod.CASES / cid).exists()
+    finally:
+        app_mod.RETENTION_S = keep

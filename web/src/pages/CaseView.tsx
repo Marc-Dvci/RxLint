@@ -1,9 +1,9 @@
 import { Fragment, useCallback, useEffect, useMemo, useState } from "react";
-import { api, type CaseEnvelope, type CaseResult, type Evidence, type Finding, type Health } from "../api";
+import { api, type CaseEnvelope, type CaseResult, type Evidence, type Finding, type Health, type LiveResult } from "../api";
 import { ACTION_LABEL, STATE_META, factValue, fieldLabel, modelName } from "../labels";
 import { IChevron, IDown, IFile, StateIcon } from "../icons";
 import ExplainPanel from "../components/ExplainPanel";
-import LivePanel from "../components/LivePanel";
+import LivePanel, { APPLICABLE, LIVE_STATUS, MATCH } from "../components/LivePanel";
 
 const STEPS = [
   { key: "quality", title: "Photo checks", desc: "blur, glare, exposure" },
@@ -77,6 +77,51 @@ function Verdict({ result }: { result: CaseResult }) {
         <span>Result <code>{v.result_sha256.slice(0, 10)}</code></span>
         <span>{v.engine}</span>
       </div>
+    </div>
+  );
+}
+
+/** The live regulator state sits beside the verdict, never inside it: a PASS from the installed rules can
+ *  coexist with a recall notice, so the recall check is shown where the verdict is read, and a found notice
+ *  is shown above it. */
+function RecallGate({ live, busy, onRun, verdict }: { live: LiveResult | null; busy: boolean; onRun: () => void; verdict: string }) {
+  const toPanel = () => document.getElementById("live-panel")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  if (live?.status === "LIVE_REVIEW") {
+    const n = live.notices.find((x) => APPLICABLE.includes(x.match_type));
+    return (
+      <div className="recall-gate alert" role="alert">
+        <div className="mark">!</div>
+        <div>
+          <div className="title">Recall notice found · do not dispense until reviewed</div>
+          {n && <div className="small" style={{ marginTop: 2 }}><b>{MATCH[n.match_type]}</b>: {n.title} ({n.authority}{n.published_at ? `, ${n.published_at}` : ""})</div>}
+          <div className="tiny muted" style={{ marginTop: 2 }}>The {verdict} below covers the installed rules only. This notice comes from the live regulator check, retrieved {live.retrieved_at}.</div>
+        </div>
+        <button className="btn" onClick={toPanel}>Read the notice</button>
+      </div>
+    );
+  }
+  if (!live) {
+    return (
+      <div className="recall-gate">
+        <div className="mark">?</div>
+        <div>
+          <div className="title">Recall check not run</div>
+          <div className="small">The verified result covers the installed rules only. Run the live regulator check for this product and lot before dispensing.</div>
+        </div>
+        <button className="btn live" onClick={onRun} disabled={busy}>{busy && <span className="spinner" />}Run live check</button>
+      </div>
+    );
+  }
+  const st = LIVE_STATUS[live.status];
+  const clear = live.status === "LIVE_CLEAR";
+  return (
+    <div className={`recall-gate ${clear ? "quiet" : ""}`}>
+      <div className="mark">{clear ? "\u2013" : "?"}</div>
+      <div>
+        <div className="title">{clear ? "Recall check: no notice found in the searched sources" : `Recall check: ${st.label.toLowerCase()}`}</div>
+        <div className="small">{st.line}</div>
+      </div>
+      <button className="btn ghost" onClick={toPanel}>Details</button>
     </div>
   );
 }
@@ -453,11 +498,36 @@ export default function CaseView({ id }: { id: string; health: Health | null }) 
   const [selFact, setSelFact] = useState<string | null>(null);
   const [asset, setAsset] = useState<string>("rx");
   const [showPasses, setShowPasses] = useState(false);
+  const [live, setLive] = useState<LiveResult | null>(null);
+  const [liveBusy, setLiveBusy] = useState(false);
+  const [liveErr, setLiveErr] = useState<string | null>(null);
+  const [deleted, setDeleted] = useState(false);
+
+  const runLive = async () => {
+    setLiveBusy(true);
+    setLiveErr(null);
+    try {
+      setLive(await api.live(id));
+    } catch (e) {
+      setLiveErr(String(e));
+    }
+    setLiveBusy(false);
+  };
+  const remove = async () => {
+    if (!window.confirm("Delete this case, its photos and its report from the server?")) return;
+    try {
+      await api.deleteCase(id);
+      setDeleted(true);
+    } catch (e) {
+      setError(String(e));
+    }
+  };
 
   const load = useCallback(async () => {
     const e = await api.getCase(id);
     setEnv(e);
     if (e.result) setResult(e.result);
+    if (e.live) setLive(e.live);
     return e;
   }, [id]);
 
@@ -524,6 +594,13 @@ export default function CaseView({ id }: { id: string; health: Health | null }) 
   };
 
   const demo = env?.input.meta?.demo;
+  if (deleted) {
+    return (
+      <div className="page stack">
+        <div className="card pad">Case <span className="mono">{id}</span> was deleted with its photos, evidence and report. <a href="#/">Start a new verification</a></div>
+      </div>
+    );
+  }
   return (
     <div className="page stack">
       <div className="page-head">
@@ -539,17 +616,20 @@ export default function CaseView({ id }: { id: string; health: Health | null }) 
           <div className="row">
             <a className="btn" href={`/api/cases/${id}/report`} target="_blank" rel="noreferrer"><IFile /> Report</a>
             <a className="btn" href={`/api/cases/${id}/report?format=json`}><IDown /> JSON</a>
+            <button className="btn ghost" onClick={remove}>Delete case</button>
           </div>
         )}
       </div>
 
       <Pipeline events={events} result={result ?? undefined} />
-      {error && <div className="error">{error}</div>}
+      {error && <div className="error">{error.startsWith("Error: 404") ? "This case is not available here. A case opens only in the browser that created it, and is deleted after the retention period." : error}</div>}
       {!result && !error && <div className="card empty"><span className="spinner" style={{ display: "inline-block", marginRight: 8, verticalAlign: "middle" }} />Reading the photos…</div>}
 
       {result && v && (
         <>
+          {live?.status === "LIVE_REVIEW" && <RecallGate live={live} busy={liveBusy} onRun={runLive} verdict={STATE_META[v.state].short} />}
           <Verdict result={result} />
+          {live?.status !== "LIVE_REVIEW" && <RecallGate live={live} busy={liveBusy} onRun={runLive} verdict={STATE_META[v.state].short} />}
           {result.untrusted_text_flagged && (
             <div className="card pad row" style={{ borderColor: "var(--live-line)" }}>
               <span className="badge t-live">UNTRUSTED TEXT</span>
@@ -593,7 +673,7 @@ export default function CaseView({ id }: { id: string; health: Health | null }) 
             </div>
           </div>
 
-          <LivePanel caseId={id} initial={env?.live} country={env?.input.country ?? null} asOf={env?.input.dispense_date ?? null} />
+          <LivePanel live={live} busy={liveBusy} err={liveErr} onRun={runLive} country={env?.input.country ?? null} asOf={env?.input.dispense_date ?? null} />
           <ModelCalls result={result} />
         </>
       )}

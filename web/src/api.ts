@@ -202,6 +202,7 @@ export interface CaseEnvelope {
   result?: CaseResult;
   live?: LiveResult;
   events: string[];
+  expires_at?: string;
 }
 
 export interface DemoCase {
@@ -257,6 +258,7 @@ export const api = {
   explain: (id: string, language: string, audience: string) =>
     fetch(`/api/cases/${id}/explain`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ language, audience }) }).then((r) => j<Explanation>(r)),
   live: (id: string) => fetch(`/api/cases/${id}/live`, { method: "POST" }).then((r) => j<LiveResult>(r)),
+  deleteCase: (id: string) => fetch(`/api/cases/${id}`, { method: "DELETE" }).then((r) => j<{ deleted: boolean }>(r)),
   rulepack: () => fetch("/api/rulepack").then((r) => j<RulePackView>(r)),
   driftLast: () => fetch("/api/rulepack/drift").then((r) => j<Record<string, unknown>>(r)),
   drift: () => fetch("/api/rulepack/drift", { method: "POST" }).then((r) => j<Record<string, unknown>>(r)),
