@@ -17,7 +17,7 @@ Independent **PP-OCRv6** checks and a validation-calibrated reliability head kee
 - **Watches the regulators** with **Tavily** in the United States, France, the United Kingdom, Kenya and Nigeria: an exact-match lot search on ansm.sante.fr finds the ANSM recall that names the lot on the bottle.
 - **Measured** on 120 held-out cases: **95.0% exact verdicts after simulated confirmation**, **9/10 overwritten doses held for review**, and **0/80 false-safe verdicts**, both before and after confirmation.
 
-**Try it:** [live app](https://rxlint-284853036406.europe-west1.run.app) · [demo and captions](https://github.com/Marc-Dvci/RxLint/releases/tag/submission-demo) · [code](https://github.com/Marc-Dvci/RxLint) (Apache-2.0)
+**Try it:** [live app](https://rxlint-284853036406.europe-west1.run.app) · [demo video](https://youtu.be/bhxc0Qqnvv0) · [video file and captions](https://github.com/Marc-Dvci/RxLint/releases/tag/submission-demo) · [code](https://github.com/Marc-Dvci/RxLint) (Apache-2.0)
 
 ![RxLint flags the wrong concentration on case A: the verdict, the boxed strengths on both photos, and the calculation](https://raw.githubusercontent.com/Marc-Dvci/RxLint/main/docs/img/case_A.png)
 
@@ -146,7 +146,7 @@ nvidia-nemotron, nemotron-3-ultra, nemotron-3-nano, nemotron-3-nano-omni, nebius
 
 ## Video demo link
 
-https://github.com/Marc-Dvci/RxLint/releases/download/submission-demo/rxlint-demo.mp4
+https://youtu.be/bhxc0Qqnvv0
 
 ## Which track are you submitting your project into?
 

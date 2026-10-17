@@ -17,7 +17,8 @@ keep uncertain readings under review. Batch confirmation resolves reviewed field
 FHIR R4 import supplies supported prescriptions directly with source evidence.
 
 [Try the app](https://rxlint-284853036406.europe-west1.run.app) ·
-[Demo and captions](https://github.com/Marc-Dvci/RxLint/releases/tag/submission-demo) ·
+[Demo video](https://youtu.be/bhxc0Qqnvv0) ·
+[Video file and captions](https://github.com/Marc-Dvci/RxLint/releases/tag/submission-demo) ·
 [Submission story](docs/submission.md) · [Results and reproduction](#benchmark)
 
 On Nebius Token Factory, a vision model transcribes each photo line by line and NVIDIA Nemotron 3

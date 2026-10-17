@@ -131,8 +131,7 @@ public app URL; its synthetic and public-photo reports match the repository exac
 preview was verified after deployment. All ten demo verdicts also match in the Linux release
 container under the service's two-CPU, 2 GiB limits.
 
-The updated 175.8-second video and synchronized captions are available in the
-[submission release](https://github.com/Marc-Dvci/RxLint/releases/tag/submission-review-v4).
+The 174-second submission video is on [YouTube](https://youtu.be/bhxc0Qqnvv0); the file and
+synchronized captions are in the [submission release](https://github.com/Marc-Dvci/RxLint/releases/tag/submission-demo).
 The walkthrough completes without failed UI lookups, and the confirmation animation reflects
-the current interface. Devpost text is ready in `docs/submission.md` and the local fields file;
-the owner still needs to paste it and replace the YouTube embed with the new recording.
+the current interface. The Devpost text is in `docs/submission.md`.

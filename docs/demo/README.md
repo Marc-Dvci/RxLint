@@ -1,6 +1,7 @@
 # RxLint demo recording
 
-The [174-second submission video and captions](https://github.com/Marc-Dvci/RxLint/releases/tag/submission-demo)
+The [174-second submission video](https://youtu.be/bhxc0Qqnvv0) (file and captions in the
+[submission release](https://github.com/Marc-Dvci/RxLint/releases/tag/submission-demo))
 show the interface, confirmation flow and frozen benchmark results. All patients and
 demo labels are fictional; model responses and the case I Tavily result are recorded and
 identified as such by the app.
