@@ -8,6 +8,8 @@
 
 **RxLint checks the medicine being handed over against the prescription, the way a compiler checks code.** Start with two photos, or import a FHIR prescription and photograph the bottle, then add the patient's weight, age and allergies. Every finding traces to the source evidence, exact arithmetic and WHO or FDA rule behind it.
 
+I audit controls for a living, and the last check at a pharmacy counter is a control that rests on one person comparing two pieces of paper. RxLint makes that check repeatable, and every result inspectable.
+
 Independent **PP-OCRv6** checks and a validation-calibrated reliability head keep uncertain readings under review. **Batch confirmation** presents unresolved values together, while supported **FHIR prescriptions** enter directly with source evidence.
 
 - **Who it is for:** whoever makes the last check before a medicine crosses the counter, in a city pharmacy, a hospital outpatient pharmacy or a clinic dispensary, and the caregiver who gives the dose at home.
@@ -19,7 +21,7 @@ Independent **PP-OCRv6** checks and a validation-calibrated reliability head kee
 
 **Try it:** [live app](https://rxlint-284853036406.europe-west1.run.app) · [demo video](https://youtu.be/bhxc0Qqnvv0) · [video file and captions](https://github.com/Marc-Dvci/RxLint/releases/tag/submission-demo) · [code](https://github.com/Marc-Dvci/RxLint) (Apache-2.0)
 
-![RxLint flags the wrong concentration on case A: the verdict, the boxed strengths on both photos, and the calculation](https://raw.githubusercontent.com/Marc-Dvci/RxLint/main/docs/img/case_A.png)
+![RxLint flags the wrong concentration on case A: the verdict, the boxed strengths on both photos, and the calculation](https://raw.githubusercontent.com/Marc-Dvci/RxLint/main/docs/img/case%5FA.png)
 
 **The drug name is right. The volume is right. The bottle is still wrong.** A prescription for amoxicillin/clavulanate 400 mg/57 mg per 5 mL, 5 mL twice daily, is filled with a 250 mg/62.5 mg per 5 mL bottle. The product name and prescribed volume match, but the concentrations differ. A 9.5 kg child receives 52.6 mg/kg/day instead of the 80 to 90 mg/kg/day WHO gives, with 1.75 times more clavulanate per milligram of amoxicillin. RxLint catches this in one scan, draws a box around both strengths on the photos, and shows the arithmetic and the WHO rule that fired.
 
@@ -46,11 +48,11 @@ The first rule pack covers **seven oral antibiotic products for children aged 28
 
 **Review unresolved facts together.** Fixed FHIR prescription facts keep their JSON-path evidence, and all unresolved fields appear in one confirmation card with explicit choices for ambiguous readings. Confirming the reviewed values re-runs the deterministic checks without another inference call.
 
-![FHIR prescription import and batch confirmation in the working app](https://raw.githubusercontent.com/Marc-Dvci/RxLint/main/docs/img/fhir_batch.png)
+![FHIR prescription import and batch confirmation in the working app](https://raw.githubusercontent.com/Marc-Dvci/RxLint/main/docs/img/fhir%5Fbatch.png)
 
 ### Where it fits
 
-RxLint sits at the last step of dispensing: after the bottle is picked and labelled, before it crosses the counter. It needs a phone camera and a browser, and nothing changes in the pharmacy's own system. The verdict, every pharmacist confirmation and the photo hashes go into the report and the evidence bundle, which can be filed with the dispensing record. Rules are versioned YAML data with their sources, so a formulary update ships as a new hashed rule pack, reviewed like a release.
+RxLint sits at the last step of dispensing: after the bottle is picked and labelled, before it crosses the counter. It needs a phone camera and a browser, and nothing changes in the pharmacy's own system. The verdict, every pharmacist confirmation and the photo hashes go into the report and the evidence bundle, which can be filed with the dispensing record. Each case is visible only to the browser that created it, through a per-case access token, and is deleted after 24 hours or when the user presses Delete. Rules are versioned YAML data with their sources, so a formulary update ships as a new hashed rule pack, reviewed like a release.
 
 ## How I built it
 
@@ -66,9 +68,9 @@ RxLint separates reading, proving and explaining, and gives each job to the comp
 
 **Explaining, with Nemotron 3 Ultra and an audit by Nemotron 3 Nano.** When a case is blocked, **Nemotron 3 Ultra** picks the smallest clarification from a closed list. On request it explains the verdict to a pharmacist or a caregiver, writing only the connecting sentences around placeholder tokens that carry every value with its unit, every medicine name and the action. An integrity check rejects any digit outside a token, and **Nemotron 3 Nano audits the rendered text** with closed questions generated from the findings ("does the text say the dose is too low or too high?"). A text that contradicts the verified result falls back to a deterministic phrase table. Before a language may show model-written text, a canary run plants errors in it: Nemotron 3 Nano caught every planted error in English, French and Arabic, so those languages show Nemotron 3 Ultra's text, and Swahili readers get the reviewed phrase table.
 
-**Live intelligence, with Tavily.** The dispensing country selects an allowlist of regulator domains before any search runs. Code builds the queries from the canonical product, lot and country. The lot query quotes the lot code with Tavily's `exact_match`, so only pages that print this lot come back; every URL is re-checked by hostname; Tavily Extract (advanced depth, Markdown) reads a deterministic shortlist; and a lot matcher classifies each notice as a recall of this lot, a recall of this product, other lots only, a safety communication or supply information. For the United States, the openFDA enforcement feed runs alongside. For the other supported countries, RxLint searches regulator publications through Tavily: for a French prescription dispensed on 4 February 2019, Tavily finds the **ANSM recall of 18 January 2019** that names lot JA0287 on the bottle, and the same product with lot JA0290 stays clear. In the US demo, a check dated 20 November 2025 finds **FDA recall D-0151-2026** for the exact lot. The same allowlist monitors the rule sources themselves: newer WHO guidance on a monitored topic opens a review item for the rules that topic covers, and the installed rule never changes at runtime.
+**Live intelligence, with Tavily.** The dispensing country selects an allowlist of regulator domains before any search runs. Code builds the queries from the canonical product, lot and country. The lot query quotes the lot code with Tavily's `exact_match`, so only pages that print this lot come back; every URL is re-checked by hostname; Tavily Extract (advanced depth, Markdown) reads a deterministic shortlist; and a lot matcher classifies each notice as a recall of this lot, a recall of this product, other lots only, a safety communication or supply information. For the United States, the openFDA enforcement feed runs alongside. For the other supported countries, RxLint searches regulator publications through Tavily: for a French prescription dispensed on 4 February 2019, Tavily finds the **ANSM recall of 18 January 2019** that names lot JA0287 on the bottle, and the same product with lot JA0290 stays clear. A recall finding is shown above the verdict, so a PASS from the rules never hides a notice about the lot; when nothing is found, it says "no notice found in the searched sources" and that the search is not exhaustive. In the US demo, a check dated 20 November 2025 finds **FDA recall D-0151-2026** for the exact lot. The same allowlist monitors the rule sources themselves: newer WHO guidance on a monitored topic opens a review item for the rules that topic covers, and the installed rule never changes at runtime.
 
-![Case I: Tavily's exact-match lot search on ansm.sante.fr returns the ANSM recall of 18 January 2019 naming lot JA0287, next to the PASS from the rules](https://raw.githubusercontent.com/Marc-Dvci/RxLint/main/docs/img/case_I_live.png)
+![Case I: Tavily's exact-match lot search on ansm.sante.fr returns the ANSM recall of 18 January 2019 naming lot JA0287, next to the PASS from the rules](https://raw.githubusercontent.com/Marc-Dvci/RxLint/main/docs/img/case%5FI%5Flive.png)
 
 The backend is **Python and FastAPI** with live progress over server-sent events; the frontend is **React and TypeScript** in a Google Material design; the service runs as a **Docker** container on **Google Cloud Run**, and the hosted model calls go to **Nebius Token Factory**.
 
@@ -78,7 +80,7 @@ I built a benchmark alongside the product. A renderer produces prescription and 
 
 On the held-out test fold (120 cases: 40 clean, 60 with a rule violation, 20 with a missing or overwritten fact), with DeepSeek V4.1 Flash and Nemotron 3 Nano reading every photo on Token Factory:
 
-![Exact field reading on 120 held-out cases: dose 82.5%, weight 85.0%, label strength 93.3%, expiry 84.2%](https://raw.githubusercontent.com/Marc-Dvci/RxLint/main/docs/img/benchmark_fields.png)
+![Exact field reading on 120 held-out cases: dose 82.5%, weight 85.0%, label strength 93.3%, expiry 84.2%](https://raw.githubusercontent.com/Marc-Dvci/RxLint/main/docs/img/benchmark%5Ffields.png)
 
 | System | Overwritten dose held | Exact verdict after confirmation | False-safe after confirmation |
 |---|---|---|---|
@@ -96,7 +98,7 @@ A separate pilot uses **12 openly licensed medicine photographs**, with attribut
 
 - **Reading small print without guessing.** PP-OCRv6, bounded crop recovery and explicit ambiguity checks corroborate dose, weight, concentration and expiry readings; a validation-calibrated second gate accepted zero incorrect high-risk readings in the test fold. Batch confirmation keeps the remaining review work in one place.
 - **Faithful explanations in several languages.** Values carry their units in locked tokens, and Nemotron 3 Nano audits the surrounding claims against the verified result. Planted-error checks enable model text in English, French and Arabic; Swahili uses reviewed phrases.
-- **Reliable regulator context and edge cases.** Domain checks, exact lot matching and notice-context filtering prevent unrelated links from becoming recall alerts. The deterministic kernel, FHIR import and confirmation flow are covered by **251 automated tests**, with all **ten demo cases** returning their expected verdict.
+- **Reliable regulator context and edge cases.** Domain checks, exact lot matching and notice-context filtering prevent unrelated links from becoming recall alerts. The deterministic kernel, FHIR import and confirmation flow are covered by **254 automated tests**, with all **ten demo cases** returning their expected verdict.
 
 ## Accomplishments that I'm proud of
 
