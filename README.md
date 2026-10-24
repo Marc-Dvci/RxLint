@@ -107,12 +107,15 @@ a number in an explanation.
 |---|---|---|---|
 | `structure` | `nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B` | Token Factory | Turning a transcript into fields with cited lines; auditing every explanation |
 | `ultra` | `nvidia/Nemotron-3-Ultra-550b-a55b` | Token Factory | Clarification, pharmacist and caregiver explanations, drift document listing |
-| `vision` | `deepseek-ai/DeepSeek-V4.1-Flash` | Token Factory | Line-by-line transcription of the photo, nothing else |
+| `vision` | `deepseek-ai/DeepSeek-V4.1-Flash` (or `nvidia/Nemotron-3.5-Super-VL`) | Token Factory | Line-by-line transcription of the photo, nothing else |
 | `omni` | `nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning` | Nebius AI Cloud endpoint or local llama.cpp | Reading photos and a spoken note in one call |
 
-The NVIDIA models on Token Factory are text models, so the hosted product pairs a Token Factory
-vision model for transcription with Nemotron for everything that interprets, reasons or checks. The
-transcriber never sees the field list and Nemotron never sees the image. Nemotron 3 Nano Omni runs
+The hosted product pairs a Token Factory vision model for transcription with Nemotron for
+everything that interprets, reasons or checks. The transcriber never sees the field list and
+Nemotron never sees the image. DeepSeek V4.1 Flash was chosen when every Nemotron model on Token
+Factory was text-only; `RXLINT_VISION_MODEL=nvidia/Nemotron-3.5-Super-VL` makes the whole reader
+Nemotron, and both transcribers are measured on the same frozen folds
+([all-Nemotron reader](#an-all-nemotron-reader)). Nemotron 3 Nano Omni runs
 the whole perception step where it is served. The published benchmark evaluates the hosted
 transcription-plus-Nano pipeline.
 
@@ -256,8 +259,12 @@ export RXLINT_OMNI_BASE_URL=http://127.0.0.1:8089/v1
 ## Benchmark
 
 `src/rxlint/bench` builds RxLintBench: rendered prescription and bottle photos with pixel-exact
-ground truth, one injected error per case across 16 mutation families, and photo perturbations.
-The test fold holds out a handwriting font, four perturbation families and one product.
+ground truth, one injected error per case from 16 mutation families, and photo perturbations.
+The test fold holds out a handwriting font, four perturbation families and one product. The frozen
+330-case set draws eight of the families; `tools/oracle_check.py` covers all 16 by feeding the gold
+facts of freshly generated cases straight into the kernel, and on 1,700 cases every verdict and
+failing rule family matches what the mutation declares
+([report](benchmarks/results/oracle_agreement.json)).
 
 ```bash
 python -c "from pathlib import Path; from rxlint.bench.generate import generate; generate(Path('bench_out/v1'), 150, 60, 120)"
@@ -301,6 +308,25 @@ cases returned as `PASS`. Confirmation uses written ground truth; this rendered 
 measures the prototype and does not establish clinical safety.
 See the [evaluation and audit](docs/implementation_audit.md)
 and [frozen reproduction artifacts](benchmarks/artifacts/review-v4/README.md).
+
+### An all-Nemotron reader
+
+Nemotron 3.5 Super VL was run as the transcriber on the frozen validation and test folds, with
+nothing else changed and the head not refit:
+
+| Test fold, full RxLint pipeline | DeepSeek V4.1 Flash + Nano | Nemotron 3.5 Super VL + Nano |
+|---|---|---|
+| False-safe after confirmation | **0/80** | **0/80** |
+| Overwritten dose held | 9/10 | **10/10** |
+| Exact verdict after confirmation | **95.0%** | 92.5% |
+| Cases needing confirmation | 54/120 | **51/120** |
+| Wrong high-risk readings accepted | **0 of 677** | 1 of 668 |
+| Dose / weight / label strength / expiry exact | 82.5 / 85.0 / 93.3 / 84.2% | **83.3 / 86.7 / 94.2 / 85.0%** |
+
+The accepted reading is a label strength half hidden by an occlusion, where the partial OCR line
+agreed with the misreading; the case still ends `REVIEW`. DeepSeek V4.1 Flash stays the hosted
+transcriber. Extractions, recorded responses and the case-by-case comparison are in
+[benchmarks/artifacts/review-v4-supervl](benchmarks/artifacts/review-v4-supervl/README.md).
 
 ### Public medicine photograph pilot
 

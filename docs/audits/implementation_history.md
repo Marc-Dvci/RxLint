@@ -60,7 +60,8 @@ are in `benchmarks/results/review_selection.json`. Test reporting does not refit
 | Clean PASS after simulated confirmation | 40/40 | 38/40 |
 | False-safe, before and after confirmation | 0/80 | 0/80 |
 
-The final head has test AUC 0.9805, versus 0.951 in the original report. It sees 677 high-risk
+The final head has test AUC 0.9805 (`benchmarks/results/reliability_head.json`), versus 0.951 in
+the original report (`benchmarks/results/reliability_head_v1.json`). It sees 677 high-risk
 readings, including 69 incorrect ones; the earlier reader produced 566, including 42 incorrect
 ones. Extraction completeness changed, so reading-level denominators are not identical.
 The four field-accuracy comparisons above use the same 120 case-field denominators. Accuracy

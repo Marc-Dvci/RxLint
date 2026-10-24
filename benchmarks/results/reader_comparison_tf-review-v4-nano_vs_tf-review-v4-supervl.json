@@ -1,0 +1,37 @@
+{
+ "test_cases": 120,
+ "runs": {
+  "tf-review-v4-nano": {
+   "omni_trust": {
+    "false_safe": "2/80",
+    "exact_verdict_after_confirmation": 0.8583,
+    "clean_pass_after_confirmation": 0.875,
+    "confirmation_requests": 0.2333,
+    "ambiguous_blocked": "3/10"
+   },
+   "rxlint_head": {
+    "false_safe": "0/80",
+    "exact_verdict_after_confirmation": 0.95,
+    "clean_pass_after_confirmation": 0.95,
+    "confirmation_requests": 0.45,
+    "ambiguous_blocked": "9/10"
+   }
+  },
+  "tf-review-v4-supervl": {
+   "omni_trust": {
+    "false_safe": "5/80",
+    "exact_verdict_after_confirmation": 0.8167,
+    "clean_pass_after_confirmation": 0.85,
+    "confirmation_requests": 0.1583,
+    "ambiguous_blocked": "2/10"
+   },
+   "rxlint_head": {
+    "false_safe": "0/80",
+    "exact_verdict_after_confirmation": 0.925,
+    "clean_pass_after_confirmation": 0.925,
+    "confirmation_requests": 0.425,
+    "ambiguous_blocked": "10/10"
+   }
+  }
+ }
+}

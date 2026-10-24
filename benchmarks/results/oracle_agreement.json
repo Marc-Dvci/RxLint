@@ -1,0 +1,103 @@
+{
+ "cases": 1700,
+ "agree": 1700,
+ "verdict_agree": 1700,
+ "rule_family_agree": 1700,
+ "by_split": {
+  "train": {
+   "cases": 750,
+   "agree": 750
+  },
+  "val": {
+   "cases": 350,
+   "agree": 350
+  },
+  "test": {
+   "cases": 600,
+   "agree": 600
+  }
+ },
+ "by_mutation": {
+  "ALLERGY_INSERTION": {
+   "cases": 71,
+   "agree": 71
+  },
+  "AMBIGUOUS_HANDWRITING": {
+   "cases": 70,
+   "agree": 70
+  },
+  "DECIMAL_SHIFT": {
+   "cases": 72,
+   "agree": 72
+  },
+  "DOSE_VOLUME_CHANGE": {
+   "cases": 72,
+   "agree": 72
+  },
+  "DRUG_IDENTITY_SWAP": {
+   "cases": 71,
+   "agree": 71
+  },
+  "DUPLICATE_INGREDIENT": {
+   "cases": 71,
+   "agree": 71
+  },
+  "DURATION_CHANGE": {
+   "cases": 71,
+   "agree": 71
+  },
+  "EXPIRED_PRODUCT": {
+   "cases": 70,
+   "agree": 70
+  },
+  "FORMULATION_CHANGE": {
+   "cases": 71,
+   "agree": 71
+  },
+  "FREQUENCY_CHANGE": {
+   "cases": 72,
+   "agree": 72
+  },
+  "INSUFFICIENT_QUANTITY": {
+   "cases": 70,
+   "agree": 70
+  },
+  "INTERACTION_INSERTION": {
+   "cases": 70,
+   "agree": 70
+  },
+  "MISSING_STRENGTH": {
+   "cases": 70,
+   "agree": 70
+  },
+  "NONE": {
+   "cases": 567,
+   "agree": 567
+  },
+  "OUT_OF_SCOPE_AGE": {
+   "cases": 70,
+   "agree": 70
+  },
+  "STRENGTH_SWAP": {
+   "cases": 72,
+   "agree": 72
+  },
+  "WEIGHT_CONTRADICTION": {
+   "cases": 70,
+   "agree": 70
+  }
+ },
+ "disagreements": [],
+ "source": {
+  "generator": "rxlint.bench.generate.make_case",
+  "seed": 2026,
+  "folds": {
+   "train": 750,
+   "val": 350,
+   "test": 600
+  }
+ },
+ "rulepack_sha256": "d2af5a19d9fb1af4ab7cf69051aa556eb7c30de397d46c3dc6f20320238c2c5d",
+ "seconds": 1701.9,
+ "generated_at": "2026-10-24T18:23:18+00:00"
+}

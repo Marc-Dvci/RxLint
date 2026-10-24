@@ -60,7 +60,7 @@ RxLint separates reading, proving and explaining, and gives each job to the comp
 
 ![RxLint architecture: Nemotron reads and explains, a deterministic kernel decides, Tavily watches the regulators](https://raw.githubusercontent.com/Marc-Dvci/RxLint/main/docs/img/architecture.png)
 
-**Reading, with NVIDIA Nemotron on Nebius Token Factory.** Token Factory serves the Nemotron models as text models, so the hosted reader splits the job: a Token Factory vision model (DeepSeek V4.1 Flash) only transcribes each photo line by line, with uncertain characters written as `[2|7]`. **Nemotron 3 Nano** turns the transcript into fields, and every value must be a verbatim copy of the transcript line it cites, or it is rejected. RxLint also detects which photo is the prescription and which is the bottle from the transcript itself, so a swapped upload is read correctly. **Nemotron 3 Nano Omni** supports a single-call photo reader at a configured Nebius AI Cloud or local llama.cpp endpoint. The published benchmark evaluates the hosted transcription-plus-Nano pipeline.
+**Reading, with NVIDIA Nemotron on Nebius Token Factory.** The hosted reader splits the job: a Token Factory vision model only transcribes each photo line by line, with uncertain characters written as `[2|7]`. **Nemotron 3 Nano** turns the transcript into fields, and every value must be a verbatim copy of the transcript line it cites, or it is rejected. RxLint also detects which photo is the prescription and which is the bottle from the transcript itself, so a swapped upload is read correctly. The hosted transcriber is DeepSeek V4.1 Flash, chosen when every Nemotron model on Token Factory was text-only. **Nemotron 3.5 Super VL**, added to Token Factory in October, fills the same role by changing one model id and makes the whole reader Nemotron; I benchmarked both on the same frozen folds (below). **Nemotron 3 Nano Omni** supports a single-call photo reader at a configured Nebius AI Cloud or local llama.cpp endpoint. The published benchmark evaluates the hosted transcription-plus-Nano pipeline.
 
 **Corroborating, with PP-OCRv6 and a trained head.** High-risk photo readings need matching independent OCR, an explicit supplied value or pharmacist confirmation (P-PERC-02); a focused re-read can recover small print only when independent OCR supports it. A **calibrated LightGBM reliability head** adds a second gate using OCR agreement, grammar, formulary plausibility, local sharpness and box agreement (P-PERC-03), with its threshold selected on validation before testing. Ambiguous readings remain explicit choices, and all fields needing review can be confirmed together.
 
@@ -76,7 +76,7 @@ The backend is **Python and FastAPI** with live progress over server-sent events
 
 ## Measuring it: RxLintBench
 
-I built a benchmark alongside the product. A renderer produces prescription and bottle photos with pixel-exact ground truth, a mutation engine injects one known error per case across **16 error families**, and photo perturbations (blur, glare, occlusion, perspective, low resolution) degrade them. The test fold holds out an unseen handwriting font, four unseen perturbation families and one unseen product. The mutation oracle agrees with the kernel on **1,700 of 1,700** generated cases.
+I built a benchmark alongside the product. A renderer produces prescription and bottle photos with pixel-exact ground truth, a mutation engine injects one known error per case from **16 error families**, and photo perturbations (blur, glare, occlusion, perspective, low resolution) degrade them. The test fold holds out an unseen handwriting font, four unseen perturbation families and one unseen product. Fed the gold facts, the kernel returns the verdict and failing rule family each mutation declares on **1,700 of 1,700** freshly generated cases covering all 16 families ([oracle report](https://github.com/Marc-Dvci/RxLint/blob/main/benchmarks/results/oracle%5Fagreement.json)); the frozen 330-case benchmark below draws eight of them.
 
 On the held-out test fold (120 cases: 40 clean, 60 with a rule violation, 20 with a missing or overwritten fact), with DeepSeek V4.1 Flash and Nemotron 3 Nano reading every photo on Token Factory:
 
@@ -91,6 +91,8 @@ On the held-out test fold (120 cases: 40 clean, 60 with a rule violation, 20 wit
 RxLint holds **9/10 overwritten doses** for confirmation and accepts **zero incorrect high-risk readings** across 677 evaluated readings. **54/120 cases (45.0%)** need confirmation. Exact field reading is **82.5% for dose**, **85.0% for weight**, **93.3% for label strength** and **84.2% for expiry**. The reliability head has test AUC **0.9805**; its threshold was selected on validation and frozen before test extraction.
 
 All three systems use the same cases and deterministic kernel. An error case returned as PASS is counted as false-safe; RxLint records **0/80** before and after confirmation. Its final exact verdict count is **114/120**, including **38/40** clean cases returned as PASS. Confirmation is simulated from written ground truth, so these rendered cases measure prototype performance rather than clinical safety. [Evaluation, audit and reproduction](https://github.com/Marc-Dvci/RxLint/blob/main/docs/implementation_audit.md).
+
+**An all-Nemotron reader, measured.** I re-ran the frozen validation and test folds with **Nemotron 3.5 Super VL** as the transcriber, changing nothing else and keeping the frozen head. On the test fold it returns **0/80 false-safe verdicts**, holds **10/10 overwritten doses**, needs confirmation on 51/120 cases, and reads dose, weight, label strength and expiry at **83.3%, 86.7%, 94.2% and 85.0%**, each above the hosted reader. Its exact verdict rate is 92.5%, and the head accepted one wrong high-risk reading out of 668 (a label strength half hidden by an occlusion), so DeepSeek V4.1 Flash stays the hosted default. [Run, recorded responses and comparison](https://github.com/Marc-Dvci/RxLint/blob/main/benchmarks/artifacts/review-v4-supervl/README.md).
 
 A separate pilot uses **12 openly licensed medicine photographs**, with attribution and source hashes: **8/10 identities**, **4/9 strengths** and **5/6 volumes** are read exactly, with **zero incorrect evaluated fields accepted**. Liquid concentration is **4/5** and solid strength **0/4**, making solid packaging a priority for broader coverage. This single-annotator perception pilot includes one failed control read; paired prescriptions and independent pharmacist assessment are the next validation stage. [Photo dataset and complete results](https://github.com/Marc-Dvci/RxLint/blob/main/benchmarks/real_world/README.md).
 
@@ -119,16 +121,16 @@ A separate pilot uses **12 openly licensed medicine photographs**, with attribut
 
 - **Pharmacy pilots with 30-50 de-identified paired cases and independent annotation**, with the pharmacist's sign-off captured in the report, plus MedicationDispense integration alongside the supported MedicationRequest import.
 - **More rule packs**: adult antibiotics, renal dose adjustment, and institution-specific formularies, each versioned and signed.
-- **Nemotron 3 Nano Omni on a Nebius AI Cloud endpoint** as the single-call reader, with the transcription path as a second independent reader.
+- **An all-Nemotron hosted reader**: Nemotron 3.5 Super VL as the default transcriber once it matches the hosted reader's zero accepted wrong readings on a fresh benchmark fold, and Nemotron 3 Nano Omni on a Nebius AI Cloud endpoint as a second independent reader.
 - **Continuous surveillance** of the rule sources on a schedule, feeding a reviewed pack release process.
 
 ---
 
 ## Built with
 
-(25 tags)
+(26 tags)
 
-nvidia-nemotron, nemotron-3-ultra, nemotron-3-nano, nemotron-3-nano-omni, nebius-token-factory, nebius, tavily, python, fastapi, pydantic, lightgbm, scikit-learn, rapidocr, opencv, react, typescript, vite, docker, google-cloud-run, llama.cpp, deepseek, openfda, who-aware, fhir-r4, pytest
+nvidia-nemotron, nemotron-3-ultra, nemotron-3-nano, nemotron-3-nano-omni, nemotron-3.5-super-vl, nebius-token-factory, nebius, tavily, python, fastapi, pydantic, lightgbm, scikit-learn, rapidocr, opencv, react, typescript, vite, docker, google-cloud-run, llama.cpp, deepseek, openfda, who-aware, fhir-r4, pytest
 
 ---
 
@@ -162,7 +164,7 @@ Best apps and agents
 - **Nemotron 3 Ultra 550B-A55B** (`nvidia/Nemotron-3-Ultra-550b-a55b`, Token Factory) for the calls where reasoning and multilingual writing matter: choosing the smallest clarification when a case is blocked, and writing pharmacist and caregiver explanations in English, French and Arabic. It runs only when a case is blocked or an explanation is requested, and it answered with schema-valid JSON in under a second.
 - **Nemotron 3 Nano Omni 30B-A3B** (IQ4_XS GGUF through llama.cpp on an RTX 4070) for the optional single-call photo and voice-note reader. The hosted benchmark reports the transcription-plus-Nano path.
 - **Nemotron 3.5 Lightning** (`nvidia/Nemotron-3_5-Lightning`, Token Factory), Super and Ultra were evaluated as structuring or explanation-audit alternatives. Nano is the deployed model for these frequent calls.
-- For the hosted product, the NVIDIA models on Token Factory are text models, so a Token Factory vision model (DeepSeek V4.1 Flash) transcribes the photo and Nemotron does everything that interprets, reasons or checks.
+- **Nemotron 3.5 Super VL** (`nvidia/Nemotron-3.5-Super-VL`, Token Factory) was benchmarked as the photo transcriber on the frozen folds: 10/10 overwritten doses held and 0/80 false-safe verdicts, with one wrong high-risk reading accepted out of 668. DeepSeek V4.1 Flash, chosen when Token Factory's Nemotron models were all text-only, stays the hosted transcriber, and Nemotron does everything that interprets, reasons or checks.
 
 ## How would you rate Nemotron's output quality for your use case? (1 = Poor, 10 = Excellent)
 
@@ -174,22 +176,22 @@ Out of the box, with prompt engineering, strict structured output and determinis
 
 ## How did Nemotron's performance compare to other models you've used for similar tasks?
 
-Nemotron 3 Nano handles frequent schema-constrained structuring and audit calls, while Ultra handles clarification and multilingual explanation. RxLintBench compares systems on identical cases with the same deterministic kernel: trusting the hosted reader's output gives **85.8%** exact verdicts and **4/80** false-safe verdicts after simulated confirmation; applying independent corroboration and the calibrated gate gives **95.0%** and **0/80** respectively. The head and threshold were selected before test extraction.
+Nemotron 3 Nano handles frequent schema-constrained structuring and audit calls, while Ultra handles clarification and multilingual explanation. RxLintBench compares systems on identical cases with the same deterministic kernel: trusting the hosted reader's output gives **85.8%** exact verdicts and **4/80** false-safe verdicts after simulated confirmation; applying independent corroboration and the calibrated gate gives **95.0%** and **0/80** respectively. The head and threshold were selected before test extraction. As the photo transcriber, Nemotron 3.5 Super VL against DeepSeek V4.1 Flash on the same frozen test fold and head: **10/10** against 9/10 overwritten doses held, **0/80** false-safe verdicts for both, higher exact reading of dose, weight, label strength and expiry, and 92.5% against 95.0% exact verdicts.
 
 ## Which Nebius platform capabilities were most valuable to your project and how?
 
 **Nebius Token Factory** is the runtime for every model call in the hosted product.
 
-- **What I used it for.** Three roles, each with its own model id and settings: `vision` (DeepSeek V4.1 Flash) transcribes each photo, `structure` (Nemotron 3 Nano) turns the transcript into cited fields and audits every explanation, `ultra` (Nemotron 3 Ultra) picks clarifications and writes explanations. The Docker service on Cloud Run uses scale-to-zero, while GPU inference runs on Token Factory's serverless capacity. Focused crop reads are bounded to three per image and run only when needed; every inference records its latency and token counts.
+- **What I used it for.** Three roles, each with its own model id and settings: `vision` (DeepSeek V4.1 Flash, or Nemotron 3.5 Super VL by changing the model id) transcribes each photo, `structure` (Nemotron 3 Nano) turns the transcript into cited fields and audits every explanation, `ultra` (Nemotron 3 Ultra) picks clarifications and writes explanations. The Docker service on Cloud Run uses scale-to-zero, while GPU inference runs on Token Factory's serverless capacity. Focused crop reads are bounded to three per image and run only when needed; every inference records its latency and token counts.
 - **What worked well.** The OpenAI-compatible API let one client route every role, and point the same role at a local llama.cpp server during development by changing one base URL. `response_format: json_schema` gave schema-valid output from Nemotron 3 Nano and Ultra, which made strict Pydantic validation practical. `GET /v1/models?verbose=true` returns each model's modality, prices, rate limits, regions and supported features: I used it to pick models and to confirm which ones accept images. Sending an image to a text model returns a clear `This model does not support image input`.
 - **Onboarding, zero to hello world.** The first Nemotron response was a standard chat-completions request with a base URL and a key. The one thing that needed reading was the thinking default (below).
 - **Integration improvement.** Explicit thinking controls, including top-level `reasoning_effort=none`, keep narrow extraction calls focused on their structured response, and replay keys distinguish model, endpoint and settings.
-- **What would improve the platform.** EU placement or region pinning for every role, plus serverless NVIDIA vision and audio models. The public demo uses fictional cases; voice notes are already supported where Nano Omni is served.
+- **What would improve the platform.** EU placement or region pinning for every role, plus a serverless NVIDIA audio model; Nemotron 3.5 Super VL now covers vision. The public demo uses fictional cases; voice notes are already supported where Nano Omni is served.
 - **Would I build with it again?** Yes: hosted inference avoids maintaining a GPU service, role-based routing sends frequent calls to Nano and occasional reasoning to Ultra, and the same client supports Token Factory and a local server.
 
 ## How likely are you to recommend running Nemotron on Nebius to other developers? (1 = Unlikely, 10 = Highly Likely)
 
-**8.** The API is standard, the latency is excellent (Ultra under a second, Nano about three seconds for structuring), JSON schema output works, and the catalog covers the whole Nemotron 3 family from Nano to Ultra. A serverless Nemotron vision or omni model would raise it further, because perception is where a product like this starts.
+**8.** The API is standard, the latency is excellent (Ultra under a second, Nano about three seconds for structuring), JSON schema output works, and the catalog covers the whole Nemotron 3 family from Nano to Ultra. Nemotron 3.5 Super VL brought vision to the catalog; a serverless omni model that also hears voice notes would raise it further, because perception is where a product like this starts.
 
 ## How would you rate your experience running Nemotron inference on Nebius compared to previous cloud or local development environments? (1 = Poor, 10 = Excellent)
 
@@ -197,7 +199,7 @@ Nemotron 3 Nano handles frequent schema-constrained structuring and audit calls,
 
 ## What additional features or improvements would have made the Nemotron on Nebius experience more effective for your project?
 
-- **Nemotron 3 Nano Omni (or a Nemotron VL model) on Token Factory serverless**, so a single NVIDIA model can read the photo, the spoken note and the transcript.
+- **Nemotron 3 Nano Omni on Token Factory serverless**, so one NVIDIA model can read the photo and the spoken note together; Nemotron 3.5 Super VL already reads the photo.
 - **Token log-probabilities for vision outputs**, so an application can gate a transcribed digit on the model's own uncertainty.
 - **Per-key spend caps and rate limits** configurable in the console, for public demos.
 - **EU-region placement** for Nemotron 3 Ultra and for a vision model, or a region pin per request, for health data.

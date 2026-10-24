@@ -53,6 +53,11 @@ Observations from building RxLint, each tied to what was measured.
   and eu-north1 endpoints. RxLint therefore pairs a Token Factory vision model (DeepSeek V4.1 Flash)
   for transcription with Nemotron for structuring, reasoning and auditing. A serverless Nemotron
   vision or omni model on Token Factory would remove the second vendor from the pipeline.
+* By 24 October the catalog also listed `nvidia/Nemotron-3.5-Super-VL` (text+image, us-north1,
+  $0.30/$0.90 per million tokens). As the transcriber on the frozen RxLintBench folds it answered in
+  about 1.3 s per photo, held 10/10 overwritten doses with 0/80 false-safe verdicts and accepted one
+  wrong high-risk reading out of 668; the 768-call run cost about $0.35. It reads the label's dotted
+  zero in "2027" as "2827" on blurred bottles, which OCR corroboration holds for confirmation.
 * Nemotron 3 Ultra answered explanation and clarification calls with `json_schema` output in under
   one second. Nemotron 3 Nano structured a prescription transcript in about three seconds.
 * Nemotron 3 Super 120B returned an 18-token reply with no observations for the same structuring

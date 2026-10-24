@@ -504,7 +504,8 @@ def main() -> None:
 def reader_name(run: str) -> str:
     if "omni" in run:
         return "Nemotron 3 Nano Omni"
-    return ("Qwen 3.8 27B" if "qwen38" in run else "DeepSeek V4.1 Flash") + " + " + ("Nemotron 3.5 Lightning" if "lightning" in run else "Nemotron 3 Nano")
+    vision = "Qwen 3.8 27B" if "qwen38" in run else "Nemotron 3.5 Super VL" if "supervl" in run else "DeepSeek V4.1 Flash"
+    return vision + " + " + ("Nemotron 3.5 Lightning" if "lightning" in run else "Nemotron 3 Nano")
 
 
 def names(reader: str) -> dict[str, str]:

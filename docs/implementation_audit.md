@@ -47,6 +47,27 @@ truth; 95.0% is not an autonomous clinical accuracy claim. The 120 rendered case
 prototype performance and do not establish clinical safety. Zero observed false-safe cases
 does not establish a zero population risk. The gold-facts kernel result is an upper bound.
 
+## Nemotron 3.5 Super VL as the transcriber
+
+After the hosted reader was frozen, Token Factory added `nvidia/Nemotron-3.5-Super-VL`. It was run
+as the `vision` model on the same 60 validation and 120 test cases, with the same prompt,
+structuring model, OCR and frozen head; the head was not refit.
+
+| Test fold, full RxLint pipeline | DeepSeek V4.1 Flash + Nano | Nemotron 3.5 Super VL + Nano |
+|---|---|---|
+| Error cases returned PASS after confirmation | 0/80 | 0/80 |
+| Overwritten doses held | 9/10 | 10/10 |
+| Exact verdict after confirmation | 114/120 (95.0%) | 111/120 (92.5%) |
+| Cases needing confirmation | 54/120 | 51/120 |
+| Wrong high-risk readings accepted | 0 of 677 | 1 of 668 |
+| Dose / weight / label strength / expiry exact | 82.5 / 85.0 / 93.3 / 84.2% | 83.3 / 86.7 / 94.2 / 85.0% |
+
+On validation Super VL returned 0/40 false-safe verdicts and 59/60 exact verdicts after
+confirmation, with no wrong high-risk reading accepted. The accepted test reading is a label
+strength half hidden by an occlusion, where the partial OCR line agreed with the misreading; the
+case still ends REVIEW. DeepSeek V4.1 Flash remains the hosted transcriber.
+[Artifacts and reproduction](../benchmarks/artifacts/review-v4-supervl/README.md).
+
 ## Public-photo perception pilot
 
 A separate development pilot contains 12 genuine public medicine photographs: ten packages
@@ -83,6 +104,13 @@ coverage; their runtime performance is not included in the hosted benchmark.
   every evaluated field and validation/test reading counts.
 - [Per-case results](../benchmarks/results/cases_tf-review-v4-nano.json).
 - [Frozen model selection](../benchmarks/results/review_selection.json).
+- [Super VL transcriber comparison](../benchmarks/results/reader_comparison_tf-review-v4-nano_vs_tf-review-v4-supervl.json)
+  and its [full report](../benchmarks/results/bench_tf-review-v4-supervl.json).
+- [Reliability-head report](../benchmarks/results/reliability_head.json) for the frozen head; the
+  first head's report is kept as [reliability_head_v1.json](../benchmarks/results/reliability_head_v1.json).
+- [Mutation oracle check](../benchmarks/results/oracle_agreement.json): `tools/oracle_check.py`
+  feeds gold facts into the kernel for 1,700 freshly generated cases covering all 16 mutation
+  families; 1,700 verdicts and failing rule families match. The frozen 330-case set draws eight.
 - [Reproduction artifacts](../benchmarks/artifacts/review-v4/README.md), including manifests,
   image hashes, extractions and recorded responses. Reproduction does not require model fitting.
 - [Public-photo results](../benchmarks/results/real_world/review-v4.json).
